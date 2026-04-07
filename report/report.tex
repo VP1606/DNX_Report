@@ -9,6 +9,17 @@
 
 \usepackage{pslatex} % Use Postscript fonts
 
+% ---------------------
+\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
+\usepackage{xcolor}          % allows defining colors
+\usepackage[colorinlistoftodos]{todonotes}
+% Define a custom color
+\definecolor{myblue}{RGB}{100,150,255}
+% ---------------------
+
+\usepackage[style=authoryear]{biblatex}
+\addbibresource{references.bib}
+
 % Uncomment the next line if you want subsubsections to be numbered
 %\setcounter{secnumdepth}{3}
 % Uncomment the next line if you want subsubsections to be appear in
@@ -49,14 +60,15 @@
 I would like to thank...
 \afterpreface
 
+\listoftodos
+
 % These include the actual text
 % \include{chapter1}
 % \include{chapter2}
-% \include{chapter3}
+\include{chapter_3/main}
 
-\bibliography{refs}    % this causes the references to be listed
+\printbibliography
 
-\bibliographystyle{alpha}
 %% the bibliography style determines the format  in which both citations and references are printed,
 %% other possible values are plain and abbrv
 %%

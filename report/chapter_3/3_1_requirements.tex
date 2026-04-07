@@ -1,0 +1,31 @@
+\section{Requirements Analysis}
+\label{sec:requirements}
+
+The primary objective of this project was the development and rigorous evaluation of a high-performance Spiking Neural Network (SNN) for multi-object detection using high-definition event-camera data (the ETraM dataset). To effectively quantify the accuracy versus energy efficiency tradeoff between bio-plausible spiking architectures and traditional Convolutional Neural Networks (CNNs), the system had to be designed against a stringent set of functional and non-functional requirements. These requirements guided the iterative evolution of the neural architectures and the underlying computational pipeline.
+
+\subsection{Functional Requirements}
+\label{subsec:req_functional}
+
+To ensure a fair empirical comparison and to solve the complexities of multi-object detection on neuromorphic data, the following functional criteria were established:
+
+\begin{itemize}
+    \item \textbf{Multi-Object Regression Capabilities:} Unlike simplified classification tasks, the system was required to perform multi-object detection capable of identifying multiple vehicles simultaneously within a single scene. This necessitated a regression head capable of outputting multiple bounding boxes per frame (defined by spatial coordinates and confidence scores) while actively suppressing ``ghost detections'' and resolving spatial ambiguities.
+    \item \textbf{Architectural Parity (The ``Gold Standard'' Baseline):} To strictly isolate the impact of the computational paradigm (event-driven spiking versus continuous-valued activations), the baseline CNN was required to be a 1:1 non-spiking counterpart to the SNN. Both models were constrained to equivalent structures, depths and parameter counts ($\sim 11.7$M parameters). Crucially, to eliminate data variance as a confounding factor, both the SNN and the CNN were trained on the exact same pre-processed neuromorphic dataset (the REPLICA pipeline output). This ensured that any observed discrepancies in performance or power consumption were solely attributable to the underlying network architectures, rather than differing input modalities or varied model capacity.
+    \item \textbf{High-Definition Spatiotemporal Ingestion:} The system was required to process raw, high-definition ($1280 \times 720$) event streams. Furthermore, the pipeline had to preserve the temporal dynamics of the data by segregating it into discrete time bins (e.g., $T=10$) to allow the SNN to demonstrate temporal evidence accumulation.
+    \item \textbf{Comprehensive Evaluation Metrics:} The evaluation suite was required to output granular metrics beyond top-line Mean Intersection over Union (IoU). This included real-time dynamic power consumption mapping, confidence calibration analysis (reliability diagrams), and quantization error tracking across varying object sizes.
+\end{itemize}
+
+\subsection{Non-Functional Requirements \& Constraints}
+\label{subsec:req_nonfunctional}
+
+The processing of high-definition event data at scales of up to 150 training epochs imposed severe computational bottlenecks. Consequently, the system had to satisfy critical performance and stability constraints:
+
+\begin{itemize}
+    \item \textbf{Computational Scalability \& Speed:} The SNN simulation had to be optimized for execution on local accelerator hardware (GPUs). This required the integration of Automatic Mixed Precision (AMP) to utilize Tensor Cores, memory-efficient vectorized loss functions to eliminate sequential batch loops, and the utilization of optimized C++/CUDA kernels (e.g., SpikingJelly's multi-step modes) over native Python loops.
+    \item \textbf{Numerical Stability:} Given the reliance on 16-bit precision through AMP and the deep accumulation of membrane potentials in the SNN, the architecture required specific safeguards against gradient explosion. This constrained the design of the detection head, mandating the use of raw logits and numerically stable loss functions (e.g., \texttt{BCEWithLogitsLoss}).
+    \item \textbf{Hardware Extrapolability:} While constrained to local GPU execution, the benchmark outputs (e.g., dynamic power tracking) were required to be translatable into theoretical energy consumption metrics (in mJ) based on established hardware constants, facilitating projections for specialized neuromorphic chips like Intel Loihi or IBM TrueNorth.
+\end{itemize}
+
+These requirements formed the foundation for the three-generation evolution of the \texttt{SNN\_MAX\_REPLICA\_SE} architecture detailed in Section \ref{sec:model_design}, and drove the rigorous benchmarking suite evaluated in Section \ref{sec:results_evaluation}.
+
+ \todo[inline,backgroundcolor=myblue,textcolor=white]{Check \& Proof-read this section against rubric.}

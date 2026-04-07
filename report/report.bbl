@@ -1,0 +1,128 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{cordone2022objectdetectionspikingneural}{misc}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=39aaf63f89e70783ef7e1faa2112a22a}{%
+           family={Cordone},
+           familyi={C\bibinitperiod},
+           given={Loïc},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=73fc40b7bf751622630c49cb0f5a25dd}{%
+           family={Miramond},
+           familyi={M\bibinitperiod},
+           given={Benoît},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=69f0d77b507fb0c3f018f452783d22e1}{%
+           family={Thierion},
+           familyi={T\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ae696feff093ae196df57e43759f7849}
+      \strng{fullhash}{ae696feff093ae196df57e43759f7849}
+      \strng{fullhashraw}{ae696feff093ae196df57e43759f7849}
+      \strng{bibnamehash}{ae696feff093ae196df57e43759f7849}
+      \strng{authorbibnamehash}{ae696feff093ae196df57e43759f7849}
+      \strng{authornamehash}{ae696feff093ae196df57e43759f7849}
+      \strng{authorfullhash}{ae696feff093ae196df57e43759f7849}
+      \strng{authorfullhashraw}{ae696feff093ae196df57e43759f7849}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.CV}
+      \field{eprinttype}{arXiv}
+      \field{title}{Object Detection with Spiking Neural Networks on Automotive Event Data}
+      \field{year}{2022}
+      \verb{eprint}
+      \verb 2205.04339
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2205.04339
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2205.04339
+      \endverb
+    \endentry
+    \entry{Verma_2024_CVPR}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=319a89598e0349ebdb55ed55871afb74}{%
+           family={Verma},
+           familyi={V\bibinitperiod},
+           given={Aayush\bibnamedelima Atul},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=668149508077b1636ee192f2bb8e52db}{%
+           family={Chakravarthi},
+           familyi={C\bibinitperiod},
+           given={Bharatesh},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=84c554b1c1cc62beaf0a97eebaeba547}{%
+           family={Vaghela},
+           familyi={V\bibinitperiod},
+           given={Arpitsinh},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ae02bc67e0bad6c8183adf348f0634a8}{%
+           family={Wei},
+           familyi={W\bibinitperiod},
+           given={Hua},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e1b4d35b9eb925fd4c6afe2246d2b2c9}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Yezhou},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6a1d74490585bd2d8941af2e32d2ef52}
+      \strng{fullhash}{c1e4192f7e04a08f09ac00a0d1919958}
+      \strng{fullhashraw}{c1e4192f7e04a08f09ac00a0d1919958}
+      \strng{bibnamehash}{6a1d74490585bd2d8941af2e32d2ef52}
+      \strng{authorbibnamehash}{6a1d74490585bd2d8941af2e32d2ef52}
+      \strng{authornamehash}{6a1d74490585bd2d8941af2e32d2ef52}
+      \strng{authorfullhash}{c1e4192f7e04a08f09ac00a0d1919958}
+      \strng{authorfullhashraw}{c1e4192f7e04a08f09ac00a0d1919958}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{month}{6}
+      \field{title}{eTraM: Event-based Traffic Monitoring Dataset}
+      \field{year}{2024}
+      \field{pages}{22637\bibrangedash 22646}
+      \range{pages}{10}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
