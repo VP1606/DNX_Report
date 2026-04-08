@@ -1,0 +1,107 @@
+\section{Convolutional Neural Network (CNN) Baseline}
+\label{sec:cnn_baseline}
+
+The \gls{cnn} architecture \texttt{CNN\_MAX\_REPLICA\_SE} was engineered as the primary baseline to evaluate the \gls{snn} against.
+It is a 11.73M parameter \gls{cnn} specifically designed to mirror the \gls{snn} architecture, satisfying the ``Architectural Parity`` functional requirement specified in \ref{subsec:req_functional}. 
+This ensures that the only variable being tested in this comparative study is the neural activation mechanism (event-driven binary spikes versus continuous-valued floats), making the comparison immune to common criticisms regarding unmatched or unoptimized baselines.
+
+\subsection{Structural Configuration \& Layer-Wise Mapping}
+The \gls{cnn} mirrors the \gls{snn}'s configuration strictly 1:1, replacing every temporal and spiking component with a standard continuous equivalent. Table \ref{tab:snn_cnn_mapping} outlines this direct mapping.
+
+\begin{table}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|p{8cm}|}
+\hline
+\textbf{SNN Component} & \textbf{CNN Equivalent} & \textbf{Technical Purpose} \\
+\hline
+Spatiotemporal Voxel \texttt{[B, 10, 2, H, W]} & Flattened Channel Input \texttt{[B, 20, H, W]} & Translates 10 time bins into a format the respective network can ingest. \\
+LIF Neuron (Leaky Integrate-and-Fire) & ReLU Activation & Provides the nonlinearity; SNN uses discrete pulses, \gls{cnn} uses continuous values. \\
+Binary Spikes $\{0, 1\}$ & Continuous Floats $[0, \infty)$ & Represents the information ``currency'' being passed between layers. \\
+Surrogate Gradient & Exact Derivative (Standard) & Enables backpropagation through the non-differentiable spiking threshold. \\
+SEWResBlock (Spiking Shortcut) & Standard Residual Block & Implements identity mapping to prevent vanishing gradients during training. \\
+Multi-Step Mode (\texttt{step\_mode=`m'}) & Single spatial pass & Processes the temporal window efficiently on the GPU. \\
+Squeeze-and-Excitation (Spike-based) & Squeeze-and-Excitation (Float-based) & Recalibrates channel importance based on global frame context. \\
+Temporal Summation ($\sum_{t=1}^{T} S_t$) & N/A (Direct Feature Pass) & Aggregates 100ms of evidence into a single map for the regression head. \\
+Multi-Box Head (5 Boxes) & Multi-Box Head (5 Boxes) & Predicts coordinates and objectness scores for 5 targets simultaneously. \\
+Synaptic Operations (SOPs) & Floating Point Ops (FLOPs) & The metric used to quantify and compare hardware energy efficiency. \\
+\hline
+\end{tabular}%
+}
+\caption{1:1 Architectural Mapping (SNN vs. CNN)}
+\label{tab:snn_cnn_mapping}
+\end{table}
+
+\subsection{Input Strategy: Channel-Wise Temporal Integration}
+Unlike the \gls{snn}, which processes event data sequentially over discrete time steps $T$, the \gls{cnn} baseline utilizes a flattened temporal input strategy. 
+Instead of processing 10 timesteps sequentially, it concatenates the $T=10$ bins (each containing 2 polarity channels) into a single input tensor of 20 channels, changing the input shape from $[B, 10, 2, H, W]$ to $[B, 20, H, W]$. 
+
+This approach allows the \gls{cnn} to correlate events across the entire 100ms window in a single spatial pass. This channel-wise stacking of event bins is a standard and effective methodology for feeding asynchronous event-camera data into traditional, non-spiking \gls{cnn} architectures \cite{gehrig2019}.
+
+\subsection{Backbone: Identity Mapping \& Residual Connections}
+\label{subsec:cnn_backbone}
+
+The \gls{cnn} backbone employs deep residual learning, utilizing four Residual Blocks that expand to 512 channels in the final stage. 
+To satisfy the functional requirement of Architectural Parity, the spiking \texttt{SEWResBlock}s from the \gls{snn} were replaced with Standard Residual Blocks. 
+The standard structure within these blocks is $\text{Conv} \rightarrow \text{BatchNorm} \rightarrow \text{ReLU} \rightarrow \text{Conv} \rightarrow \text{BatchNorm} + \text{Shortcut} \rightarrow \text{ReLU}$. 
+
+The inclusion of these skip connections (shortcuts) is vital for enabling the \gls{cnn} network to avoid the same vanishing gradient problem seen in its \gls{snn} counterpart, and successfully learn complex vehicle geometries across the $320 \times 180$ field of view \cite{he2015deep}.
+
+\subsection{SEWResBlock vs Standard ResBlock}
+The core mathematical difference between the two architectures lies in their summation logic and the resulting information flow across the shortcut connection:
+
+\begin{itemize}
+    \item \textbf{Standard ResBlock (CNN):} 
+    Performs an accumulative floating-point addition ($y = f(x) + x$). 
+    The continuous intensity of the residual path is directly added to the identity path before the final ReLU activation. 
+    Here, the shortcut carries the \textit{raw input features} forward. 
+    This mechanism allows the model to learn the ``difference'' (the residual) needed to improve the representation, focusing on information preservation \cite{he2015deep}.
+    
+    \item \textbf{SEWResBlock (SNN):} 
+    Performs a relational element-wise spiking operation \textit{after} the activation function. 
+    Because adding two binary spikes (e.g., $1+1=2$) produces a non-binary value, the \gls{snn} uses a spike-merging function (such as ADD or AND) to preserve the discrete $\{0, 1\}$ state. 
+    Crucially, the \gls{snn} shortcut carries the \textit{membrane history} forward, prioritizing temporal integrity.
+
+\end{itemize}
+
+Table \ref{tab:resblock_comparison} summarizes these foundational differences in identity mapping.
+
+\begin{table}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|p{5cm}|p{5cm}|}
+\hline
+\textbf{Feature} & \textbf{Standard ResBlock (CNN)} & \textbf{SEWResBlock (SNN)} \\
+\hline
+Summation & Accumulative ($y = f(x) + x$) & Relational (Spiking Element-Wise) \\
+Output Type & Continuous Float $[0, \infty)$ & Binary Spikes $\{0, 1\}$ \\
+Primary Benefit & Prevents vanishing gradients & Prevents spike vanishing \\
+Mathematical Goal & Information preservation & Temporal integrity \\
+\hline
+\end{tabular}%
+}
+\caption[Identity Mapping Comparison]{Comparison of identity mapping between Standard ResBlocks and SEWResBlocks.}
+\label{tab:resblock_comparison}
+\end{table}
+
+This distinction is particularly relevant for high-speed neuromorphic data: 
+while the Standard ResBlock accumulates continuous values that effectively blur fast movements into a single averaged float over the 100ms window, the \gls{snn} equivalent preserves exact spike timing, maintaining the temporal precision required for the regression head.
+
+\subsection{Attention Mechanism: SE-Block}
+The \gls{cnn} network encounters the same informational bottlenecks as its \gls{snn} counterpart, detailed in Section \ref{subsec:snn_se_block}. Consequently, it implements the same architectural solution via an \gls{se} Block \cite{hu2019_se_block}. However, the \texttt{CNN\_MAX\_REPLICA\_SE} implements this mechanism in the continuous domain: as opposed to utilizing spike rates, the \gls{cnn} employs a float-based approach.
+
+During the `Squeeze' segment, the \gls{cnn} utilizes global average pooling to calculate the mean spatial intensity of features per channel, rather than calculating a temporal firing rate. Subsequently, during the `Excitation' phase, the block outputs a learned coefficient that scales the input activations. This effectively recalibrates the channel-wise feature responses, as opposed to modulating discrete membrane potentials.
+
+While the integration of an \gls{se} Block in a standard \gls{cnn} improves feature representation, it does not confer the same critical hardware-level energy sparsity benefits as it does within an \gls{snn}. The primary advantage of the \gls{se} mechanism in this specific context is the enforcement of structural sparsity in the spiking domain. Nevertheless, to strictly adhere to the Architectural Parity requirement established in Section \ref{subsec:req_functional}, the continuous equivalent of this mechanism was preserved in the baseline.
+
+% Furthermore, a Squeeze-and-Excitation (SE) block is integrated at the bottleneck (between Blocks 2 and 3). The SE block performs global average pooling to recalibrate channel-wise features, effectively allowing the network to ``pay attention'' to the most informative feature maps within the event stream, thereby improving feature discriminability in complex multi-object scenes \cite{hu2018squeeze}.
+
+\subsection{The ``Gold Standard'' Upper Bound}
+By constructing this custom \gls{cnn} mirror, the baseline serves as the upper theoretical bound of this specific architecture's capability on the ETraM dataset. 
+For example, if the \gls{cnn} baseline achieves a Mean \gls{iou} of 48\%, this represents the maximum performance extractable by this parameter configuration. 
+If the corresponding SNN achieves 43\% IoU, the 5\% gap explicitly represents the ``quantization cost'' of switching from 32-bit continuous floats to 1-bit binary spikes \cite{cordone2022objectdetectionspikingneural}. 
+Adhering to this methodology ensures that the evaluation of the neuromorphic paradigm is both fair and scientifically sound.
+
+
+\todo[inline,backgroundcolor=myblue,textcolor=white]{Add model architecture diagram.}
+\todo[inline,backgroundcolor=myblue,textcolor=white]{Check \& Add model hyperparameter table.}

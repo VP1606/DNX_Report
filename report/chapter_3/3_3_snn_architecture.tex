@@ -1,0 +1,155 @@
+\section{Spiking Neural Network (SNN) Architecture}
+\label{sec:snn_architecture}
+
+The core focus, effort and innovation of this project is the development and optimization of the \texttt{SNN\_MAX\_REPLICA\_SE} architecture. 
+This model is explicitly designed to process high-definition neuromorphic event data while adhering to the computational paradigms of \gls{snn}s. 
+By prioritizing event-driven, binary communication, the architecture aims to drastically reduce both the dynamic power consumption and the computational complexity compared to traditional deep learning models, making it superior for power and time constrained environments.
+
+\subsection{Spatiotemporal Input \& Multi-Step Execution}
+\label{subsec:snn_input}
+The raw ETraM event data is initially preprocessed to a spatial resolution of $640 \times 360$ with $T=10$ discrete temporal bins. 
+Consequently, the network ingests a massive, high-dimensional spatiotemporal tensor of shape $[B, 10, 2, 360, 640]$ (Batch, Time, Polarity, Height, Width). 
+
+Given the high spatial dimensionality and the iterative nature of spiking neurons, native Python loop execution over the time dimension proved computationally restrictive. 
+To overcome this bottleneck, the entire architecture was refactored to utilize the SpikingJelly framework's optimized Multi-Step (\texttt{step\_mode='m'}) execution paradigm \cite{fang2023spikingjelly};
+instead of iterating through the 10 time bins sequentially, the entire spatiotemporal tensor is passed directly into custom-compiled CUDA kernels.
+This low-level optimization enables high-speed, parallelized execution of the temporal dynamics, making the extensive benchmarking of this HD dataset feasible on local GPU hardware, and reducing overall training time from approximately 16 hours to just 7.
+
+\subsection{Neuron Dynamics: Leaky Integrate-and-Fire (LIF)}
+\label{subsec:snn_lif}
+At the foundation of the architecture lies the \gls{lif} neuron model, which governs the temporal dynamics and binary spike generation of the network. 
+Unlike traditional \glspl{ann} that utilize continuous activation functions such as \acrshort{relu}, the \gls{lif} node maintains an internal state: the membrane potential $V[t]$, which updates iteratively across discrete time steps $t \in [1, T]$.
+
+\subsubsection{The Forward Pass (Spike Generation)}
+The dynamics of the \gls{lif} neuron at a given spatial position and time step $t$ are governed by the integration of incoming pre-synaptic spatial features $X[t]$ and an inherent leak factor $\tau$. 
+The hidden membrane potential $H[t]$ prior to spiking is mathematically defined as:
+\begin{equation}
+    H[t] = V[t-1] + \frac{1}{\tau} \left(X[t] - (V[t-1] - V_{reset})\right)
+\end{equation}
+When $H[t]$ exceeds a predefined threshold $V_{th}$, the neuron emits a binary spike $S[t] \in \{0, 1\}$ to the subsequent layer, governed by the Heaviside step function $\Theta(x)$:
+\begin{equation}
+    S[t] = \Theta(H[t] - V_{th})
+\end{equation}
+Following a spike ($S[t]=1$), the neuron undergoes a hard reset, instantly dropping its potential $V[t]$ to $V_{reset}$. 
+If no spike is emitted ($S[t]=0$), the potential naturally decays, ensuring that subsequent layers only perform computations (Synaptic Operations) upon receiving active events \cite{sengupta2019goingdeeperspikingneural}. 
+This ``activation sparsity'' is the primary driver of the \glspl{snn} exceptional energy efficiency  \cite{Roy2019SpikeBasedMI}.
+
+\subsubsection{The Backward Pass (Surrogate Gradients)}
+Training deep \glspl{snn} via backpropagation presents a fundamental mathematical challenge, since the Heaviside step function governing spike generation (Equation 2) is non-differentiable. 
+Its derivative is zero everywhere except at the threshold $V_{th}$, where it is infinite. 
+Using conventional backpropogation here would immediately result in zeroed gradients, halting the learning process - this is a phenomenon known as the ``dead neuron'' problem.
+
+To resolve this, the network employs a Surrogate Gradient during the backward pass \cite{nfetci2019_surrogate}. 
+While the forward pass remains strictly binary, the backward pass approximates the step function using a smooth, differentiable curve. This specific architecture uses the \gls{atan} function:
+\begin{equation}
+    \frac{\partial S}{\partial H} \approx \frac{\alpha}{2\left(1 + \left(\frac{\pi}{2} \alpha (H - V_{th})\right)^2\right)}
+\end{equation}
+Where $\alpha$ is a hyperparameter controlling the steepness of the surrogate curve. 
+This mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution.
+
+\subsection{Backbone: SEW-ResNet \& Attention}
+\label{subsec:snn_backbone}
+
+To extract high-level semantic features and manage the computational complexity of the high-definition input, the architecture utilizes a deep residual backbone divided into five sequential stages, as outlined in Table \ref{tab:snn_staged_architecture}.
+
+\begin{table}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|l|c|c|p{6cm}|}
+\hline
+\textbf{Stage} & \textbf{Name} & \textbf{Resolution} & \textbf{Channels} & \textbf{Primary Operation} \\
+\hline
+1 & Initial Stem      & 90$\times$160 & 64  & Stride-2 Conv + LIF (Downsamples HD input) \\
+2 & Backbone Alpha    & 22$\times$40  & 256 & Blocks 1 \& 2 (SEWResBlocks with Stride-2) \\
+3 & Attention Bridge  & 22$\times$40  & 256 & Squeeze-and-Excitation (SE) Global Firing Recalibration \\
+4 & High-Res Backbone & 22$\times$40  & 512 & Blocks 3 \& 4 (SEWResBlocks with Stride-1) \\
+5 & Temporal Fusion   & 22$\times$40  & 512 & Summation of spikes across all $T$=10 timesteps \\
+\hline
+\end{tabular}%
+}
+\caption[Network Architecture Stages]{Detailed breakdown of the five sequential stages in the \texttt{SNN\_MAX\_REPLICA\_SE} backbone.}
+\label{tab:snn_staged_architecture}
+\end{table}
+
+\subsubsection{Spatial Downsampling}
+As illustrated, the architecture implements an aggressive $16\times$ total spatial downsampling strategy to compress the initial $640 \times 360$ input. 
+This is achieved through strided convolutions applied within the Initial Stem and Backbone Alpha, progressively reducing the spatial dimensions to a highly compressed $22 \times 40$ grid while expanding the channel width up to 512.
+
+\subsubsection{Spike-Element-Wise (SEW) Residual Blocks}
+Building deep \glspl{snn} presents significant challenges due to the ``vanishing spike'' problem inherent in standard residual connections. 
+In a standard \gls{resnet}, the residual addition occurs \textit{before} the activation function.
+However, if we follow this standard and add two binary spike trains, the result is a non-binary, continuous value (e.g., $1+1=2$), which destroys the energy-efficient, event-driven nature of the network \cite{fang2022resnet_sew}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{chapter_3/figures/sewresblock_diagram.pdf}
+    \caption{The \gls{sew} residual block (\texttt{SEWResBlock}) as proposed by 
+    \cite{fang2022resnet_sew}.}
+    \label{fig:sewresblock}
+\end{figure}
+
+To overcome this, the \texttt{SNN\_MAX\_REPLICA\_SE} architecture adopts the \gls{sew} residual paradigm \cite{fang2022resnet_sew}, instantiated as \texttt{SEWResBlock} units throughout the backbone. 
+Unlike standard Spiking ResNets, SEW ResBlocks apply the element-wise residual operation \textit{after} the spiking activation function, guaranteeing that the output remains strictly binary. 
+Fang et al.\ \cite{fang2022resnet_sew} prove that this reordering is both necessary and sufficient to achieve identity mapping in a purely spike-based network, resolving the degradation problem without sacrificing neuromorphic compatibility. 
+In this architecture, this property is exploited to stack 4 SEWResBlocks across the backbone stages (Stages 2 and 4 in \ref{tab:snn_staged_architecture}), enabling representational depth that would otherwise cause spike degradation under a standard residual formulation.
+
+\subsubsection{Structural Attention: SE-Block}
+\label{subsec:snn_se_block}
+
+In deep learning, a bottleneck refers to a point in the neural network where the information flow is forced through its most compressed and abstract representation. 
+In this \texttt{SNN\_MAX\_REPLICA\_SE} architecture, the bottleneck exists at the transition point between stages 2 and 3 of the backbone, and represents two things:
+
+  \begin{enumerate}
+      \item \textbf{A Spatial Constraint (Resolution Limit):} 
+      At this stage, the original $180 \times 320$ spatiotemporal input has been downsampled by a factor of 8x via the strided convolutions in the stem and early residual block, resulting in a highly compressed$22 \times 40$ feature map.
+      This spatial bottleneck is critical because each remaining "pixel" must now represent a large $8 \times 8$ receptive field of the original HD sensor data, forcing the network to discard fine-grained geometric redundancy while retaining the
+      core structural boundaries of multiple detected objects.
+
+      \item \textbf{A Semantic Shift (High-Level Abstraction):} 
+      This juncture marks the definitive pivot where the network transitions from extracting low-level geometric primitives, such as spike-edge orientation and motion direction, to synthesizing complex semantic concepts. 
+      Without an explicit selection mechanism, the network at this depth is susceptible to noise and artifacts from the HD event stream, which can blur the distinction between legitimate targets and background interference.
+  \end{enumerate}
+
+To both mitigate and solve these bottleneck constraints, a \gls{se} mechanism is introduced in Stage 3 of the backbone, sitting directly at the transition point \cite{hu2019_se_block}.
+The \gls{se} block operates by performing a global average pooling of the 256 feature channels (the ``Squeeze`` phase), followed by two fully connected layers that calculate a weighting factor for each channel (the ``Excitation`` phase).
+This effectively mitigates the spatial constraint by allowing the network to incorporate global context into its local representations, compensating for the loss of resolution.
+
+When applied in the context of an \gls{snn}, this acts as a dynamic firing modulator: the backbone's activations are re-calibrated by looking at the global context of the entire frame, magnifying the most informative channels whilst suppressing those containing artifacts.
+By applying this recalibration, the \gls{se} block ensures that only the most relevant ``Objectness`` (the probability that a specific region of an image contains a generic object of interest rather than background noise) features are passed into the final high-capacity blocks, effectively mitigating the semantic ambiguity before the final bounding box regresssion.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{chapter_3/figures/se_block_diagram.pdf}
+    \caption{The Squeeze-and-Excitation (SE) block \cite{hu2019_se_block} as 
+    applied in Stage 3 of the \texttt{SNN\_MAX\_REPLICA\_SE} backbone 
+    (22$\times$40$\times$256).}
+    \label{fig:se_block}
+\end{figure}
+
+\subsection{Firing Rate Regularization (FRR)}
+\label{subsec:snn_frr}
+A common failure mode in deep SNN training is network silencing (zero spikes emitted) or over-saturation (firing continuously at every timestep), both of which halt gradient flow and destroy energy efficiency. 
+To constrain the network, a custom Firing Rate Regularization (FRR) Metabolic Penalty was integrated into the training pipeline.
+
+The FRR applies a squared error loss to the network's average firing rate:
+\begin{equation}
+    L_{frr} = \lambda \cdot (Rate_{avg} - Target)^2
+\end{equation}
+
+This biologically inspired metabolic constraint \cite{roy2019towards} forces the 11.7M parameter backbone to maintain a selective but informative firing rate (e.g., $Target = 20\%$) across its hidden layers. 
+Penalising derivation from a target firing rate is an established technique for preserving activation sparsity in directly trained \glspl{snn} \cite{deng2021comprehensive,yan2022backpropagation}.
+Adding this penalty to the model's loss ensures high information flow while strictly preserving the activation sparsity required for efficient neuromorphic deployment.
+
+\subsection{Multi-Box Regression Head}
+\label{subsec:snn_head}
+Following the final backbone stage, the abstract spatiotemporal feature maps are fed into a unified detection head. 
+To process the spatial information effectively and mitigate spatial ambiguities observed during the iterative design process (detailed in Section \ref{sec:architectural_evolution}), the head utilizes an $8 \times 8$ Adaptive Average Pooling mechanism. 
+
+This pooling operation aggregates the features into 64 distinct spatial receptive blocks. 
+The pooled features are then mapped via final convolutional and linear layers to an output tensor of shape $[B, 5, 5]$, where $B$ represents the batch size.
+The final two dimensions encode the top 5 predicted bounding boxes globally per image, with each box defined by a feature tuple $\mathcal{F} = \{x, y, w, h, c\}$. 
+Here, $(x, y, w, h)$ represent the normalized spatial coordinates and dimensions of the bounding box, and $c$ denotes the object confidence logit. 
+This formulation allows the network to predict multiple vehicles simultaneously, which are subsequently evaluated using a vectorized Multi-Box Loss function.
+
+\todo[inline,backgroundcolor=myblue,textcolor=white]{Add model architecture diagram.}
+\todo[inline,backgroundcolor=myblue,textcolor=white]{Check \& Add model hyperparameter table.}

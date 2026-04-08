@@ -20,6 +20,13 @@
 \usepackage[style=authoryear]{biblatex}
 \addbibresource{references.bib}
 
+\usepackage[acronym]{glossaries}
+\makeglossaries
+\input{abbreviations}
+
+\setacronymstyle{long-short}
+\glsaddall
+
 % Uncomment the next line if you want subsubsections to be numbered
 %\setcounter{secnumdepth}{3}
 % Uncomment the next line if you want subsubsections to be appear in
@@ -57,10 +64,14 @@
 \afterabstract
 
 \prefacesection{Acknowledgements}
-I would like to thank...
+I would like to thank Meuseir Bob Marley...
 \afterpreface
 
+
+
 \listoftodos
+
+\printglossary[type=\acronymtype, title=List of Abbreviations]
 
 % These include the actual text
 % \include{chapter1}

@@ -1,2 +1,4 @@
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces High-level system architecture pipeline.}}{13}{}%
+\contentsline {figure}{\numberline {1.1}{\ignorespaces High-level system architecture pipeline.}}{15}{}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces The \gls {sew} residual block (\texttt {SEWResBlock}) as proposed by \blx@tocontentsinit {0}\cite {fang2022resnet_sew}.}}{20}{}%
+\contentsline {figure}{\numberline {1.3}{\ignorespaces The Squeeze-and-Excitation (SE) block \blx@tocontentsinit {0}\cite {hu2019_se_block} as applied in Stage 3 of the \texttt {SNN\_MAX\_REPLICA\_SE} backbone (22$\times $40$\times $256).}}{22}{}%

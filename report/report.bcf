@@ -2373,8 +2373,28 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">references.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1" intorder="1">Verma_2024_CVPR</bcf:citekey>
-    <bcf:citekey order="2" intorder="1">cordone2022objectdetectionspikingneural</bcf:citekey>
+    <bcf:citekey order="3" intorder="1">Verma_2024_CVPR</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">cordone2022objectdetectionspikingneural</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">fang2023spikingjelly</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">sengupta2019goingdeeperspikingneural</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">Roy2019SpikeBasedMI</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">nfetci2019_surrogate</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">fang2022resnet_sew</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">fang2022resnet_sew</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">fang2022resnet_sew</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">fang2022resnet_sew</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">fang2022resnet_sew</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">hu2019_se_block</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">hu2019_se_block</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">hu2019_se_block</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">roy2019towards</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">deng2021comprehensive</bcf:citekey>
+    <bcf:citekey order="18" intorder="2">yan2022backpropagation</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">gehrig2019</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">he2015deep</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">he2015deep</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">hu2019_se_block</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">cordone2022objectdetectionspikingneural</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">
