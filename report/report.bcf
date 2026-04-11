@@ -2407,6 +2407,8 @@
     <bcf:citekey order="31" intorder="1">hu2019_se_block</bcf:citekey>
     <bcf:citekey order="32" intorder="1">cordone2022objectdetectionspikingneural</bcf:citekey>
     <bcf:citekey order="33" intorder="1">fang2023spikingjelly</bcf:citekey>
+    <bcf:citekey order="34" intorder="1">horowitz20141</bcf:citekey>
+    <bcf:citekey order="35" intorder="1">horowitz20141</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">

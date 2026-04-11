@@ -57,3 +57,7 @@
 \contentsline {subsubsection}{Architectural Intent \& Empirical Obstacle}{41}{}%
 \contentsline {subsubsection}{Actionable Insight: Semantic Expansion \& Metabolic Awakening}{41}{}%
 \contentsline {subsection}{\numberline {1.6.5}Generations: Summarized}{42}{}%
+\contentsline {section}{\numberline {1.7}Experimental Setup \& Benchmarking}{43}{}%
+\contentsline {subsection}{\numberline {1.7.1}Dynamic Power Estimation}{44}{}%
+\contentsline {subsubsection}{\gls {cnn} Power Estimation}{44}{}%
+\contentsline {subsubsection}{\gls {snn} Power Estimation}{45}{}%

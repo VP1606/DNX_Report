@@ -646,6 +646,38 @@
       \verb https://arxiv.org/abs/1512.03385
       \endverb
     \endentry
+    \entry{horowitz20141}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=2c9d1aa766759ce8abffd16d2a35689e}{%
+           family={Horowitz},
+           familyi={H\bibinitperiod},
+           given={Mark},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{2c9d1aa766759ce8abffd16d2a35689e}
+      \strng{fullhash}{2c9d1aa766759ce8abffd16d2a35689e}
+      \strng{fullhashraw}{2c9d1aa766759ce8abffd16d2a35689e}
+      \strng{bibnamehash}{2c9d1aa766759ce8abffd16d2a35689e}
+      \strng{authorbibnamehash}{2c9d1aa766759ce8abffd16d2a35689e}
+      \strng{authornamehash}{2c9d1aa766759ce8abffd16d2a35689e}
+      \strng{authorfullhash}{2c9d1aa766759ce8abffd16d2a35689e}
+      \strng{authorfullhashraw}{2c9d1aa766759ce8abffd16d2a35689e}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2014 IEEE international solid-state circuits conference digest of technical papers (ISSCC)}
+      \field{title}{1.1 computing's energy problem (and what we can do about it)}
+      \field{year}{2014}
+      \field{pages}{10\bibrangedash 14}
+      \range{pages}{5}
+    \endentry
     \entry{hu2019_se_block}{misc}{}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=346b88b16d5e70356b573f350a9165aa}{%

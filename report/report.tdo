@@ -6,3 +6,5 @@
 \contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Check \& Add model hyperparameter table.}{36}{}%
 \contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Insert images of the constant target bias.}{38}{}%
 \contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Insert images of the super box.}{39}{}%
+\contentsline {todo}{\fcolorbox {black}{orange}{\textcolor {orange}{o}}\ CHANGE LAST SENTENCE}{44}{}%
+\contentsline {todo}{\fcolorbox {black}{orange}{\textcolor {orange}{o}}\ Mention SpikeRateMonitor in Evaluation Suite Section and Diagram}{45}{}%
