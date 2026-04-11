@@ -1,84 +1,84 @@
 \relax 
-\@writefile{toc}{\contentsline {chapter}{\numberline {1}Technical Quality, Methodology \& Evaluation}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Technical Quality, Methodology \& Evaluation}{13}{}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cha:methodology}{{1}{12}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}Requirements Analysis}{12}{}\protected@file@percent }
-\newlabel{sec:requirements}{{1.1}{12}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.1}Functional Requirements}{12}{}\protected@file@percent }
-\newlabel{subsec:req_functional}{{1.1.1}{12}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.2}Non-Functional Requirements \& Constraints}{13}{}\protected@file@percent }
-\newlabel{subsec:req_nonfunctional}{{1.1.2}{13}{}{}{}}
-\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Check \& Proof-read this section against rubric.}{14}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}System Architecture Overview}{14}{}\protected@file@percent }
-\newlabel{sec:system_architecture}{{1.2}{14}{}{}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces High-level system architecture pipeline.}}{15}{}\protected@file@percent }
-\newlabel{fig:system_architecture_block}{{1.1}{15}{}{}{}}
-\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Re-write this section, and link it to the Success Criteria from Introduction.}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.3}Data Preprocessing: The REPLICA Pipeline}{17}{}\protected@file@percent }
-\newlabel{sec:data_preprocessing}{{1.3}{17}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.1}Raw Event Ingestion \& Windowing}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.2}Signal Conditioning}{19}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.3}Spatiotemporal Voxelization}{20}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.4}Downsampling \& Normalization}{20}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Spatial Downsampling (16-fold Data Reduction)}{21}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Max-Normalization (Input Calibration)}{21}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.5}Multi-Object Label Alignment}{21}{}\protected@file@percent }
-\newlabel{subsec:multi_object_alignment}{{1.3.5}{21}{}{}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Timestamp-Based Grouping (Unified Scene Representation)}{22}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Fixed-Capacity Padding}{22}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Binary Masking}{22}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Normalization to Sensor Space}{22}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.6}Chunking for High-Throughput I/O}{23}{}\protected@file@percent }
-\newlabel{subsec:chunking}{{1.3.6}{23}{}{}{}}
-\@writefile{toc}{\contentsline {subsubsection}{The Chunking Mechanism}{23}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Mitigating HPC Bottlenecks}{23}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.7}REPLICA Pipeline: Visualized}{24}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.4}Spiking Neural Network (SNN) Architecture}{24}{}\protected@file@percent }
-\newlabel{sec:snn_architecture}{{1.4}{24}{}{}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces Overview of the spatiotemporal preprocessing pipeline applied to the ETraM dataset. Raw events are voxelized into a 4D tensor, spatially downsampled, and aligned with multi-object ground truth labels to produce a final sample of shape \texttt  {[10, 2, 180, 320]} with a corresponding label tensor of shape \texttt  {[5, 5]}.}}{25}{}\protected@file@percent }
-\newlabel{fig:preprocessing_pipeline}{{1.2}{25}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.1}Spatiotemporal Input \& Multi-Step Execution}{26}{}\protected@file@percent }
-\newlabel{subsec:snn_input}{{1.4.1}{26}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.2}Neuron Dynamics: Leaky Integrate-and-Fire (LIF)}{26}{}\protected@file@percent }
-\newlabel{subsec:snn_lif}{{1.4.2}{26}{}{}{}}
-\@writefile{toc}{\contentsline {subsubsection}{The Forward Pass (Spike Generation)}{26}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{The Backward Pass (Surrogate Gradients)}{27}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.3}Backbone: SEW-ResNet \& Attention}{27}{}\protected@file@percent }
-\newlabel{subsec:snn_backbone}{{1.4.3}{27}{}{}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Spatial Downsampling}{27}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1.1}{\ignorespaces Network Architecture Stages}}{28}{}\protected@file@percent }
-\newlabel{tab:snn_staged_architecture}{{1.1}{28}{}{}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Spike-Element-Wise (SEW) Residual Blocks}{28}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1.3}{\ignorespaces The \gls {sew} residual block (\texttt  {SEWResBlock}) as proposed by \blx@tocontentsinit {0}\cite {fang2022resnet_sew}.}}{29}{}\protected@file@percent }
-\newlabel{fig:sewresblock}{{1.3}{29}{}{}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Structural Attention: SE-Block}{29}{}\protected@file@percent }
-\newlabel{subsec:snn_se_block}{{1.4.3}{29}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.4}Firing Rate Regularization (FRR)}{30}{}\protected@file@percent }
-\newlabel{subsec:snn_frr}{{1.4.4}{30}{}{}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.4}{\ignorespaces The Squeeze-and-Excitation (SE) block \blx@tocontentsinit {0}\cite {hu2019_se_block} as applied in Stage 3 of the \texttt  {SNN\_MAX\_REPLICA\_SE} backbone (22$\times $40$\times $256).}}{31}{}\protected@file@percent }
-\newlabel{fig:se_block}{{1.4}{31}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.5}Multi-Box Regression Head}{31}{}\protected@file@percent }
-\newlabel{subsec:snn_head}{{1.4.5}{31}{}{}{}}
-\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Add model architecture diagram.}{32}{}\protected@file@percent }
-\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Check \& Add model hyperparameter table.}{32}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.5}Convolutional Neural Network (CNN) Baseline}{32}{}\protected@file@percent }
-\newlabel{sec:cnn_baseline}{{1.5}{32}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.1}Structural Configuration \& Layer-Wise Mapping}{32}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1.2}{\ignorespaces 1:1 Architectural Mapping (SNN vs. CNN)}}{32}{}\protected@file@percent }
-\newlabel{tab:snn_cnn_mapping}{{1.2}{32}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.2}Input Strategy: Channel-Wise Temporal Integration}{33}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.3}Backbone: Identity Mapping \& Residual Connections}{33}{}\protected@file@percent }
-\newlabel{subsec:cnn_backbone}{{1.5.3}{33}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.4}SEWResBlock vs Standard ResBlock}{33}{}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1.3}{\ignorespaces Identity Mapping Comparison}}{34}{}\protected@file@percent }
-\newlabel{tab:resblock_comparison}{{1.3}{34}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.5}Attention Mechanism: SE-Block}{34}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.6}The ``Gold Standard'' Upper Bound}{35}{}\protected@file@percent }
-\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Add model architecture diagram.}{35}{}\protected@file@percent }
-\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Check \& Add model hyperparameter table.}{35}{}\protected@file@percent }
+\newlabel{cha:methodology}{{1}{13}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Requirements Analysis}{13}{}\protected@file@percent }
+\newlabel{sec:requirements}{{1.1}{13}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.1}Functional Requirements}{13}{}\protected@file@percent }
+\newlabel{subsec:req_functional}{{1.1.1}{13}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.2}Non-Functional Requirements \& Constraints}{14}{}\protected@file@percent }
+\newlabel{subsec:req_nonfunctional}{{1.1.2}{14}{}{}{}}
+\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Check \& Proof-read this section against rubric.}{15}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}System Architecture Overview}{15}{}\protected@file@percent }
+\newlabel{sec:system_architecture}{{1.2}{15}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces High-level system architecture pipeline.}}{16}{}\protected@file@percent }
+\newlabel{fig:system_architecture_block}{{1.1}{16}{}{}{}}
+\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Re-write this section, and link it to the Success Criteria from Introduction.}{18}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Data Preprocessing: The REPLICA Pipeline}{18}{}\protected@file@percent }
+\newlabel{sec:data_preprocessing}{{1.3}{18}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.1}Raw Event Ingestion \& Windowing}{18}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.2}Signal Conditioning}{20}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.3}Spatiotemporal Voxelization}{21}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.4}Downsampling \& Normalization}{21}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Spatial Downsampling (16-fold Data Reduction)}{22}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Max-Normalization (Input Calibration)}{22}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.5}Multi-Object Label Alignment}{22}{}\protected@file@percent }
+\newlabel{subsec:multi_object_alignment}{{1.3.5}{22}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Timestamp-Based Grouping (Unified Scene Representation)}{23}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Fixed-Capacity Padding}{23}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Binary Masking}{23}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Normalization to Sensor Space}{23}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.6}Chunking for High-Throughput I/O}{24}{}\protected@file@percent }
+\newlabel{subsec:chunking}{{1.3.6}{24}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{The Chunking Mechanism}{24}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Mitigating HPC Bottlenecks}{24}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.7}REPLICA Pipeline: Visualized}{25}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces Overview of the spatiotemporal preprocessing pipeline applied to the ETraM dataset. Raw events are voxelized into a 4D tensor, spatially downsampled, and aligned with multi-object ground truth labels to produce a final sample of shape \texttt  {[10, 2, 180, 320]} with a corresponding label tensor of shape \texttt  {[5, 5]}.}}{26}{}\protected@file@percent }
+\newlabel{fig:preprocessing_pipeline}{{1.2}{26}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}Spiking Neural Network (SNN) Architecture}{27}{}\protected@file@percent }
+\newlabel{sec:snn_architecture}{{1.4}{27}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.1}Spatiotemporal Input \& Multi-Step Execution}{27}{}\protected@file@percent }
+\newlabel{subsec:snn_input}{{1.4.1}{27}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.2}Neuron Dynamics: Leaky Integrate-and-Fire (LIF)}{27}{}\protected@file@percent }
+\newlabel{subsec:snn_lif}{{1.4.2}{27}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{The Forward Pass (Spike Generation)}{28}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{The Backward Pass (Surrogate Gradients)}{28}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.3}Backbone: SEW-ResNet \& Attention}{29}{}\protected@file@percent }
+\newlabel{subsec:snn_backbone}{{1.4.3}{29}{}{}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1.1}{\ignorespaces Network Architecture Stages}}{29}{}\protected@file@percent }
+\newlabel{tab:snn_staged_architecture}{{1.1}{29}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Spatial Downsampling}{29}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Spike-Element-Wise (SEW) Residual Blocks}{29}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.3}{\ignorespaces The \gls {sew} residual block (\texttt  {SEWResBlock}) as proposed by \blx@tocontentsinit {0}\cite {fang2022resnet_sew}.}}{30}{}\protected@file@percent }
+\newlabel{fig:sewresblock}{{1.3}{30}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Structural Attention: SE-Block}{30}{}\protected@file@percent }
+\newlabel{subsec:snn_se_block}{{1.4.3}{30}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.4}Firing Rate Regularization (FRR)}{31}{}\protected@file@percent }
+\newlabel{subsec:snn_frr}{{1.4.4}{31}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.4}{\ignorespaces The Squeeze-and-Excitation (SE) block \blx@tocontentsinit {0}\cite {hu2019_se_block} as applied in Stage 3 of the \texttt  {SNN\_MAX\_REPLICA\_SE} backbone (22$\times $40$\times $256).}}{32}{}\protected@file@percent }
+\newlabel{fig:se_block}{{1.4}{32}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.5}Multi-Box Regression Head}{33}{}\protected@file@percent }
+\newlabel{subsec:snn_head}{{1.4.5}{33}{}{}{}}
+\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Add model architecture diagram.}{33}{}\protected@file@percent }
+\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Check \& Add model hyperparameter table.}{33}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.5}Convolutional Neural Network (CNN) Baseline}{33}{}\protected@file@percent }
+\newlabel{sec:cnn_baseline}{{1.5}{33}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.1}Structural Configuration \& Layer-Wise Mapping}{33}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1.2}{\ignorespaces 1:1 Architectural Mapping (SNN vs. CNN)}}{34}{}\protected@file@percent }
+\newlabel{tab:snn_cnn_mapping}{{1.2}{34}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.2}Input Strategy: Channel-Wise Temporal Integration}{34}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.3}Backbone: Identity Mapping \& Residual Connections}{34}{}\protected@file@percent }
+\newlabel{subsec:cnn_backbone}{{1.5.3}{34}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.4}SEWResBlock vs Standard ResBlock}{35}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1.3}{\ignorespaces Identity Mapping Comparison}}{35}{}\protected@file@percent }
+\newlabel{tab:resblock_comparison}{{1.3}{35}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.5}Attention Mechanism: SE-Block}{35}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.6}The ``Gold Standard'' Upper Bound}{36}{}\protected@file@percent }
+\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Add model architecture diagram.}{36}{}\protected@file@percent }
+\@writefile{tdo}{\contentsline {todo}{\fcolorbox {black}{myblue}{\textcolor {myblue}{o}}\ Check \& Add model hyperparameter table.}{36}{}\protected@file@percent }
 \@setckpt{chapter_3/main}{
-\setcounter{page}{36}
+\setcounter{page}{37}
 \setcounter{equation}{4}
 \setcounter{enumi}{2}
 \setcounter{enumii}{0}
