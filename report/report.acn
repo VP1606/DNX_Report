@@ -17,6 +17,7 @@
 \glossaryentry{FRR?\glossentry{frr}|setentrycounter[]{page}"\glsnumberformat}{1}
 \glossaryentry{HPC?\glossentry{hpc}|setentrycounter[]{page}"\glsnumberformat}{1}
 \glossaryentry{LRU?\glossentry{lru}|setentrycounter[]{page}"\glsnumberformat}{1}
+\glossaryentry{AMP?\glossentry{amp}|setentrycounter[]{page}"\glsnumberformat}{1}
 \glossaryentry{SEW?\glossentry{sew}|setentrycounter[]{page}"\glsnumberformat}{5}
 \glossaryentry{ETraM?\glossentry{etram}|setentrycounter[]{page}"\glsnumberformat}{18}
 \glossaryentry{ETraM?\glossentry{etram}|setentrycounter[]{page}"\glsnumberformat}{18}
@@ -91,3 +92,19 @@
 \glossaryentry{CNN?\glossentry{cnn}|setentrycounter[]{page}"\glsnumberformat}{36}
 \glossaryentry{CNN?\glossentry{cnn}|setentrycounter[]{page}"\glsnumberformat}{36}
 \glossaryentry{IoU?\glossentry{iou}|setentrycounter[]{page}"\glsnumberformat}{36}
+\glossaryentry{ETraM?\glossentry{etram}|setentrycounter[]{page}"\glsnumberformat}{37}
+\glossaryentry{SNR?\glossentry{snr}|setentrycounter[]{page}"\glsnumberformat}{37}
+\glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{37}
+\glossaryentry{ETraM?\glossentry{etram}|setentrycounter[]{page}"\glsnumberformat}{38}
+\glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{39}
+\glossaryentry{IoU?\glossentry{iou}|setentrycounter[]{page}"\glsnumberformat}{39}
+\glossaryentry{IoU?\glossentry{iou}|setentrycounter[]{page}"\glsnumberformat}{39}
+\glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{39}
+\glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{39}
+\glossaryentry{ETraM?\glossentry{etram}|setentrycounter[]{page}"\glsnumberformat}{40}
+\glossaryentry{IoU?\glossentry{iou}|setentrycounter[]{page}"\glsnumberformat}{41}
+\glossaryentry{IoU?\glossentry{iou}|setentrycounter[]{page}"\glsnumberformat}{41}
+\glossaryentry{LIF?\glossentry{lif}|setentrycounter[]{page}"\glsnumberformat}{42}
+\glossaryentry{FRR?\glossentry{frr}|setentrycounter[]{page}"\glsnumberformat}{42}
+\glossaryentry{AMP?\glossentry{amp}|setentrycounter[]{page}"\glsnumberformat}{42}
+\glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{42}

@@ -41,3 +41,18 @@
 \contentsline {subsection}{\numberline {1.5.4}SEWResBlock vs Standard ResBlock}{35}{}%
 \contentsline {subsection}{\numberline {1.5.5}Attention Mechanism: SE-Block}{35}{}%
 \contentsline {subsection}{\numberline {1.5.6}The ``Gold Standard'' Upper Bound}{36}{}%
+\contentsline {section}{\numberline {1.6}Architectural Evolution}{36}{}%
+\contentsline {subsection}{\numberline {1.6.1}Phase 0: The Spatial Cropping Pitfall (Early Prototyping)}{37}{}%
+\contentsline {subsubsection}{Architectural Intent \& Technical Logic}{37}{}%
+\contentsline {subsubsection}{Empirical Obstacle: Constant Target Bias}{37}{}%
+\contentsline {subsubsection}{Actionable Insight}{38}{}%
+\contentsline {subsection}{\numberline {1.6.2}Generation 1: The Multi-Box Paradigm Shift}{38}{}%
+\contentsline {subsubsection}{Architectural Intent \& Technical Logic}{38}{}%
+\contentsline {subsubsection}{Empirical Obstacle: Single-Target Ambiguity \& Label Noise}{39}{}%
+\contentsline {subsubsection}{Actionable Insight: The Vectorized Matching Loss}{39}{}%
+\contentsline {subsection}{\numberline {1.6.3}Generation 2: The Expanded Spatial Head (7.00M Parameter \texttt {MAX} Generation)}{40}{}%
+\contentsline {subsubsection}{Architectural Intent \& Empirical Obstacle}{40}{}%
+\contentsline {subsubsection}{Actionable Insight: Quadrupling Spatial Memory}{40}{}%
+\contentsline {subsection}{\numberline {1.6.4}Generation 3: The High-Resolution Backbone (11.7M Parameter \texttt {ULTRA} Generation)}{41}{}%
+\contentsline {subsubsection}{Architectural Intent \& Empirical Obstacle}{41}{}%
+\contentsline {subsubsection}{Actionable Insight: Semantic Expansion \& Metabolic Awakening}{41}{}%
