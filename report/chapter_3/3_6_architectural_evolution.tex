@@ -119,3 +119,36 @@ To overcome this precision ceiling, a multi-faceted architectural overhaul was i
 \end{itemize}
 
 Generation 3 successfully orchestrated the transition from basic structural detection to high-fidelity geometric precision. By halting the spatial degradation and enforcing strict metabolic regularization, the \texttt{ULTRA} model demonstrated that \glspl{snn} can achieve precise localization on HD event data without the severe latency penalties typically associated with deep spiking architectures.
+
+\subsection{Generations: Summarized}
+
+To summarize, Table \ref{tab:generational_evolution} shows the evolution of the \texttt{DetectorNX} architecture across the three generations.
+
+\begin{table}[htbp]
+\centering
+\begin{tabularx}{\textwidth}{|p{1.8cm}|X|p{1.2cm}|X|X|}
+\hline
+\textbf{Generation} & \textbf{Primary Architectural Shift} & \textbf{Params} & \textbf{Main Strength} & \textbf{Final Limitation} \\
+\hline
+Gen 1: Base & 
+Multi-Box Head $[B, 5, 5]$ & 
+5.43M & 
+Handled multi-vehicle scenes simultaneously & 
+High false positives in low-density regions (``Ghosting'') \\
+\hline
+Gen 2: Expanded & 
+8$\times$8 Spatial Pooling Head & 
+7.00M & 
+Solved object-noise ambiguity through improved spatial aggregation & 
+41\% IoU ceiling due to insufficient spatial resolution \\
+\hline
+Gen 3: Ultra & 
+22$\times$40 Resolution with additional SEWResBlock (Stage 4) & 
+11.72M & 
+High-fidelity edge precision through full-resolution backbone processing & 
+Higher computational metabolic cost in \glspl{sop} \\
+\hline
+\end{tabularx}
+\caption{Generational evolution of the \texttt{DetectorNX} architecture.}
+\label{tab:generational_evolution}
+\end{table}

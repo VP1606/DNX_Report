@@ -56,3 +56,4 @@
 \contentsline {subsection}{\numberline {1.6.4}Generation 3: The High-Resolution Backbone (11.7M Parameter \texttt {ULTRA} Generation)}{41}{}%
 \contentsline {subsubsection}{Architectural Intent \& Empirical Obstacle}{41}{}%
 \contentsline {subsubsection}{Actionable Insight: Semantic Expansion \& Metabolic Awakening}{41}{}%
+\contentsline {subsection}{\numberline {1.6.5}Generations: Summarized}{42}{}%
