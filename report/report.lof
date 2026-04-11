@@ -1,4 +1,5 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {1.1}{\ignorespaces High-level system architecture pipeline.}}{15}{}%
-\contentsline {figure}{\numberline {1.2}{\ignorespaces The \gls {sew} residual block (\texttt {SEWResBlock}) as proposed by \blx@tocontentsinit {0}\cite {fang2022resnet_sew}.}}{20}{}%
-\contentsline {figure}{\numberline {1.3}{\ignorespaces The Squeeze-and-Excitation (SE) block \blx@tocontentsinit {0}\cite {hu2019_se_block} as applied in Stage 3 of the \texttt {SNN\_MAX\_REPLICA\_SE} backbone (22$\times $40$\times $256).}}{22}{}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Overview of the spatiotemporal preprocessing pipeline applied to the ETraM dataset. Raw events are voxelized into a 4D tensor, spatially downsampled, and aligned with multi-object ground truth labels to produce a final sample of shape \texttt {[10, 2, 180, 320]} with a corresponding label tensor of shape \texttt {[5, 5]}.}}{25}{}%
+\contentsline {figure}{\numberline {1.3}{\ignorespaces The \gls {sew} residual block (\texttt {SEWResBlock}) as proposed by \blx@tocontentsinit {0}\cite {fang2022resnet_sew}.}}{29}{}%
+\contentsline {figure}{\numberline {1.4}{\ignorespaces The Squeeze-and-Excitation (SE) block \blx@tocontentsinit {0}\cite {hu2019_se_block} as applied in Stage 3 of the \texttt {SNN\_MAX\_REPLICA\_SE} backbone (22$\times $40$\times $256).}}{31}{}%

@@ -7,21 +7,37 @@
 \contentsline {subsection}{\numberline {1.1.1}Functional Requirements}{12}{}%
 \contentsline {subsection}{\numberline {1.1.2}Non-Functional Requirements \& Constraints}{13}{}%
 \contentsline {section}{\numberline {1.2}System Architecture Overview}{14}{}%
-\contentsline {section}{\numberline {1.3}Spiking Neural Network (SNN) Architecture}{17}{}%
-\contentsline {subsection}{\numberline {1.3.1}Spatiotemporal Input \& Multi-Step Execution}{17}{}%
-\contentsline {subsection}{\numberline {1.3.2}Neuron Dynamics: Leaky Integrate-and-Fire (LIF)}{18}{}%
-\contentsline {subsubsection}{The Forward Pass (Spike Generation)}{18}{}%
-\contentsline {subsubsection}{The Backward Pass (Surrogate Gradients)}{18}{}%
-\contentsline {subsection}{\numberline {1.3.3}Backbone: SEW-ResNet \& Attention}{19}{}%
-\contentsline {subsubsection}{Spatial Downsampling}{19}{}%
-\contentsline {subsubsection}{Spike-Element-Wise (SEW) Residual Blocks}{20}{}%
-\contentsline {subsubsection}{Structural Attention: SE-Block}{21}{}%
-\contentsline {subsection}{\numberline {1.3.4}Firing Rate Regularization (FRR)}{22}{}%
-\contentsline {subsection}{\numberline {1.3.5}Multi-Box Regression Head}{23}{}%
-\contentsline {section}{\numberline {1.4}Convolutional Neural Network (CNN) Baseline}{23}{}%
-\contentsline {subsection}{\numberline {1.4.1}Structural Configuration \& Layer-Wise Mapping}{24}{}%
-\contentsline {subsection}{\numberline {1.4.2}Input Strategy: Channel-Wise Temporal Integration}{24}{}%
-\contentsline {subsection}{\numberline {1.4.3}Backbone: Identity Mapping \& Residual Connections}{24}{}%
-\contentsline {subsection}{\numberline {1.4.4}SEWResBlock vs Standard ResBlock}{25}{}%
-\contentsline {subsection}{\numberline {1.4.5}Attention Mechanism: SE-Block}{26}{}%
-\contentsline {subsection}{\numberline {1.4.6}The ``Gold Standard'' Upper Bound}{26}{}%
+\contentsline {section}{\numberline {1.3}Data Preprocessing: The REPLICA Pipeline}{17}{}%
+\contentsline {subsection}{\numberline {1.3.1}Raw Event Ingestion \& Windowing}{17}{}%
+\contentsline {subsection}{\numberline {1.3.2}Signal Conditioning}{19}{}%
+\contentsline {subsection}{\numberline {1.3.3}Spatiotemporal Voxelization}{20}{}%
+\contentsline {subsection}{\numberline {1.3.4}Downsampling \& Normalization}{20}{}%
+\contentsline {subsubsection}{Spatial Downsampling (16-fold Data Reduction)}{21}{}%
+\contentsline {subsubsection}{Max-Normalization (Input Calibration)}{21}{}%
+\contentsline {subsection}{\numberline {1.3.5}Multi-Object Label Alignment}{21}{}%
+\contentsline {subsubsection}{Timestamp-Based Grouping (Unified Scene Representation)}{22}{}%
+\contentsline {subsubsection}{Fixed-Capacity Padding}{22}{}%
+\contentsline {subsubsection}{Binary Masking}{22}{}%
+\contentsline {subsubsection}{Normalization to Sensor Space}{22}{}%
+\contentsline {subsection}{\numberline {1.3.6}Chunking for High-Throughput I/O}{23}{}%
+\contentsline {subsubsection}{The Chunking Mechanism}{23}{}%
+\contentsline {subsubsection}{Mitigating HPC Bottlenecks}{23}{}%
+\contentsline {subsection}{\numberline {1.3.7}REPLICA Pipeline: Visualized}{24}{}%
+\contentsline {section}{\numberline {1.4}Spiking Neural Network (SNN) Architecture}{24}{}%
+\contentsline {subsection}{\numberline {1.4.1}Spatiotemporal Input \& Multi-Step Execution}{26}{}%
+\contentsline {subsection}{\numberline {1.4.2}Neuron Dynamics: Leaky Integrate-and-Fire (LIF)}{26}{}%
+\contentsline {subsubsection}{The Forward Pass (Spike Generation)}{26}{}%
+\contentsline {subsubsection}{The Backward Pass (Surrogate Gradients)}{27}{}%
+\contentsline {subsection}{\numberline {1.4.3}Backbone: SEW-ResNet \& Attention}{27}{}%
+\contentsline {subsubsection}{Spatial Downsampling}{27}{}%
+\contentsline {subsubsection}{Spike-Element-Wise (SEW) Residual Blocks}{28}{}%
+\contentsline {subsubsection}{Structural Attention: SE-Block}{29}{}%
+\contentsline {subsection}{\numberline {1.4.4}Firing Rate Regularization (FRR)}{30}{}%
+\contentsline {subsection}{\numberline {1.4.5}Multi-Box Regression Head}{31}{}%
+\contentsline {section}{\numberline {1.5}Convolutional Neural Network (CNN) Baseline}{32}{}%
+\contentsline {subsection}{\numberline {1.5.1}Structural Configuration \& Layer-Wise Mapping}{32}{}%
+\contentsline {subsection}{\numberline {1.5.2}Input Strategy: Channel-Wise Temporal Integration}{33}{}%
+\contentsline {subsection}{\numberline {1.5.3}Backbone: Identity Mapping \& Residual Connections}{33}{}%
+\contentsline {subsection}{\numberline {1.5.4}SEWResBlock vs Standard ResBlock}{33}{}%
+\contentsline {subsection}{\numberline {1.5.5}Attention Mechanism: SE-Block}{34}{}%
+\contentsline {subsection}{\numberline {1.5.6}The ``Gold Standard'' Upper Bound}{35}{}%

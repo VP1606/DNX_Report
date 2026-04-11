@@ -150,6 +150,140 @@
       \verb 10.1109/TNNLS.2021.3109064
       \endverb
     \endentry
+    \entry{deodato2024continuous}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=0e408f4a3060924cc49004dfc967546a}{%
+           family={Deodato},
+           familyi={D\bibinitperiod},
+           given={Michele},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=19a15658a59473a58a662e200ce7f233}{%
+           family={Melcher},
+           familyi={M\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{591c99569939dfacff9eb3e4b58019eb}
+      \strng{fullhash}{591c99569939dfacff9eb3e4b58019eb}
+      \strng{fullhashraw}{591c99569939dfacff9eb3e4b58019eb}
+      \strng{bibnamehash}{591c99569939dfacff9eb3e4b58019eb}
+      \strng{authorbibnamehash}{591c99569939dfacff9eb3e4b58019eb}
+      \strng{authornamehash}{591c99569939dfacff9eb3e4b58019eb}
+      \strng{authorfullhash}{591c99569939dfacff9eb3e4b58019eb}
+      \strng{authorfullhashraw}{591c99569939dfacff9eb3e4b58019eb}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The human visual system is continuously processing visual information to maintain a coherent perception of the environment. Temporal integration, a critical aspect of this process, allows for the combination of visual inputs over time, enhancing the signal-to-noise ratio and supporting high-level cognitive functions. Traditional methods for measuring temporal integration often require a large number of trials made up of a fixation period, stimuli separated by a blank interval, a single forced choice, and then a pause before the next trial. This trial structure potentially introduces fatigue and biases. Here, we introduce a novel continuous temporal integration (CTI) task designed to overcome these limitations by allowing free visual exploration and continuous mouse responses to dynamic stimuli. Fifty participants performed the CTI, which involved adjusting a red bar to indicate the point where a flickering sine wave grating became indistinguishable from noise. Our results, modeled by an exponential function, indicate a reliable temporal integration window of ∼100 ms. The CTI's design facilitates rapid and reliable measurement of temporal integration, demonstrating potential for broader applications across different populations and experimental settings. This task provides a more naturalistic and efficient approach to understanding this fundamental aspect of visual perception.}
+      \field{issn}{1534-7362}
+      \field{journaltitle}{Journal of Vision}
+      \field{month}{12}
+      \field{number}{13}
+      \field{title}{Continuous temporal integration in the human visual system}
+      \field{volume}{24}
+      \field{year}{2024}
+      \field{pages}{5\bibrangedash 5}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1167/jov.24.13.5
+      \endverb
+      \verb{eprint}
+      \verb https://arvojournals.org/arvo/content_public/journal/jov/938697/i1534-7362-24-13-5_1733390407.54037.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1167/jov.24.13.5
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1167/jov.24.13.5
+      \endverb
+    \endentry
+    \entry{eshraghian2021training}{article}{}{}
+      \name{author}{9}{}{%
+        {{un=0,uniquepart=base,hash=2684b9a5b52efe69cf7945bbe1318537}{%
+           family={Eshraghian},
+           familyi={E\bibinitperiod},
+           given={Jason\bibnamedelima K},
+           giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a8090ea6759d315daaa07af2a008f8f0}{%
+           family={Ward},
+           familyi={W\bibinitperiod},
+           given={Max},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=88cf13347d7da3123c7a8facb3d6e8ad}{%
+           family={Neftci},
+           familyi={N\bibinitperiod},
+           given={Emre\bibnamedelima O},
+           giveni={E\bibinitperiod\bibinitdelim O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7f85483ee81b31bd3ebec4cd9d42df6a}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Xinxin},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d472b21281f2322d72ad2dd99d79a265}{%
+           family={Lenz},
+           familyi={L\bibinitperiod},
+           given={Gregor},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bd51330f4a355cfcf86506e2ff4a365b}{%
+           family={Dwivedi},
+           familyi={D\bibinitperiod},
+           given={Girish},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=311b43bd7e74572b53bdaa35dd1d492a}{%
+           family={Bennamoun},
+           familyi={B\bibinitperiod},
+           given={Mohammed},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8acca565c17eb85e80534caebecf0a61}{%
+           family={Jeong},
+           familyi={J\bibinitperiod},
+           given={Doo\bibnamedelima Seok},
+           giveni={D\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6811e986c30783c64efd7bc58eef1ca2}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Wei\bibnamedelima D},
+           giveni={W\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{98e10e15708562765673637d64850ead}
+      \strng{fullhash}{0c1c19ffc4d05e34dc2be4dda4fe87f9}
+      \strng{fullhashraw}{0c1c19ffc4d05e34dc2be4dda4fe87f9}
+      \strng{bibnamehash}{98e10e15708562765673637d64850ead}
+      \strng{authorbibnamehash}{98e10e15708562765673637d64850ead}
+      \strng{authornamehash}{98e10e15708562765673637d64850ead}
+      \strng{authorfullhash}{0c1c19ffc4d05e34dc2be4dda4fe87f9}
+      \strng{authorfullhashraw}{0c1c19ffc4d05e34dc2be4dda4fe87f9}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the IEEE}
+      \field{number}{9}
+      \field{title}{Training Spiking Neural Networks Using Lessons From Deep Learning}
+      \field{volume}{111}
+      \field{year}{2023}
+      \field{pages}{1016\bibrangedash 1054}
+      \range{pages}{39}
+      \verb{doi}
+      \verb 10.1109/JPROC.2023.3308088
+      \endverb
+    \endentry
     \entry{fang2023spikingjelly}{misc}{}{}
       \name{author}{10}{ul=2}{%
         {{un=0,uniquepart=base,hash=ec3f445b82592ad2b6eefa15b008571a}{%
@@ -306,6 +440,100 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/2102.04159
+      \endverb
+    \endentry
+    \entry{gallego2020event}{article}{}{}
+      \name{author}{11}{}{%
+        {{un=0,uniquepart=base,hash=253706c922e85eb9b42b65fad6bfea0d}{%
+           family={Gallego},
+           familyi={G\bibinitperiod},
+           given={Guillermo},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1fd4d0c34455fbab1b112dd203dbf10e}{%
+           family={Delbrück},
+           familyi={D\bibinitperiod},
+           given={Tobi},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b536c644f9f5c649d46acbc1d285585d}{%
+           family={Orchard},
+           familyi={O\bibinitperiod},
+           given={Garrick},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a1d37c0ea16f3135d5cc29fe26f5111d}{%
+           family={Bartolozzi},
+           familyi={B\bibinitperiod},
+           given={Chiara},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0371f06893bf850734fe2883007d2764}{%
+           family={Taba},
+           familyi={T\bibinitperiod},
+           given={Brian},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=107bb5e3e8936f7821b7f89b0052dba9}{%
+           family={Censi},
+           familyi={C\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=25564f7f36f46be27f7326210cc5c2ad}{%
+           family={Leutenegger},
+           familyi={L\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6800da0b1eba1591ea0c413f8efceae3}{%
+           family={Davison},
+           familyi={D\bibinitperiod},
+           given={Andrew\bibnamedelima J},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e5579ba5bb689ff3492b12a9d450d9cb}{%
+           family={Conradt},
+           familyi={C\bibinitperiod},
+           given={Jörg},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=26789faf98e6ba54553cd620a8da71b2}{%
+           family={Daniilidis},
+           familyi={D\bibinitperiod},
+           given={Kostas},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dac21ab4ede215439fcc6b051be53a11}{%
+           family={Scaramuzza},
+           familyi={S\bibinitperiod},
+           given={Davide},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{65c0e6f54f3c2a6486476ac3f276be79}
+      \strng{fullhash}{26a53ff3819c3695cd50e812130b08c0}
+      \strng{fullhashraw}{26a53ff3819c3695cd50e812130b08c0}
+      \strng{bibnamehash}{65c0e6f54f3c2a6486476ac3f276be79}
+      \strng{authorbibnamehash}{65c0e6f54f3c2a6486476ac3f276be79}
+      \strng{authornamehash}{65c0e6f54f3c2a6486476ac3f276be79}
+      \strng{authorfullhash}{26a53ff3819c3695cd50e812130b08c0}
+      \strng{authorfullhashraw}{26a53ff3819c3695cd50e812130b08c0}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine Intelligence}
+      \field{number}{1}
+      \field{title}{Event-Based Vision: A Survey}
+      \field{volume}{44}
+      \field{year}{2022}
+      \field{pages}{154\bibrangedash 180}
+      \range{pages}{27}
+      \verb{doi}
+      \verb 10.1109/TPAMI.2020.3008413
       \endverb
     \endentry
     \entry{gehrig2019}{misc}{}{}
@@ -479,14 +707,14 @@
       \verb https://arxiv.org/abs/1709.01507
       \endverb
     \endentry
-    \entry{nfetci2019_surrogate}{article}{}{}
+    \entry{neftci2019surrogate}{article}{}{}
       \name{author}{3}{}{%
-        {{un=0,uniquepart=base,hash=88cf13347d7da3123c7a8facb3d6e8ad}{%
+        {{un=2,uniquepart=given,hash=88cf13347d7da3123c7a8facb3d6e8ad}{%
            family={Neftci},
            familyi={N\bibinitperiod},
-           given={Emre\bibnamedelima O.},
+           given={Emre\bibnamedelima O},
            giveni={E\bibinitperiod\bibinitdelim O\bibinitperiod},
-           givenun=0}}%
+           givenun=2}}%
         {{un=0,uniquepart=base,hash=9286c3d402cf69c335bdc1e1e5bcc0bf}{%
            family={Mostafa},
            familyi={M\bibinitperiod},
@@ -508,8 +736,58 @@
       \strng{authornamehash}{0ed622ee427c61464ab8aa346570a06d}
       \strng{authorfullhash}{0ed622ee427c61464ab8aa346570a06d}
       \strng{authorfullhashraw}{0ed622ee427c61464ab8aa346570a06d}
+      \field{extraname}{1}
       \field{sortinit}{N}
       \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradate}{1}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Signal Processing Magazine}
+      \field{number}{6}
+      \field{title}{Surrogate Gradient Learning in Spiking Neural Networks: Bringing the Power of Gradient-Based Optimization to Spiking Neural Networks}
+      \field{volume}{36}
+      \field{year}{2019}
+      \field{pages}{51\bibrangedash 63}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/MSP.2019.2931595
+      \endverb
+    \endentry
+    \entry{nfetci2019_surrogate}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=2,uniquepart=given,hash=88cf13347d7da3123c7a8facb3d6e8ad}{%
+           family={Neftci},
+           familyi={N\bibinitperiod},
+           given={Emre\bibnamedelima O.},
+           giveni={E\bibinitperiod\bibinitdelim O\bibinitperiod},
+           givenun=2}}%
+        {{un=0,uniquepart=base,hash=9286c3d402cf69c335bdc1e1e5bcc0bf}{%
+           family={Mostafa},
+           familyi={M\bibinitperiod},
+           given={Hesham},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=66d087faecbe3130433c5e4462dde623}{%
+           family={Zenke},
+           familyi={Z\bibinitperiod},
+           given={Friedemann},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0ed622ee427c61464ab8aa346570a06d}
+      \strng{fullhash}{0ed622ee427c61464ab8aa346570a06d}
+      \strng{fullhashraw}{0ed622ee427c61464ab8aa346570a06d}
+      \strng{bibnamehash}{0ed622ee427c61464ab8aa346570a06d}
+      \strng{authorbibnamehash}{0ed622ee427c61464ab8aa346570a06d}
+      \strng{authornamehash}{0ed622ee427c61464ab8aa346570a06d}
+      \strng{authorfullhash}{0ed622ee427c61464ab8aa346570a06d}
+      \strng{authorfullhashraw}{0ed622ee427c61464ab8aa346570a06d}
+      \field{extraname}{2}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradate}{2}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
@@ -525,62 +803,6 @@
       \verb 10.1109/MSP.2019.2931595
       \endverb
       \keyw{Neural networks;Fault tolerance;Energy efficiency;Biological system modeling}
-    \endentry
-    \entry{Roy2019SpikeBasedMI}{article}{}{}
-      \name{author}{3}{}{%
-        {{un=0,uniquepart=base,hash=8d036b970bed6e694fda5f9305df819b}{%
-           family={Roy},
-           familyi={R\bibinitperiod},
-           given={Kaushik},
-           giveni={K\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=c47a586dfeb98513634404aca0ed8918}{%
-           family={Jaiswal},
-           familyi={J\bibinitperiod},
-           given={Akhilesh},
-           giveni={A\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=ceb5c4b8b4b2a8a978397a1ef03b3c61}{%
-           family={Panda},
-           familyi={P\bibinitperiod},
-           given={Priyadarshini},
-           giveni={P\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{678aac7c62f29f3e665c7c68cc94f1af}
-      \strng{fullhash}{678aac7c62f29f3e665c7c68cc94f1af}
-      \strng{fullhashraw}{678aac7c62f29f3e665c7c68cc94f1af}
-      \strng{bibnamehash}{678aac7c62f29f3e665c7c68cc94f1af}
-      \strng{authorbibnamehash}{678aac7c62f29f3e665c7c68cc94f1af}
-      \strng{authornamehash}{678aac7c62f29f3e665c7c68cc94f1af}
-      \strng{authorfullhash}{678aac7c62f29f3e665c7c68cc94f1af}
-      \strng{authorfullhashraw}{678aac7c62f29f3e665c7c68cc94f1af}
-      \field{extraname}{1}
-      \field{sortinit}{R}
-      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
-      \field{extradate}{1}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{issn}{1476-4687}
-      \field{journaltitle}{Nature}
-      \field{month}{11}
-      \field{number}{7784}
-      \field{title}{Towards spike-based machine intelligence with neuromorphic computing}
-      \field{volume}{575}
-      \field{year}{2019}
-      \field{pages}{607\bibrangedash 617}
-      \range{pages}{11}
-      \verb{doi}
-      \verb 10.1038/s41586-019-1677-2
-      \endverb
-      \verb{urlraw}
-      \verb https://pubmed.ncbi.nlm.nih.gov/31776490/
-      \endverb
-      \verb{url}
-      \verb https://pubmed.ncbi.nlm.nih.gov/31776490/
-      \endverb
     \endentry
     \entry{roy2019towards}{article}{}{}
       \name{author}{3}{}{%
@@ -614,10 +836,10 @@
       \strng{authornamehash}{678aac7c62f29f3e665c7c68cc94f1af}
       \strng{authorfullhash}{678aac7c62f29f3e665c7c68cc94f1af}
       \strng{authorfullhashraw}{678aac7c62f29f3e665c7c68cc94f1af}
-      \field{extraname}{2}
+      \field{extraname}{1}
       \field{sortinit}{R}
       \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
-      \field{extradate}{2}
+      \field{extradate}{1}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{}
       \field{labelnamesource}{author}
@@ -629,6 +851,62 @@
       \field{year}{2019}
       \field{pages}{607\bibrangedash 617}
       \range{pages}{11}
+    \endentry
+    \entry{Roy2019SpikeBasedMI}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=8d036b970bed6e694fda5f9305df819b}{%
+           family={Roy},
+           familyi={R\bibinitperiod},
+           given={Kaushik},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c47a586dfeb98513634404aca0ed8918}{%
+           family={Jaiswal},
+           familyi={J\bibinitperiod},
+           given={Akhilesh},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ceb5c4b8b4b2a8a978397a1ef03b3c61}{%
+           family={Panda},
+           familyi={P\bibinitperiod},
+           given={Priyadarshini},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{678aac7c62f29f3e665c7c68cc94f1af}
+      \strng{fullhash}{678aac7c62f29f3e665c7c68cc94f1af}
+      \strng{fullhashraw}{678aac7c62f29f3e665c7c68cc94f1af}
+      \strng{bibnamehash}{678aac7c62f29f3e665c7c68cc94f1af}
+      \strng{authorbibnamehash}{678aac7c62f29f3e665c7c68cc94f1af}
+      \strng{authornamehash}{678aac7c62f29f3e665c7c68cc94f1af}
+      \strng{authorfullhash}{678aac7c62f29f3e665c7c68cc94f1af}
+      \strng{authorfullhashraw}{678aac7c62f29f3e665c7c68cc94f1af}
+      \field{extraname}{2}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradate}{2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1476-4687}
+      \field{journaltitle}{Nature}
+      \field{month}{11}
+      \field{number}{7784}
+      \field{title}{Towards spike-based machine intelligence with neuromorphic computing}
+      \field{volume}{575}
+      \field{year}{2019}
+      \field{pages}{607\bibrangedash 617}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1038/s41586-019-1677-2
+      \endverb
+      \verb{urlraw}
+      \verb https://pubmed.ncbi.nlm.nih.gov/31776490/
+      \endverb
+      \verb{url}
+      \verb https://pubmed.ncbi.nlm.nih.gov/31776490/
+      \endverb
     \endentry
     \entry{sengupta2019goingdeeperspikingneural}{misc}{}{}
       \name{author}{5}{}{%
