@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.10)  11 APR 2026 23:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.10)  12 APR 2026 17:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1177,21 +1177,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 151--151
 \OT1/ptm/m/n/12 tional metabolic
  []
 
-) (./chapter_3/3_7_experimental_setup.tex [42] [43] (./chapter_3/3_7_sections/dynamic_power.tex [44]))) [45]
-Overfull \hbox (1.3677pt too wide) in paragraph at lines 84--84
-[][]\OT1/ptm/m/n/12 Gehrig, Daniel et al. (2019). \OT1/ptm/m/it/12 End-to-End Learn-ing of Rep-re-sen-ta-tions for Asyn-chronous
+) (./chapter_3/3_7_experimental_setup.tex [42] [43] (./chapter_3/3_7_sections/dynamic_power.tex [44]) (./chapter_3/3_7_sections/quantization_error.tex [45] [46]) (./chapter_3/3_7_sections/confidence_calibration.tex) (./chapter_3/3_7_sections/temporal_evidence.tex [47] [48]
+Overfull \hbox (2.71806pt too wide) in paragraph at lines 25--27
+[]\OT1/ptm/m/n/12 where $\OML/ptmcm/m/it/12 v[]\OT1/ptmcm/m/n/12 [\OML/ptmcm/m/it/12 t\OT1/ptmcm/m/n/12 ]$ \OT1/ptm/m/n/12 rep-re-sents the ac-cu-mu-lated ev-i-dence (mem-brane po-ten-tial) and $[] \OML/ptmcm/m/it/12 w[]s[]\OT1/ptmcm/m/n/12 [\OML/ptmcm/m/it/12 t\OT1/ptmcm/m/n/12 ]$
  []
 
-[46
+) (./chapter_3/3_7_sections/latency.tex [49]) (./chapter_3/3_7_sections/energy_consumption.tex))) [50] [51
 
 
 
 ]
+Overfull \hbox (1.3677pt too wide) in paragraph at lines 84--84
+[][]\OT1/ptm/m/n/12 Gehrig, Daniel et al. (2019). \OT1/ptm/m/it/12 End-to-End Learn-ing of Rep-re-sen-ta-tions for Asyn-chronous
+ []
+
+[52]
 Overfull \hbox (13.10683pt too wide) in paragraph at lines 84--84
 [][]\OT1/ptm/m/n/12 Verma, Aayush Atul et al. (June 2024). ``eTraM: Event-based Traf-fic Mon-i-tor-ing Dataset''.
  []
 
-[47]
+[53]
 \openout2 = `appendix1.aux'.
 
 
@@ -1210,18 +1215,18 @@ Package logreq Info: Writing requests to 'report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 27958 strings out of 474050
- 543037 string characters out of 5742263
+ 28128 strings out of 474050
+ 547474 string characters out of 5742263
  1939751 words of memory out of 5000000
- 49863 multiletter control sequences out of 15000+600000
+ 50018 multiletter control sequences out of 15000+600000
  592723 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,12n,101p,2400b,1291s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,12n,101p,2400b,1289s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/zapfchan/uzcmi8a.pfb>
-Output written on report.pdf (47 pages, 373560 bytes).
+Output written on report.pdf (53 pages, 388361 bytes).
 PDF statistics:
- 450 PDF objects out of 1000 (max. 8388607)
- 296 compressed objects within 3 object streams
+ 470 PDF objects out of 1000 (max. 8388607)
+ 309 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
  39 words of extra memory for PDF output out of 10000 (max. 10000000)
 

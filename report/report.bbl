@@ -19,6 +19,56 @@
 
 \refsection{0}
   \datalist[entry]{nyt/global//global/global/global}
+    \entry{blouw2019benchmarking}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=94705693b906ba7bf9b41633efdcf515}{%
+           family={Blouw},
+           familyi={B\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a876d2292ac94033a86a8b7098d0ed1b}{%
+           family={Choo},
+           familyi={C\bibinitperiod},
+           given={Xuan},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b545b62ea645c5b22a99bc6286cd9746}{%
+           family={Hunsberger},
+           familyi={H\bibinitperiod},
+           given={Eric},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f254154eeaa19eaa3cc6731b078cf379}{%
+           family={Eliasmith},
+           familyi={E\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{89bffbfeb142af63dc1516c2822cf7d0}
+      \strng{fullhash}{ef8a10782e8cec4454af6cc2f610b6a2}
+      \strng{fullhashraw}{ef8a10782e8cec4454af6cc2f610b6a2}
+      \strng{bibnamehash}{89bffbfeb142af63dc1516c2822cf7d0}
+      \strng{authorbibnamehash}{89bffbfeb142af63dc1516c2822cf7d0}
+      \strng{authornamehash}{89bffbfeb142af63dc1516c2822cf7d0}
+      \strng{authorfullhash}{ef8a10782e8cec4454af6cc2f610b6a2}
+      \strng{authorfullhashraw}{ef8a10782e8cec4454af6cc2f610b6a2}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 7th Annual Neuro-inspired Computational Elements Workshop (ICONS)}
+      \field{title}{Benchmarking Keyword Spotting Efficiency on Neuromorphic Hardware}
+      \field{year}{2019}
+      \field{pages}{1\bibrangedash 8}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1145/3320288.3320304
+      \endverb
+    \endentry
     \entry{cordone2022objectdetectionspikingneural}{misc}{}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=39aaf63f89e70783ef7e1faa2112a22a}{%
@@ -66,6 +116,96 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/2205.04339
+      \endverb
+    \endentry
+    \entry{davies2018loihi}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=0bc60d7603817a37ff3e36eb14b92487}{%
+           family={Davies},
+           familyi={D\bibinitperiod},
+           given={Mike},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a03a5af519294c1cf16fc92c0b476160}{%
+           family={Srinivasa},
+           familyi={S\bibinitperiod},
+           given={Narayan},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=395a860d63a2dce4b225f7574f13b3f7}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Tsung-Han},
+           giveni={T\bibinithyphendelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b55c7e3fd16f1c2c09ca7949f486df6b}{%
+           family={Chinya},
+           familyi={C\bibinitperiod},
+           given={Gautham},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c9212d13ce429d2b238a42883b655045}{%
+           family={Cao},
+           familyi={C\bibinitperiod},
+           given={Yongqiang},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=52890f18fe191f41f150bb800497e6f9}{%
+           family={Choday},
+           familyi={C\bibinitperiod},
+           given={Sri\bibnamedelima Harsha},
+           giveni={S\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=478512b7bfad73d75c1e5289e2f58d86}{%
+           family={Dimou},
+           familyi={D\bibinitperiod},
+           given={Georgios},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c8499674e18abd00238970e6dfe03850}{%
+           family={Joshi},
+           familyi={J\bibinitperiod},
+           given={Prasad},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f90900f5e78290c35b7ac9f3f0fa4489}{%
+           family={Lines},
+           familyi={L\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=39271d1ed2bd506de4b08ce1877b8377}{%
+           family={Mathaikutty},
+           familyi={M\bibinitperiod},
+           given={Deepak},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d66490e8c0ce745865715deebbd77b84}
+      \strng{fullhash}{4f49c1a2ef7b7869d118ffb70bd88110}
+      \strng{fullhashraw}{4f49c1a2ef7b7869d118ffb70bd88110}
+      \strng{bibnamehash}{d66490e8c0ce745865715deebbd77b84}
+      \strng{authorbibnamehash}{d66490e8c0ce745865715deebbd77b84}
+      \strng{authornamehash}{d66490e8c0ce745865715deebbd77b84}
+      \strng{authorfullhash}{4f49c1a2ef7b7869d118ffb70bd88110}
+      \strng{authorfullhashraw}{4f49c1a2ef7b7869d118ffb70bd88110}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Micro}
+      \field{number}{1}
+      \field{title}{Loihi: A Neuromorphic Manycore Processor with On-Chip Learning}
+      \field{volume}{38}
+      \field{year}{2018}
+      \field{pages}{82\bibrangedash 99}
+      \range{pages}{18}
+      \verb{doi}
+      \verb 10.1109/MM.2018.112130359
       \endverb
     \endentry
     \entry{deng2021comprehensive}{article}{}{}
@@ -591,6 +731,56 @@
       \verb https://arxiv.org/abs/1904.08245
       \endverb
     \endentry
+    \entry{guo2017calibration}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=e053cf028522c39af65dd862da2d8ed1}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Chuan},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=373d04718ec0efd3786a0e2b6c0adf00}{%
+           family={Pleiss},
+           familyi={P\bibinitperiod},
+           given={Geoff},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=17b6a43f5598c7efd897f9d254090fdd}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Yu},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=68a0238356fbd88b34be8886f25938a7}{%
+           family={Weinberger},
+           familyi={W\bibinitperiod},
+           given={Kilian\bibnamedelima Q},
+           giveni={K\bibinitperiod\bibinitdelim Q\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{203b115999f73097be6ab32411fb1f42}
+      \strng{fullhash}{f3833eed8ef776fc6c89f407c7d66c34}
+      \strng{fullhashraw}{f3833eed8ef776fc6c89f407c7d66c34}
+      \strng{bibnamehash}{203b115999f73097be6ab32411fb1f42}
+      \strng{authorbibnamehash}{203b115999f73097be6ab32411fb1f42}
+      \strng{authornamehash}{203b115999f73097be6ab32411fb1f42}
+      \strng{authorfullhash}{f3833eed8ef776fc6c89f407c7d66c34}
+      \strng{authorfullhashraw}{f3833eed8ef776fc6c89f407c7d66c34}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International conference on machine learning}
+      \field{title}{On calibration of modern neural networks}
+      \field{year}{2017}
+      \field{pages}{1321\bibrangedash 1330}
+      \range{pages}{10}
+    \endentry
     \entry{he2015deep}{misc}{}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=6b4b60e909e78633945f3f9c9dc83e01}{%
@@ -836,6 +1026,51 @@
       \endverb
       \keyw{Neural networks;Fault tolerance;Energy efficiency;Biological system modeling}
     \endentry
+    \entry{pfeiffer_snn_opportunities}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=0f677b59a524a4dfc082d7ba7e800e4f}{%
+           family={Pfeiffer},
+           familyi={P\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f9870a0fba395864cb77d4c1a3c72c01}{%
+           family={Pfeil},
+           familyi={P\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{1be5d81828b2dee7a5ebb957d6b6da25}
+      \strng{fullhash}{1be5d81828b2dee7a5ebb957d6b6da25}
+      \strng{fullhashraw}{1be5d81828b2dee7a5ebb957d6b6da25}
+      \strng{bibnamehash}{1be5d81828b2dee7a5ebb957d6b6da25}
+      \strng{authorbibnamehash}{1be5d81828b2dee7a5ebb957d6b6da25}
+      \strng{authornamehash}{1be5d81828b2dee7a5ebb957d6b6da25}
+      \strng{authorfullhash}{1be5d81828b2dee7a5ebb957d6b6da25}
+      \strng{authorfullhashraw}{1be5d81828b2dee7a5ebb957d6b6da25}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Spiking neural networks (SNNs) are inspired by information processing in biology, where sparse and asynchronous binary signals are communicated and processed in a massively parallel fashion. SNNs on neuromorphic hardware exhibit favorable properties such as low power consumption, fast inference, and event-driven information processing. This makes them interesting candidates for the efficient implementation of deep neural networks, the method of choice for many machine learning tasks. In this review, we address the opportunities that deep spiking networks offer and investigate in detail the challenges associated with training SNNs in a way that makes them competitive with conventional deep learning, but simultaneously allows for efficient mapping to hardware. A wide range of training methods for SNNs is presented, ranging from the conversion of conventional deep networks into SNNs, constrained training before conversion, spiking variants of backpropagation, and biologically motivated variants of STDP. The goal of our review is to define a categorization of SNN training methods, and summarize their advantages and drawbacks. We further discuss relationships between SNNs and binary networks, which are becoming popular for efficient digital hardware implementation. Neuromorphic hardware platforms have great potential to enable deep spiking networks in real-world applications. We compare the suitability of various neuromorphic systems that have been developed over the past years, and investigate potential use cases. Neuromorphic approaches and conventional machine learning should not be considered simply two solutions to the same classes of problems, instead it is possible to identify and exploit their task-specific advantages. Deep SNNs offer great opportunities to work with new types of event-based sensors, exploit temporal codes and local on-chip learning, and we have so far just scratched the surface of realizing these advantages in practical applications.}
+      \field{issn}{1662-453X}
+      \field{journaltitle}{Frontiers in Neuroscience}
+      \field{title}{Deep Learning With Spiking Neurons: Opportunities and Challenges}
+      \field{volume}{Volume 12 - 2018}
+      \field{year}{2018}
+      \verb{doi}
+      \verb 10.3389/fnins.2018.00774
+      \endverb
+      \verb{urlraw}
+      \verb https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2018.00774
+      \endverb
+      \verb{url}
+      \verb https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2018.00774
+      \endverb
+    \endentry
     \entry{roy2019towards}{article}{}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=8d036b970bed6e694fda5f9305df819b}{%
@@ -999,6 +1234,97 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/1802.02627
+      \endverb
+    \endentry
+    \entry{skatchkovsky2022bayesian}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=a1adaa54b81d915db8f168ac23094f66}{%
+           family={Skatchkovsky},
+           familyi={S\bibinitperiod},
+           given={Nicolas},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d04001d6d7f32f22b0c8b26ea7bc9cdf}{%
+           family={Jang},
+           familyi={J\bibinitperiod},
+           given={Hyeryung},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e497adb58c65ea83c2087ec212cf5ef2}{%
+           family={Simeone},
+           familyi={S\bibinitperiod},
+           given={Osvaldo},
+           giveni={O\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{d6a3ee8a94cd352ca5048194cb6df5f8}
+      \strng{fullhash}{d6a3ee8a94cd352ca5048194cb6df5f8}
+      \strng{fullhashraw}{d6a3ee8a94cd352ca5048194cb6df5f8}
+      \strng{bibnamehash}{d6a3ee8a94cd352ca5048194cb6df5f8}
+      \strng{authorbibnamehash}{d6a3ee8a94cd352ca5048194cb6df5f8}
+      \strng{authornamehash}{d6a3ee8a94cd352ca5048194cb6df5f8}
+      \strng{authorfullhash}{d6a3ee8a94cd352ca5048194cb6df5f8}
+      \strng{authorfullhashraw}{d6a3ee8a94cd352ca5048194cb6df5f8}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Frontiers in Computational Neuroscience}
+      \field{title}{Bayesian Continual Learning via Spiking Neural Networks}
+      \field{volume}{16}
+      \field{year}{2022}
+      \field{pages}{1037976}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3389/fncom.2022.1037976
+      \endverb
+    \endentry
+    \entry{thorpe1996speed}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=2b69fc45feca3e0fd8d83155f48e5c3a}{%
+           family={Thorpe},
+           familyi={T\bibinitperiod},
+           given={Simon},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f490251c1eea004e214b4fe03679ae65}{%
+           family={Fize},
+           familyi={F\bibinitperiod},
+           given={Denis},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=da2e73b60f43fbf9a5d412d8be7aa2a9}{%
+           family={Marlot},
+           familyi={M\bibinitperiod},
+           given={Catherine},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{fbb1ffbb54dc61736afb4ffe6db9e889}
+      \strng{fullhash}{fbb1ffbb54dc61736afb4ffe6db9e889}
+      \strng{fullhashraw}{fbb1ffbb54dc61736afb4ffe6db9e889}
+      \strng{bibnamehash}{fbb1ffbb54dc61736afb4ffe6db9e889}
+      \strng{authorbibnamehash}{fbb1ffbb54dc61736afb4ffe6db9e889}
+      \strng{authornamehash}{fbb1ffbb54dc61736afb4ffe6db9e889}
+      \strng{authorfullhash}{fbb1ffbb54dc61736afb4ffe6db9e889}
+      \strng{authorfullhashraw}{fbb1ffbb54dc61736afb4ffe6db9e889}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{number}{6582}
+      \field{title}{Speed of processing in the human visual system}
+      \field{volume}{381}
+      \field{year}{1996}
+      \field{pages}{520\bibrangedash 522}
+      \range{pages}{3}
+      \verb{doi}
+      \verb 10.1038/381520a0
       \endverb
     \endentry
     \entry{Verma_2024_CVPR}{inproceedings}{}{}

@@ -1,0 +1,35 @@
+\subsection{Real-Time Latency Benchmark}
+
+This experiment quantifies the forward-pass inference speed of both architectures 
+on conventional \gls{gpu} hardware at batch size $B=1$, simulating a live 
+single-stream event camera deployment. Latency ($\text{ms/f}$) and throughput 
+($\text{FPS} = 1000 / \text{ms/f}$) are measured using \texttt{torch.cuda.Event} 
+timing to capture true \gls{gpu} execution time, bypassing \gls{cpu}-to-\gls{gpu} 
+communication overhead.
+
+\subsubsection{Hypothesis}
+The \gls{cnn} baseline is expected to exhibit lower latency, as \glspl{gpu} are 
+optimised for the dense matrix multiplications that underpin its single flattened 
+spatial pass. The \gls{snn} must instead simulate \gls{lif} membrane dynamics 
+iteratively:
+
+\begin{equation}
+    v[t] = v[t-1] + x[t] - \beta \cdot v[t-1]
+    \label{eq:lif_update_latency}
+\end{equation}
+
+\noindent This constitutes a hardware-mismatch penalty: the latency advantage of 
+\glspl{snn} only fully materialises on asynchronous neuromorphic hardware, not on 
+synchronous \gls{gpu} accelerators \cite{davies2018loihi, blouw2019benchmarking}. 
+The experiment aims to quantify this penalty and assess whether \texttt{step\_mode=`m'} 
+parallelisation \cite{fang2023spikingjelly} brings the \gls{snn} within a 
+$2\times$--$3\times$ latency margin of the \gls{cnn}.
+
+\subsubsection{Limitations}
+The measured \gls{gpu} latency figures cannot be extrapolated to neuromorphic 
+silicon. The A100's $312\ \text{TFLOPS}$ (FP16) characterises dense matrix 
+throughput, which cannot equally be judged against asynchronous spike-based execution. 
+While Loihi benchmarks report up to $10\times$ lower latency over embedded 
+\glspl{gpu} for batch-size-1 inference \cite{davies2018loihi}, these figures are 
+task-specific; direct deployment on neuromorphic hardware is identified as future 
+work.

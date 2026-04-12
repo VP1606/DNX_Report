@@ -1,0 +1,45 @@
+\subsection{Temporal Evidence Accumulation}
+\label{subsec:temporal_evidence}
+
+The Temporal Evidence Accumulation experiment investigates the sequential decision-making dynamics inherent to the \gls{snn} architecture. 
+Unlike the \gls{cnn} baseline, which performs a single spatial pass over the fully integrated $100\text{ms}$ voxel, the \gls{snn} processes the event stream iteratively across $T=10$ timesteps. 
+This property makes \glspl{snn} intrinsically suited to low-latency spatiotemporal integration --- the capacity 
+to produce meaningful predictions before the full observation window has elapsed \cite{pfeiffer_snn_opportunities}. 
+The experiment therefore examines whether this theoretical advantage manifests empirically: specifically, whether the 
+model can produce a valid bounding box regression before the $100\text{ms}$ window is complete.
+
+In the context of vehicle object detection, this is a highly significant experiment --- for example,
+if the \gls{snn} can accurately show a bounding box at $t=5$ ($50\text{ms}$) instead of the full $t=10$ ($100\text{ms}$) as the \gls{cnn} would,
+this would lead to a 50\% reduction in detection time. In a time-sensitive domain such as vehicle and pedestrian detection, such advantages could be the difference between a crash and a safe stop.
+
+\subsubsection{Methodology: Temporal Snapshots}
+To evaluate the evolution of predictions, we extract intermediate outputs at three specific checkpoints: $t=2$ (20ms), $t=5$ (50ms), and $t=10$ (100ms). 
+For each snapshot, the candidate bounding box coordinates and instantaneous confidence scores are recorded to observe the \textit{hunting behavior} of the regression head:
+the observable process where the networks' predicted bounding box moves, vibrates or searches for the object's true edges before finally settling into a stable, high-precision detection. 
+This process is driven by the discrete \gls{lif} dynamics:
+
+\begin{equation}
+    v_i[t] = v_i[t-1] + \frac{1}{\tau} \left( \sum_j w_{ij}s_j[t] - (v_i[t-1] - V_{reset}) \right)
+\end{equation}
+
+where $v_i[t]$ represents the accumulated evidence (membrane potential) and $\sum w_{ij}s_j[t]$ represents the incoming observations (spikes). 
+This recursive filtering allows the network to update its belief about vehicle localization with every incoming pulse of data.
+
+\subsubsection{Hypothesis: Bounding Box Sharpening}
+% We hypothesize a phenomenon of \textit{Bounding Box Sharpening} over time. At $t=20\text{ms}$, we anticipate low confidence and high coordinate jitter, as most \gls{lif} neurons will not have aggregated sufficient potential to cross the firing threshold ($V_{th}=0.2$). As $t$ progresses toward 100ms, the integration of further spike-trains should allow the model to filter out stochastic noise and consolidate the structured geometric edges of the vehicle. This transition from early-stage estimation to high-precision localization mirrors the ``rapid categorization'' observed in the human visual system, where initial spikes are sufficient to drive meaningful, albeit lower-precision, semantic decisions \cite{thorpe1996speed}.
+
+We hypothesize a phenomenon of \textit{Bounding Box Sharpening} over time. 
+At $t = 20\text{ms}$, we anticipate high coordinate variance, as the majority 
+of \gls{lif} neurons will not have accumulated sufficient membrane potential to 
+cross the firing threshold ($V_{th} = 0.2$) within the first two of ten 
+timesteps. As $t$ progresses toward $100\text{ms}$, continued spike train 
+integration allows stochastic membrane noise to average out, consolidating 
+responses to the vehicle's geometric edges into a stable coordinate estimate.
+
+This progressive refinement is analogous in spirit to the ``rapid categorisation'' 
+phenomenon documented in the human visual system, wherein early feedforward spikes 
+drive coarse semantic decisions that sharpen as further neural evidence accumulates 
+\cite{thorpe1996speed}. While Thorpe et al.\ address categorical recognition rather 
+than coordinate regression, the underlying principle --- that sparse early spike 
+activity produces meaningful but imprecise representations which sharpen over time 
+--- is consistent with the anticipated behaviour of the \gls{snn} backbone.

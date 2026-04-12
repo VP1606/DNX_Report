@@ -61,3 +61,17 @@
 \contentsline {subsection}{\numberline {1.7.1}Dynamic Power Estimation}{44}{}%
 \contentsline {subsubsection}{\gls {cnn} Power Estimation}{44}{}%
 \contentsline {subsubsection}{\gls {snn} Power Estimation}{45}{}%
+\contentsline {subsection}{\numberline {1.7.2}Quantization Error Analysis (Accuracy vs. Object Size)}{46}{}%
+\contentsline {subsubsection}{Core Metrics and Scale Partitioning}{46}{}%
+\contentsline {subsubsection}{Mathematical Framework}{46}{}%
+\contentsline {subsubsection}{Hypothesis: The Scale-Dependent Accuracy Gap}{47}{}%
+\contentsline {subsection}{\numberline {1.7.3}Confidence Calibration}{47}{}%
+\contentsline {subsubsection}{Methodology: Reliability Diagrams}{47}{}%
+\contentsline {subsubsection}{Hypothesis: Spikes as Uncertainty Sensors}{48}{}%
+\contentsline {subsection}{\numberline {1.7.4}Temporal Evidence Accumulation}{48}{}%
+\contentsline {subsubsection}{Methodology: Temporal Snapshots}{48}{}%
+\contentsline {subsubsection}{Hypothesis: Bounding Box Sharpening}{49}{}%
+\contentsline {subsection}{\numberline {1.7.5}Real-Time Latency Benchmark}{49}{}%
+\contentsline {subsubsection}{Hypothesis}{49}{}%
+\contentsline {subsubsection}{Limitations}{50}{}%
+\contentsline {subsection}{\numberline {1.7.6}Theoretical Energy Consumption}{50}{}%

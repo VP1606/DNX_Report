@@ -2409,6 +2409,17 @@
     <bcf:citekey order="33" intorder="1">fang2023spikingjelly</bcf:citekey>
     <bcf:citekey order="34" intorder="1">horowitz20141</bcf:citekey>
     <bcf:citekey order="35" intorder="1">horowitz20141</bcf:citekey>
+    <bcf:citekey order="36" intorder="1">cordone2022objectdetectionspikingneural</bcf:citekey>
+    <bcf:citekey order="37" intorder="1">fang2022resnet_sew</bcf:citekey>
+    <bcf:citekey order="38" intorder="1">gallego2020event</bcf:citekey>
+    <bcf:citekey order="39" intorder="1">guo2017calibration</bcf:citekey>
+    <bcf:citekey order="40" intorder="1">skatchkovsky2022bayesian</bcf:citekey>
+    <bcf:citekey order="41" intorder="1">pfeiffer_snn_opportunities</bcf:citekey>
+    <bcf:citekey order="42" intorder="1">thorpe1996speed</bcf:citekey>
+    <bcf:citekey order="43" intorder="1">davies2018loihi</bcf:citekey>
+    <bcf:citekey order="43" intorder="2">blouw2019benchmarking</bcf:citekey>
+    <bcf:citekey order="44" intorder="1">fang2023spikingjelly</bcf:citekey>
+    <bcf:citekey order="45" intorder="1">davies2018loihi</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">

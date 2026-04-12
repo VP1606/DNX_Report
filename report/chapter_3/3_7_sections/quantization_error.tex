@@ -1,0 +1,33 @@
+\subsection{Quantization Error Analysis (Accuracy vs. Object Size)}
+\label{subsec:quantization_error}
+
+The Quantization Error Analysis experiment investigates the discretization threshold of the \gls{snn} architecture and quantifies the extent to which the 1-bit binary nature of spiking activations limits the model's geometric acuity. 
+Unlike the continuous \gls{cnn} baseline, which utilizes 32-bit floating-point activations to represent spatial coordinates, the \gls{snn} is constrained by the finite temporal resolution of its simulation window ($T=10$).
+
+\subsubsection{Core Metrics and Scale Partitioning}
+The primary performance metric for this experiment is the \gls{miou}, which quantifies the overlap between the predicted bounding box ($P$) and the ground truth ($GT$). To analyze the impact of scale on regression precision, the validation set is partitioned into three distinct categories based on the absolute pixel area ($A_{px}$) of the ground truth objects:
+\begin{itemize}
+    \item \textbf{Small:} Objects in the bottom 33rd percentile of area (typically distant vehicles or small artifacts).
+    \item \textbf{Medium:} Objects in the middle 33rd percentile.
+    \item \textbf{Large:} Objects in the top 33rd percentile (vehicles in close proximity to the sensor).
+\end{itemize}
+
+\subsubsection{Mathematical Framework}
+The categorization and evaluation are governed by two fundamental geometric formulas. First, the pixel area is calculated by denormalizing the ground truth dimensions relative to the raw sensor resolution:
+\begin{equation}
+    A_{px} = (W_{norm} \cdot W_{sensor}) \times (H_{norm} \cdot H_{sensor})
+\end{equation}
+where $W_{sensor} = 1280$ and $H_{sensor} = 720$. Subsequently, the precision of the model's spatial regression is quantified via the \gls{iou} formula:
+\begin{equation}
+    IoU = \frac{\text{Area}(P \cap GT)}{\text{Area}(P \cup GT)}
+\end{equation}
+
+\subsubsection{Hypothesis: The Scale-Dependent Accuracy Gap}
+We hypothesize a significant scale-dependent accuracy gap between the two architectures.
+For large-scale objects, the \gls{snn} is expected to achieve parity with the \gls{cnn} baseline: because the coordinate values are high, the minor fluctuations inherent in binary spike-trains represent a negligible percentage of the total object area, allowing for stable regression.
+
+Conversely, for small-scale objects, a substantial performance divergence is anticipated. 
+In an \gls{snn} with $T=10$, a neuron can only represent $T+1$ discrete states ($0/10, 1/10, \dots, 10/10$). 
+As documented by \cite{cordone2022objectdetectionspikingneural}, this rounding error, or quantization penalty, is massive relative to the dimensions of small vehicles. 
+If a target requires a precise coordinate gradient (e.g., $0.154$) for accurate localization, the \gls{snn} is physically forced to discretize this value, establishing a fundamental ``resolution floor'' that limits \gls{miou} on small features. 
+While the use of \texttt{SEWResBlock} architectures improves signal flow \cite{fang2022resnet_sew}, it does not inherently resolve this quantization of the final regression output, which is further exacerbated by the low event counts typical of small objects in event-based vision \cite{gallego2020event}.
