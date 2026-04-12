@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.10)  12 APR 2026 17:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.5.10)  12 APR 2026 19:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -783,35 +783,35 @@ Package: glossary-tree 2024/04/03 v4.54 (NLCT)
 \glo@main@file=\write6
 \openout6 = `report.glo'.
 
-Package glossaries Info: Writing glossary file report.glo on input line 26.
+Package glossaries Info: Writing glossary file report.glo on input line 27.
 \glo@acronym@file=\write7
 \openout7 = `report.acn'.
 
-Package glossaries Info: Writing glossary file report.acn on input line 26.
+Package glossaries Info: Writing glossary file report.acn on input line 27.
  (./abbreviations.tex)
 \@quotelevel=\count465
 \@quotereset=\count466
- (./report.aux (./chapter_3/main.aux) (./appendix1.aux))
+ (./report.aux (./chapter_3/main.aux))
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 48.
-LaTeX Font Info:    Trying to load font information for OMS+pzccm on input line 48.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 49.
+LaTeX Font Info:    Trying to load font information for OMS+pzccm on input line 49.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/omspzccm.fd
 File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
 )
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 48.
-LaTeX Font Info:    ... okay on input line 48.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
  (/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count467
@@ -832,13 +832,9 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 \c@lstlisting=\count473
-
-
-Package todonotes Warning: The length marginparwidth is less than 2cm and will most likely cause issues with the appearance of inserted todonotes. The issue can be solved by adding a line like \setlength {\marginparwidth }{2cm} prior to loading the todonotes package. on input line 48.
-
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
-(/usr/local/texlive/2024/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/biblatex/lbx/english.lbx
 File: english.lbx 2024/03/21 v3.20 biblatex localization (PK/MW)
 )
 Package biblatex Info: Input encoding 'utf8' detected.
@@ -849,8 +845,8 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'report.bbl' found.
  (./report.bbl)
-Package biblatex Info: Reference section=0 on input line 48.
-Package biblatex Info: Reference segment=0 on input line 48.
+Package biblatex Info: Reference section=0 on input line 49.
+Package biblatex Info: Reference segment=0 on input line 49.
  [1
 
 \openout5 = `report.ist'.
@@ -881,7 +877,7 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 \openout8 = `report.toc'.
 
  (./word.count)
-Underfull \hbox (badness 10000) in paragraph at lines 61--61
+Underfull \hbox (badness 10000) in paragraph at lines 62--62
 
  []
 
@@ -907,12 +903,12 @@ Overfull \hbox (0.91576pt too wide) in paragraph at lines 4--4
 ] [7
 
 ]
-Overfull \hbox (1.14229pt too wide) in paragraph at lines 66--66
+Overfull \hbox (1.14229pt too wide) in paragraph at lines 67--67
 \OT1/ptm/m/n/12 right works in the the-sis, for ex-am-ple graphs and ta-bles (``Re-pro-duc-tions''), which
  []
 
 
-Overfull \hbox (22.88693pt too wide) in paragraph at lines 66--66
+Overfull \hbox (22.88693pt too wide) in paragraph at lines 67--67
 \OT1/ptm/m/n/12 Uni-ver-sity Li-brary, The Uni-ver-sity Li-brary's reg-u-la-tions (see $\OT1/pcr/m/n/12 http : / / www . library .
  []
 
@@ -920,16 +916,10 @@ Overfull \hbox (22.88693pt too wide) in paragraph at lines 66--66
 
 ] [9
 
-] (./report.tdo)
-\tf@tdo=\write11
-\openout11 = `report.tdo'.
-
- (./report.acr [10
-
-] [11
+] (./report.acr [10
 
 
-]) [12]
+]) [11]
 \openout2 = `chapter_3/main.aux'.
 
  (./chapter_3/main.tex
@@ -938,7 +928,7 @@ Chapter 1.
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 12.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [13
+) [12
 
 
 ]
@@ -946,17 +936,10 @@ Overfull \hbox (11.12448pt too wide) in paragraph at lines 24--25
 \OT1/ptm/m/n/12 uti-liza-tion of op-ti-mized C++/CUDA ker-nels (e.g., Spik-ing-Jelly's multi-step modes)
  []
 
-[14]
-
-LaTeX Warning: Reference `sec:model_design' on page 15 undefined on input line 29.
-
-
-LaTeX Warning: Reference `sec:results_evaluation' on page 15 undefined on input line 29.
-
-) (./chapter_3/3_2_system_architecture.tex
+[13]) (./chapter_3/3_2_system_architecture.tex
 
 pdfTeX warning: pdflatex (file ./chapter_3/figures/high-level-architecture.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<chapter_3/figures/high-level-architecture.pdf, id=58, 387.4475pt x 594.22pt>
+<chapter_3/figures/high-level-architecture.pdf, id=55, 387.4475pt x 594.22pt>
 File: chapter_3/figures/high-level-architecture.pdf Graphic file (type pdf)
 <use chapter_3/figures/high-level-architecture.pdf>
 Package pdftex.def Info: chapter_3/figures/high-level-architecture.pdf  used on input line 8.
@@ -964,14 +947,7 @@ Package pdftex.def Info: chapter_3/figures/high-level-architecture.pdf  used on 
 
 LaTeX Warning: Float too large for page by 34.36569pt on input line 11.
 
-
-LaTeX Warning: Reference `sec:data_processing' on page 15 undefined on input line 21.
-
-[15] [16 <./chapter_3/figures/high-level-architecture.pdf>]
-
-LaTeX Warning: Reference `sec:model_design' on page 17 undefined on input line 27.
-
-
+[14] [15 <./chapter_3/figures/high-level-architecture.pdf>]
 Overfull \hbox (24.14633pt too wide) in paragraph at lines 23--28
 []\OT1/ptm/b/n/12 The Neu-ral Back-bone (In-ter-change-able): \OT1/ptm/m/n/12 The pre-pro-cessed out-put of the \OT1/ptm/m/it/12 REPLICA
  []
@@ -981,25 +957,28 @@ Overfull \hbox (5.3653pt too wide) in paragraph at lines 23--28
 \OT1/ptm/m/n/12 blocks in-cor-po-rat-ing Squeeze-and-Excitation (SE) mech-a-nisms and Resid-ual con-
  []
 
-[17]) (./chapter_3/3_3_data_preprocessing.tex [18] [19]
+) (./chapter_3/3_3_data_preprocessing.tex [16] [17] [18]
 Overfull \hbox (18.06183pt too wide) in paragraph at lines 72--76
 []\OT1/ptm/b/n/12 Prevention of LIF neu-ron sat-u-ra-tion: \OT1/ptm/m/n/12 With-out in-put con-di-tion-ing, high-magnitude
  []
 
-[20] [21] [22] [23] [24]
+[19] [20]
+Underfull \vbox (badness 3579) has occurred while \output is active []
+
+ [21] [22] [23]
 
 pdfTeX warning: pdflatex (file ./chapter_3/figures/preprocessing_pipeline.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<chapter_3/figures/preprocessing_pipeline.pdf, id=115, 511.9125pt x 767.86874pt>
+<chapter_3/figures/preprocessing_pipeline.pdf, id=112, 511.9125pt x 767.86874pt>
 File: chapter_3/figures/preprocessing_pipeline.pdf Graphic file (type pdf)
 <use chapter_3/figures/preprocessing_pipeline.pdf>
 Package pdftex.def Info: chapter_3/figures/preprocessing_pipeline.pdf  used on input line 198.
 (pdftex.def)             Requested size: 330.05322pt x 495.07822pt.
-[25] [26 <./chapter_3/figures/preprocessing_pipeline.pdf>]) (./chapter_3/3_4_snn_architecture.tex
+[24] [25 <./chapter_3/figures/preprocessing_pipeline.pdf>]) (./chapter_3/3_4_snn_architecture.tex
 Underfull \vbox (badness 1466) has occurred while \output is active []
 
- [27
+ [26
 
-] [28]
+] [27]
 Underfull \hbox (badness 10000) in paragraph at lines 69--69
 []|\OT1/ptm/m/n/12 Squeeze-and-Excitation (SE)
  []
@@ -1017,7 +996,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 70--70
 
 
 pdfTeX warning: pdflatex (file ./chapter_3/figures/sewresblock_diagram.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<chapter_3/figures/sewresblock_diagram.pdf, id=165, 511.9125pt x 391.4625pt>
+<chapter_3/figures/sewresblock_diagram.pdf, id=162, 511.9125pt x 391.4625pt>
 File: chapter_3/figures/sewresblock_diagram.pdf Graphic file (type pdf)
 <use chapter_3/figures/sewresblock_diagram.pdf>
 Package pdftex.def Info: chapter_3/figures/sewresblock_diagram.pdf  used on input line 85.
@@ -1025,15 +1004,15 @@ Package pdftex.def Info: chapter_3/figures/sewresblock_diagram.pdf  used on inpu
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[29]
+[28]
 Overfull \hbox (10.6979pt too wide) in paragraph at lines 103--107
 \OT1/ptm/m/n/12 vo-lu-tions in the stem and early resid-ual block, re-sult-ing in a highly compressed$\OT1/ptmcm/m/n/12 22 \OMS/pzccm/m/n/12 ^^B
  []
 
-[30 <./chapter_3/figures/sewresblock_diagram.pdf>]
+[29 <./chapter_3/figures/sewresblock_diagram.pdf>]
 
 pdfTeX warning: pdflatex (file ./chapter_3/figures/se_block_diagram.pdf): PDF inclusion: found PDF version <1.7>, but at most version <1.5> allowed
-<chapter_3/figures/se_block_diagram.pdf, id=246, 511.9125pt x 421.575pt>
+<chapter_3/figures/se_block_diagram.pdf, id=243, 511.9125pt x 421.575pt>
 File: chapter_3/figures/se_block_diagram.pdf Graphic file (type pdf)
 <use chapter_3/figures/se_block_diagram.pdf>
 Package pdftex.def Info: chapter_3/figures/se_block_diagram.pdf  used on input line 122.
@@ -1041,10 +1020,10 @@ Package pdftex.def Info: chapter_3/figures/se_block_diagram.pdf  used on input l
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[31]
+[30]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [32 <./chapter_3/figures/se_block_diagram.pdf>]) (./chapter_3/3_5_cnn_baseline.tex
+ [31 <./chapter_3/figures/se_block_diagram.pdf>]) (./chapter_3/3_5_cnn_baseline.tex
 Underfull \hbox (badness 3568) in paragraph at lines 30--30
 []|\OT1/ptm/m/n/12 Enables back-prop-a-ga-tion through the non-
  []
@@ -1054,15 +1033,18 @@ Underfull \hbox (badness 4531) in paragraph at lines 30--30
 []|\OT1/ptm/m/n/12 Recalibrates chan-nel im-por-tance based on
  []
 
+[32]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-Underfull \vbox (badness 1694) has occurred while \output is active []
-
- [33] [34]
+ [33]
 Underfull \hbox (badness 1221) in paragraph at lines 83--83
 []\OT1/ptm/m/n/12 Table 1.3: Com-par-i-son of iden-tity map-ping be-tween Stan-dard Res-Blocks and
  []
 
-[35]) (./chapter_3/3_6_architectural_evolution.tex [36] [37] [38] [39] [40] [41]
+[34]) (./chapter_3/3_6_architectural_evolution.tex [35] [36] [37]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [38] [39] [40]
 Overfull \hbox (6.78029pt too wide) in paragraph at lines 151--151
 []|\OT1/ptm/b/n/12 Generation| 
  []
@@ -1177,53 +1159,47 @@ Underfull \hbox (badness 10000) in paragraph at lines 151--151
 \OT1/ptm/m/n/12 tional metabolic
  []
 
-) (./chapter_3/3_7_experimental_setup.tex [42] [43] (./chapter_3/3_7_sections/dynamic_power.tex [44]) (./chapter_3/3_7_sections/quantization_error.tex [45] [46]) (./chapter_3/3_7_sections/confidence_calibration.tex) (./chapter_3/3_7_sections/temporal_evidence.tex [47] [48]
+) (./chapter_3/3_7_experimental_setup.tex [41] (./chapter_3/3_7_sections/dynamic_power.tex [42]
+Underfull \vbox (badness 2088) has occurred while \output is active []
+
+ [43]) (./chapter_3/3_7_sections/quantization_error.tex [44] [45]) (./chapter_3/3_7_sections/confidence_calibration.tex) (./chapter_3/3_7_sections/temporal_evidence.tex [46]
 Overfull \hbox (2.71806pt too wide) in paragraph at lines 25--27
 []\OT1/ptm/m/n/12 where $\OML/ptmcm/m/it/12 v[]\OT1/ptmcm/m/n/12 [\OML/ptmcm/m/it/12 t\OT1/ptmcm/m/n/12 ]$ \OT1/ptm/m/n/12 rep-re-sents the ac-cu-mu-lated ev-i-dence (mem-brane po-ten-tial) and $[] \OML/ptmcm/m/it/12 w[]s[]\OT1/ptmcm/m/n/12 [\OML/ptmcm/m/it/12 t\OT1/ptmcm/m/n/12 ]$
  []
 
-) (./chapter_3/3_7_sections/latency.tex [49]) (./chapter_3/3_7_sections/energy_consumption.tex))) [50] [51
+[47]) (./chapter_3/3_7_sections/latency.tex [48]) (./chapter_3/3_7_sections/energy_consumption.tex [49]))) [50] [51
 
 
 
 ]
-Overfull \hbox (1.3677pt too wide) in paragraph at lines 84--84
+Overfull \hbox (1.3677pt too wide) in paragraph at lines 85--85
 [][]\OT1/ptm/m/n/12 Gehrig, Daniel et al. (2019). \OT1/ptm/m/it/12 End-to-End Learn-ing of Rep-re-sen-ta-tions for Asyn-chronous
  []
 
 [52]
-Overfull \hbox (13.10683pt too wide) in paragraph at lines 84--84
+Overfull \hbox (13.10683pt too wide) in paragraph at lines 85--85
 [][]\OT1/ptm/m/n/12 Verma, Aayush Atul et al. (June 2024). ``eTraM: Event-based Traf-fic Mon-i-tor-ing Dataset''.
  []
 
-[53]
-\openout2 = `appendix1.aux'.
-
-
-No file appendix1.tex.
-(./report.aux (./chapter_3/main.aux) (./appendix1.aux))
+[53] (./report.aux (./chapter_3/main.aux))
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-04-11>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
 Package logreq Info: Writing requests to 'report.run.xml'.
 \openout1 = `report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 28128 strings out of 474050
- 547474 string characters out of 5742263
- 1939751 words of memory out of 5000000
- 50018 multiletter control sequences out of 15000+600000
- 592723 words of font info for 99 fonts, out of 8000000 for 9000
+ 28006 strings out of 474050
+ 544584 string characters out of 5742263
+ 1938751 words of memory out of 5000000
+ 49905 multiletter control sequences out of 15000+600000
+ 591138 words of font info for 97 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,12n,101p,2400b,1289s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,12n,101p,2400b,1291s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/zapfchan/uzcmi8a.pfb>
-Output written on report.pdf (53 pages, 388361 bytes).
+Output written on report.pdf (53 pages, 389126 bytes).
 PDF statistics:
  470 PDF objects out of 1000 (max. 8388607)
  309 compressed objects within 4 object streams

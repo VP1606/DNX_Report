@@ -1,3 +1,69 @@
 \subsection{Theoretical Energy Consumption}
 \label{subsec:energy_consumption}
 
+The Theoretical Energy Consumption is very similar in nature to the Dynamic Power experiment discussed in Section \ref{subsec:dynamic_power}.
+It uses the same principles and formulae for \glspl{sop} and \glspl{flop},
+but differs in the final calculation:
+as supposed to calculating the dynamic power consumption per frame, this experiment aims to find the average power consumption per frame across the entire dataset, and extrapolates for multiple hardware platforms:
+
+\begin{equation}
+\bar{E}_{SNN} = \sum_{l=1}^{L} (SOPs_l \times E_{chip})
+\end{equation}
+
+\begin{equation}
+    \bar{E}_{CNN} = \sum_{l=1}^{L} (FLOPs_l \times E_{MAC})
+\end{equation}
+
+\noindent The calculation mirrors Equation \ref{eq:e_snn}, however $E_{SNN}$ replaces $E_{AC}$ for $E_{chip}$, which is the power consumed per \gls{sop} for different chipsets as depicted in Table \ref{tab:energy_constants}.
+
+Subsequently, the total percentage energy saving is formulated using the following equation:
+\begin{equation}
+    \text{Energy Savings} = \left(1 - \frac{\bar{E}_{SNN}}{\bar{E}_{CNN}} \right) \times 100\%
+\end{equation}
+
+\subsubsection{Energy Constants Per Operation ($E_{chip})$ Across Multiple Platforms}
+
+\begin{table}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Architecture / Platform} & \textbf{Operation Type} & \textbf{Energy ($E_{chip}$)} & \textbf{Primary Citation} \\
+\hline
+CNN Baseline          & MAC & 4.6 pJ  & \cite{horowitz20141} \\
+Theoretical Silicon Limit & AC  & 0.9 pJ  & \cite{horowitz20141} \\
+Intel Loihi 1         & SOP & 23.6 pJ & \cite{davies2018loihi}       \\
+IBM TrueNorth         & SOP & 26.0 pJ & \cite{merolla2014million}    \\
+\hline
+\end{tabular}%
+}
+\caption{Energy constants per operation ($E_{chip}$) for each architecture and platform.}
+\label{tab:energy_constants}
+\end{table}
+
+\subsubsection{Hypothesis}
+
+We hypothesize that the \gls{snn} will demonstrate a metabolic advantage of at 
+least one order of magnitude ($>90\%$) over the \gls{cnn} baseline, predicated 
+on two complementary properties of the $\bar{E}_{SNN}$ formulation:
+
+\begin{enumerate}
+
+    \item \textbf{Activation sparsity:} By exploiting the sparsity of the 
+    \gls{etram} event stream, the backbone is expected to maintain $\zeta < 5\%$, 
+    bypassing the majority of computations that the \gls{cnn} performs densely 
+    regardless of scene activity.
+
+    \item \textbf{Mathematical simplification:} Replacing \gls{mac} operations 
+    with binary \gls{ac} operations yields a $5\times$ reduction in per-operation 
+    energy cost ($0.9\text{ pJ}$ vs $4.6\text{ pJ}$), which is expected to 
+    provide a substantial efficiency dividend even when accounting for the $T=10$ 
+    temporal overhead \cite{horowitz20141}.
+
+\end{enumerate}
+
+When extrapolated to physical neuromorphic platforms, the \gls{snn}'s event-driven 
+resting state is expected to preserve a power advantage over synchronous \gls{gpu} 
+accelerators despite the higher per-\gls{sop} costs of Intel Loihi ($23.6\text{ pJ}$) 
+and IBM TrueNorth ($26.0\text{ pJ}$) documented in Table \ref{tab:energy_constants} 
+\cite{davies2018loihi, merolla2014million}.

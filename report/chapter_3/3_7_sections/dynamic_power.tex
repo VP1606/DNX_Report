@@ -1,5 +1,5 @@
-
 \subsection{Dynamic Power Estimation}
+\label{subsec:dynamic_power}
 
 A fundamental objective of this research is to quantify the energy efficiency gains achieved by transitioning from a continuous \gls{cnn} to a bio-plausible \gls{snn}.
 Traditional \gls{cnn} architectures are characterized by static power consumption; they perform a dense, fixed number of \gls{mac} operations for every forward pass, regardless of the information density within the input scene. 
@@ -16,7 +16,7 @@ In a standard \gls{cnn}, the total energy per frame ($E_{CNN}$) is calculated by
   E_{CNN} = \sum_{l=1}^{L} (FLOPs_l \times E_{MAC})
 \end{equation}
 
-\noindent where $E_{MAC} = 4.6\text{ pJ}$ per 32-bit floating point operation \cite{horowitz20141}.
+\noindent Where $E_{MAC} = 4.6\text{ pJ}$ per 32-bit floating point operation, as referenced in Table \ref{tab:energy_constants} \cite{horowitz20141}.
 
 The number of \glspl{flop} is the total number of \glspl{mac} operations required to produce the output feature map; in a \gls{cnn}, this number is static, regardless of what the image contains.
 The \glspl{flop} of a \gls{cnn} can be calculated as follows:
@@ -56,8 +56,10 @@ Because \glspl{snn} utilize binary activations, the expensive multiplication par
 The total energy per frame ($E_{SNN}$) is defined as:
 
 \begin{equation}
+\label{eq:e_snn}
   E_{SNN} = \sum_{l=1}^{L} (SOPs_l \times E_{AC})
 \end{equation}
 
-\noindent where $E_{AC} = 0.9\text{ pJ}$ is the energy cost of a single floating-point addition \cite{horowitz20141}.
+
+\noindent where $E_{AC} = 0.9\text{ pJ}$ is the energy cost of a single floating-point addition, as referenced in Table \ref{tab:energy_constants} \cite{horowitz20141}.
 

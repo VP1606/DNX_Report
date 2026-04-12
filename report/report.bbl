@@ -733,12 +733,12 @@
     \endentry
     \entry{guo2017calibration}{inproceedings}{}{}
       \name{author}{4}{}{%
-        {{un=0,uniquepart=base,hash=e053cf028522c39af65dd862da2d8ed1}{%
+        {{un=2,uniquepart=given,hash=e053cf028522c39af65dd862da2d8ed1}{%
            family={Guo},
            familyi={G\bibinitperiod},
            given={Chuan},
            giveni={C\bibinitperiod},
-           givenun=0}}%
+           givenun=2}}%
         {{un=0,uniquepart=base,hash=373d04718ec0efd3786a0e2b6c0adf00}{%
            family={Pleiss},
            familyi={P\bibinitperiod},
@@ -927,6 +927,99 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/1709.01507
+      \endverb
+    \endentry
+    \entry{merolla2014million}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=eaf33f68b1d343f3516a0febb1621646}{%
+           family={Merolla},
+           familyi={M\bibinitperiod},
+           given={Paul\bibnamedelima A},
+           giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f7fa76044b52cad86a888c315633e63e}{%
+           family={Arthur},
+           familyi={A\bibinitperiod},
+           given={John\bibnamedelima V},
+           giveni={J\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fb913661d403c5565846da1f9d34a2b4}{%
+           family={Alvarez-Icaza},
+           familyi={A\bibinithyphendelim I\bibinitperiod},
+           given={Rodrigo},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e088b414fc96f5ab3e34275f553b796a}{%
+           family={Cassidy},
+           familyi={C\bibinitperiod},
+           given={Andrew\bibnamedelima S},
+           giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bfe0446bbd165992b09a68a3365da777}{%
+           family={Sawada},
+           familyi={S\bibinitperiod},
+           given={Jun},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6c5010bc19111cad272c701b77b290fb}{%
+           family={Akopyan},
+           familyi={A\bibinitperiod},
+           given={Filipp},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a70d8eee133e0ed88d56ca6e8f692507}{%
+           family={Jackson},
+           familyi={J\bibinitperiod},
+           given={Bryan\bibnamedelima L},
+           giveni={B\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e163f651fdd325c5aec756360008e0cb}{%
+           family={Imam},
+           familyi={I\bibinitperiod},
+           given={Nabil},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=2,uniquepart=given,hash=7198410f5f3dae69ad428894eb76664d}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Chen},
+           giveni={C\bibinitperiod},
+           givenun=2}}%
+        {{un=0,uniquepart=base,hash=950d7983cffac03ac1df6a82d288def4}{%
+           family={Nakamura},
+           familyi={N\bibinitperiod},
+           given={Yutaka},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Association for the Advancement of Science}%
+      }
+      \strng{namehash}{f82c378d6d6bb3c4c3c7ec1086407d50}
+      \strng{fullhash}{2546266fd11943c6faf226942022290a}
+      \strng{fullhashraw}{2546266fd11943c6faf226942022290a}
+      \strng{bibnamehash}{f82c378d6d6bb3c4c3c7ec1086407d50}
+      \strng{authorbibnamehash}{f82c378d6d6bb3c4c3c7ec1086407d50}
+      \strng{authornamehash}{f82c378d6d6bb3c4c3c7ec1086407d50}
+      \strng{authorfullhash}{2546266fd11943c6faf226942022290a}
+      \strng{authorfullhashraw}{2546266fd11943c6faf226942022290a}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Science}
+      \field{number}{6197}
+      \field{title}{A million spiking-neuron integrated circuit with a scalable communication network and interface}
+      \field{volume}{345}
+      \field{year}{2014}
+      \field{pages}{668\bibrangedash 673}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1126/science.1254642
       \endverb
     \endentry
     \entry{neftci2019surrogate}{article}{}{}
