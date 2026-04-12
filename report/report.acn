@@ -24,6 +24,7 @@
 \glossaryentry{mIoU?\glossentry{miou}|setentrycounter[]{page}"\glsnumberformat}{1}
 \glossaryentry{CPU?\glossentry{cpu}|setentrycounter[]{page}"\glsnumberformat}{1}
 \glossaryentry{GPU?\glossentry{gpu}|setentrycounter[]{page}"\glsnumberformat}{1}
+\glossaryentry{LIF?\glossentry{lif}|setentrycounter[]{page}"\glsnumberformat}{2}
 \glossaryentry{SEW?\glossentry{sew}|setentrycounter[]{page}"\glsnumberformat}{5}
 \glossaryentry{IoU?\glossentry{iou}|setentrycounter[]{page}"\glsnumberformat}{13}
 \glossaryentry{ETraM?\glossentry{etram}|setentrycounter[]{page}"\glsnumberformat}{17}
@@ -40,9 +41,9 @@
 \glossaryentry{BAF?\glossentry{baf}|setentrycounter[]{page}"\glsnumberformat}{19}
 \glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{19}
 \glossaryentry{SOP?\glossentry{sop}|setentrycounter[]{page}"\glsnumberformat}{19}
-\glossaryentry{ETraM?\glossentry{etram}|setentrycounter[]{page}"\glsnumberformat}{20}
-\glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{21}
-\glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{21}
+\glossaryentry{ETraM?\glossentry{etram}|setentrycounter[]{page}"\glsnumberformat}{19}
+\glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{20}
+\glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{20}
 \glossaryentry{HPC?\glossentry{hpc}|setentrycounter[]{page}"\glsnumberformat}{21}
 \glossaryentry{LIF?\glossentry{lif}|setentrycounter[]{page}"\glsnumberformat}{21}
 \glossaryentry{LIF?\glossentry{lif}|setentrycounter[]{page}"\glsnumberformat}{21}
@@ -52,6 +53,8 @@
 \glossaryentry{HPC?\glossentry{hpc}|setentrycounter[]{page}"\glsnumberformat}{23}
 \glossaryentry{LRU?\glossentry{lru}|setentrycounter[]{page}"\glsnumberformat}{24}
 \glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{26}
+\glossaryentry{ETraM?\glossentry{etram}|setentrycounter[]{page}"\glsnumberformat}{26}
+\glossaryentry{LIF?\glossentry{lif}|setentrycounter[]{page}"\glsnumberformat}{26}
 \glossaryentry{LIF?\glossentry{lif}|setentrycounter[]{page}"\glsnumberformat}{26}
 \glossaryentry{ANN?\glossentry{ann}|setentrycounter[]{page}"\glsnumberformat}{26}
 \glossaryentry{ReLU?\glossentry{relu}|setentrycounter[]{page}"\glsnumberformat}{26}
@@ -60,6 +63,7 @@
 \glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{27}
 \glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{27}
 \glossaryentry{ATan?\glossentry{atan}|setentrycounter[]{page}"\glsnumberformat}{27}
+\glossaryentry{LIF?\glossentry{lif}|setentrycounter[]{page}"\glsnumberformat}{28}
 \glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{28}
 \glossaryentry{ResNet?\glossentry{resnet}|setentrycounter[]{page}"\glsnumberformat}{28}
 \glossaryentry{SEW?\glossentry{sew}|setentrycounter[]{page}"\glsnumberformat}{29}
@@ -118,6 +122,7 @@
 \glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{41}
 \glossaryentry{CNN?\glossentry{cnn}|setentrycounter[]{page}"\glsnumberformat}{41}
 \glossaryentry{CNN?\glossentry{cnn}|setentrycounter[]{page}"\glsnumberformat}{41}
+\glossaryentry{IoU?\glossentry{iou}|setentrycounter[]{page}"\glsnumberformat}{42}
 \glossaryentry{SOP?\glossentry{sop}|setentrycounter[]{page}"\glsnumberformat}{42}
 \glossaryentry{IoU?\glossentry{iou}|setentrycounter[]{page}"\glsnumberformat}{42}
 \glossaryentry{CNN?\glossentry{cnn}|setentrycounter[]{page}"\glsnumberformat}{43}
@@ -146,7 +151,7 @@
 \glossaryentry{MAC?\glossentry{mac}|setentrycounter[]{page}"\glsnumberformat}{44}
 \glossaryentry{AC?\glossentry{ac}|setentrycounter[]{page}"\glsnumberformat}{44}
 \glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{44}
-\glossaryentry{CNN?\glossentry{cnn}|setentrycounter[]{page}"\glsnumberformat}{45}
+\glossaryentry{CNN?\glossentry{cnn}|setentrycounter[]{page}"\glsnumberformat}{44}
 \glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{45}
 \glossaryentry{mIoU?\glossentry{miou}|setentrycounter[]{page}"\glsnumberformat}{45}
 \glossaryentry{IoU?\glossentry{iou}|setentrycounter[]{page}"\glsnumberformat}{45}
@@ -195,3 +200,6 @@
 \glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{50}
 \glossaryentry{GPU?\glossentry{gpu}|setentrycounter[]{page}"\glsnumberformat}{50}
 \glossaryentry{SOP?\glossentry{sop}|setentrycounter[]{page}"\glsnumberformat}{50}
+\glossaryentry{SNN?\glossentry{snn}|setentrycounter[]{page}"\glsnumberformat}{50}
+\glossaryentry{CNN?\glossentry{cnn}|setentrycounter[]{page}"\glsnumberformat}{50}
+\glossaryentry{mIoU?\glossentry{miou}|setentrycounter[]{page}"\glsnumberformat}{50}

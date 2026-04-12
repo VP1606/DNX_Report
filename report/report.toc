@@ -1,3 +1,4 @@
+\babel@toc {british}{}\relax 
 \contentsline {chapter}{Abstract}{6}{}%
 \contentsline {chapter}{Declaration}{7}{}%
 \contentsline {chapter}{Copyright}{8}{}%
@@ -15,7 +16,7 @@
 \contentsline {subsubsection}{Spatial Downsampling (16-fold Data Reduction)}{20}{}%
 \contentsline {subsubsection}{Max-Normalization (Input Calibration)}{21}{}%
 \contentsline {subsection}{\numberline {1.3.5}Multi-Object Label Alignment}{21}{}%
-\contentsline {subsubsection}{Timestamp-Based Grouping (Unified Scene Representation)}{22}{}%
+\contentsline {subsubsection}{Timestamp-Based Grouping (Unified Scene Representation)}{21}{}%
 \contentsline {subsubsection}{Fixed-Capacity Padding}{22}{}%
 \contentsline {subsubsection}{Binary Masking}{22}{}%
 \contentsline {subsubsection}{Normalization to Sensor Space}{22}{}%
@@ -25,7 +26,7 @@
 \contentsline {subsection}{\numberline {1.3.7}REPLICA Pipeline: Visualized}{24}{}%
 \contentsline {section}{\numberline {1.4}Spiking Neural Network (SNN) Architecture}{26}{}%
 \contentsline {subsection}{\numberline {1.4.1}Spatiotemporal Input \& Multi-Step Execution}{26}{}%
-\contentsline {subsection}{\numberline {1.4.2}Neuron Dynamics: Leaky Integrate-and-Fire (LIF)}{26}{}%
+\contentsline {subsection}{\numberline {1.4.2}Neuron Dynamics: \gls {lif}}{26}{}%
 \contentsline {subsubsection}{The Forward Pass (Spike Generation)}{27}{}%
 \contentsline {subsubsection}{The Backward Pass (Surrogate Gradients)}{27}{}%
 \contentsline {subsection}{\numberline {1.4.3}Backbone: SEW-ResNet \& Attention}{28}{}%
@@ -77,3 +78,5 @@
 \contentsline {subsection}{\numberline {1.7.6}Theoretical Energy Consumption}{49}{}%
 \contentsline {subsubsection}{Energy Constants Per Operation ($E_{chip})$ Across Multiple Platforms}{49}{}%
 \contentsline {subsubsection}{Hypothesis}{49}{}%
+\contentsline {subsection}{\numberline {1.7.7}Global Performance Evaluator}{50}{}%
+\contentsline {subsubsection}{Metrics}{50}{}%

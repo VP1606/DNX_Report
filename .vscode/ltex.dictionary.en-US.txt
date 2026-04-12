@@ -1,0 +1,10 @@
+DetectorNX
+DetectorNX
+SEWResBlock
+SNNMAXREPLICASE
+Spatiotemporal
+spatiotemporal
+SEWResBlocks
+neuromorphic
+SpikingJelly
+backpropagation

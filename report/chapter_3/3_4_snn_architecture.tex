@@ -7,7 +7,7 @@ By prioritizing event-driven, binary communication, the architecture aims to dra
 
 \subsection{Spatiotemporal Input \& Multi-Step Execution}
 \label{subsec:snn_input}
-The raw ETraM event data is initially preprocessed to a spatial resolution of $640 \times 360$ with $T=10$ discrete temporal bins. 
+The raw \gls{etram} event data is initially preprocessed to a spatial resolution of $640 \times 360$ with $T=10$ discrete temporal bins. 
 Consequently, the network ingests a massive, high-dimensional spatiotemporal tensor of shape $[B, 10, 2, 360, 640]$ (Batch, Time, Polarity, Height, Width). 
 
 Given the high spatial dimensionality and the iterative nature of spiking neurons, native Python loop execution over the time dimension proved computationally restrictive. 
@@ -15,7 +15,7 @@ To overcome this bottleneck, the entire architecture was refactored to utilize t
 instead of iterating through the 10 time bins sequentially, the entire spatiotemporal tensor is passed directly into custom-compiled CUDA kernels.
 This low-level optimization enables high-speed, parallelized execution of the temporal dynamics, making the extensive benchmarking of this HD dataset feasible on local GPU hardware, and reducing overall training time from approximately 16 hours to just 7.
 
-\subsection{Neuron Dynamics: Leaky Integrate-and-Fire (LIF)}
+\subsection{Neuron Dynamics: \gls{lif}}
 \label{subsec:snn_lif}
 At the foundation of the architecture lies the \gls{lif} neuron model, which governs the temporal dynamics and binary spike generation of the network. 
 Unlike traditional \glspl{ann} that utilize continuous activation functions such as \acrshort{relu}, the \gls{lif} node maintains an internal state: the membrane potential $V[t]$, which updates iteratively across discrete time steps $t \in [1, T]$.
@@ -37,7 +37,7 @@ This ``activation sparsity'' is the primary driver of the \glspl{snn} exceptiona
 \subsubsection{The Backward Pass (Surrogate Gradients)}
 Training deep \glspl{snn} via backpropagation presents a fundamental mathematical challenge, since the Heaviside step function governing spike generation (Equation 2) is non-differentiable. 
 Its derivative is zero everywhere except at the threshold $V_{th}$, where it is infinite. 
-Using conventional backpropogation here would immediately result in zeroed gradients, halting the learning process - this is a phenomenon known as the ``dead neuron'' problem.
+Using conventional backpropagation here would immediately result in zeroed gradients, halting the learning process - this is a phenomenon known as the ``dead neuron'' problem.
 
 To resolve this, the network employs a Surrogate Gradient during the backward pass \cite{nfetci2019_surrogate}. 
 While the forward pass remains strictly binary, the backward pass approximates the step function using a smooth, differentiable curve. This specific architecture uses the \gls{atan} function:
@@ -59,7 +59,7 @@ To extract high-level semantic features and manage the computational complexity 
 \hline
 \textbf{Stage} & \textbf{Name} & \textbf{Resolution} & \textbf{Channels} & \textbf{Primary Operation} \\
 \hline
-1 & Initial Stem      & 90$\times$160 & 64  & Stride-2 Conv + LIF (Downsamples HD input) \\
+1 & Initial Stem      & 90$\times$160 & 64  & Stride-2 Conv + \gls{lif} (Downsamples HD input) \\
 2 & Backbone Alpha    & 22$\times$40  & 256 & Blocks 1 \& 2 (SEWResBlocks with Stride-2) \\
 3 & Attention Bridge  & 22$\times$40  & 256 & Squeeze-and-Excitation (SE) Global Firing Recalibration \\
 4 & High-Res Backbone & 22$\times$40  & 512 & Blocks 3 \& 4 (SEWResBlocks with Stride-1) \\
@@ -115,7 +115,7 @@ The \gls{se} block operates by performing a global average pooling of the 256 fe
 This effectively mitigates the spatial constraint by allowing the network to incorporate global context into its local representations, compensating for the loss of resolution.
 
 When applied in the context of an \gls{snn}, this acts as a dynamic firing modulator: the backbone's activations are re-calibrated by looking at the global context of the entire frame, magnifying the most informative channels whilst suppressing those containing artifacts.
-By applying this recalibration, the \gls{se} block ensures that only the most relevant ``Objectness`` (the probability that a specific region of an image contains a generic object of interest rather than background noise) features are passed into the final high-capacity blocks, effectively mitigating the semantic ambiguity before the final bounding box regresssion.
+By applying this recalibration, the \gls{se} block ensures that only the most relevant ``Objectness`` (the probability that a specific region of an image contains a generic object of interest rather than background noise) features are passed into the final high-capacity blocks, effectively mitigating the semantic ambiguity before the final bounding box regression.
 
 \begin{figure}[h]
     \centering

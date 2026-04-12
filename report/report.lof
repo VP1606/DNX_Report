@@ -1,3 +1,4 @@
+\babel@toc {british}{}\relax 
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {1.1}{\ignorespaces High-level system architecture pipeline.}}{15}{}%
 \contentsline {figure}{\numberline {1.2}{\ignorespaces Overview of the spatiotemporal preprocessing pipeline applied to the ETraM dataset. Raw events are voxelized into a 4D tensor, spatially downsampled, and aligned with multi-object ground truth labels to produce a final sample of shape \texttt {[10, 2, 180, 320]} with a corresponding label tensor of shape \texttt {[5, 5]}.}}{25}{}%

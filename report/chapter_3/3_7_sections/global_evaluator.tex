@@ -1,0 +1,57 @@
+\subsection{Global Performance Evaluator}
+\label{subsec:global_evaluator}
+
+The Global Performance Evaluator serves as the primary comparative evaluation between the \gls{snn} and \gls{cnn} architectures,
+aggregating performance across the full 200-sample validation set.
+Unlike the preceding targeted experiments, this benchmark establishes the \textit{Performance-Efficiency Frontier}:
+quantifying the accuracy penalty incurred by transitioning to discrete spiking dynamics, whilst validating whether the multi-box refinements and others in the \texttt{ULTRA} revision of \texttt{DetectorNX}
+mentioned in Section \ref{sec:architectural_evolution} are sufficient to resolve scene-level detection ambiguity.
+
+\subsubsection{Metrics}
+
+In this experiment, four complementary metrics are evaluated:
+
+\begin{itemize}
+    \item \textbf{\gls{miou}:} measures geometric precision between predicted and ground truth bounding boxes.
+
+    % \item \textbf{Recall:} measures the proportion of ground truth objects successfully localised
+    % at confidence threshold $\tau = 0.5$, penalising architectures that fail to respond to
+    % sparse event regions %\cite{gallego2020event}.%
+
+    \item \textbf{Recall:}
+    measures the proportion of ground truth objects successfully localised.
+
+\end{itemize}
+
+% \textbf{Recall} measures the proportion of ground truth objects successfully localised
+% at confidence threshold $\tau = 0.5$, penalising architectures that fail to respond to
+% sparse event regions \parencite{gallego2020event}. \textbf{Average Detections per Frame
+% (ADP)} quantifies detector selectivity relative to the ground truth mean of 2.02 objects
+% per frame; significant positive deviation indicates spurious ``ghost'' detections arising
+% from background noise misclassification. \textbf{Mean Prediction Confidence} captures
+% network self-certainty by averaging sigmoid-activated confidence scores across all
+% positive detections, probing whether spiking dynamics produce decisive or hesitant class
+% activations \parencite{eshraghian2021training}.
+
+% \subsubsection*{Hypothesis}
+
+% We hypothesise that whilst the CNN establishes the upper mIoU bound, the SNN will
+% achieve \textit{detection parity} in recall and ADP, yielding an average detection
+% count consistent with the ground truth distribution. This would demonstrate that
+% spiking temporal dynamics are sufficient for objectness discrimination without
+% continuous-valued feature maps \parencite{roy2019towards,
+% cordone2022objectdetectionspikingneural}. A measurable confidence gap is also
+% anticipated: the SNN's binary spike outputs are expected to produce lower but temporally
+% stable confidence distributions across the $T = 10$ timestep window, consistent with
+% prior observations that surrogate-trained networks distribute representational energy
+% across timesteps rather than single forward passes \parencite{fang2022resnet_sew}.
+
+% \subsubsection*{Significance}
+
+% This experiment provides three contributions. It delivers the \textit{parity proof},
+% framing the accuracy-efficiency tradeoff quantitatively. It offers \textit{logical
+% validation} that the Phase 1 ambiguity problem has been resolved through the
+% architectural refinements described in Section~\ref{sec:architectural_evolution}.
+% Finally, evaluation across the full validation set ensures statistical robustness,
+% confirming that results are representative of the broader ETraM environment rather
+% than artefacts of favourable individual frames.
