@@ -68,8 +68,9 @@ This filter is a structural necessity for \gls{snn} training stability:
 THe first step of the \texttt{REPLICA} pipeline is to apply a series of signal conditioning operations to the raw event data to improve the \gls{snr}, which yields several benefits:
 
 \begin{itemize}
-
-    \item \textbf{Prevention of LIF neuron saturation:} 
+    \begin{sloppypar}
+    \item \textbf{Prevention of \gls{lif} neuron saturation:} 
+    \end{sloppypar}
     Without input conditioning, high-magnitude or noisy voxel values can drive every neuron in the initial stem layer to fire continuously and flood the network with uninformative spikes. 
     By normalising the voxel tensor to the range $[0, 1]$, the input magnitude is constrained such that only neurons encoding genuine structural features,such as vehicle edges 
     and motion boundaries, exceed their firing threshold, preserving the sparsity and selectivity of the deeper backbone stages \cite{eshraghian2021training}.

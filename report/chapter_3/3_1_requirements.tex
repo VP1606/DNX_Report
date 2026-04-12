@@ -21,9 +21,17 @@ To ensure a fair empirical comparison and to solve the complexities of multi-obj
 The processing of high-definition event data at scales of up to 150 training epochs imposed severe computational bottlenecks. Consequently, the system had to satisfy critical performance and stability constraints:
 
 \begin{itemize}
+    \begin{sloppypar}
     \item \textbf{Computational Scalability \& Speed:} The SNN simulation had to be optimized for execution on local accelerator hardware (GPUs). This required the integration of Automatic Mixed Precision (AMP) to utilize Tensor Cores, memory-efficient vectorized loss functions to eliminate sequential batch loops, and the utilization of optimized C++/CUDA kernels (e.g., SpikingJelly's multi-step modes) over native Python loops.
+    \end{sloppypar}
+
+    \begin{sloppypar}
     \item \textbf{Numerical Stability:} Given the reliance on 16-bit precision through AMP and the deep accumulation of membrane potentials in the SNN, the architecture required specific safeguards against gradient explosion. This constrained the design of the detection head, mandating the use of raw logits and numerically stable loss functions (e.g., \texttt{BCEWithLogitsLoss}).
-    \item \textbf{Hardware Extrapolability:} While constrained to local GPU execution, the benchmark outputs (e.g., dynamic power tracking) were required to be translatable into theoretical energy consumption metrics (in mJ) based on established hardware constants, facilitating projections for specialized neuromorphic chips like Intel Loihi or IBM TrueNorth.
+    \end{sloppypar}
+    
+    \begin{sloppypar}
+    \item \textbf{Hardware Extrapolation:} While constrained to local GPU execution, the benchmark outputs (e.g., dynamic power tracking) were required to be translatable into theoretical energy consumption metrics (in mJ) based on established hardware constants, facilitating projections for specialized neuromorphic chips like Intel Loihi or IBM TrueNorth.
+    \end{sloppypar}
 \end{itemize}
 
 These requirements formed the foundation for the three-generation evolution of the \texttt{SNN\_MAX\_REPLICA\_SE} architecture detailed in Section \ref{sec:snn_architecture}, and drove the rigorous benchmarking suite evaluated in Section ?? %\ref{sec:results_evaluation}%.

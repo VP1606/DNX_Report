@@ -20,11 +20,13 @@ As illustrated, the architecture is divided into four primary sequential stages,
     This modification was strategically implemented to ensure training feasibility on local accelerator hardware and reduce input sparsity, thereby improving the stability of neuronal feature extraction.
     This stage is detailed thoroughly in Section \ref{sec:data_preprocessing}.
 
+    \begin{sloppypar}
     \item \textbf{The Neural Backbone (Interchangeable):}
     The preprocessed output of the \textit{REPLICA} pipeline serves as the input to the primary feature extraction engine.
     This stage houses either the spiking architecture \texttt{SNN\_MAX\_REPLICA\_SE} or its exact continuous counterpart, \texttt{CNN\_MAX\_REPLICA\_SE}.
     Both backbones utilize four functional blocks incorporating Squeeze-and-Excitation (SE) mechanisms and Residual connections (\texttt{SEWResBlock}) to extract deep semantic features while performing an aggressive $16\times$ total spatial downsampling. 
     The evolution and formal design of these backbones are detailed in Section \ref{sec:snn_architecture}.
+    \end{sloppypar}
 
     \item \textbf{Multi-Box Regression Head (Fixed):} 
     The final abstracted feature maps from either backbone are fed into a unified detection head. 
