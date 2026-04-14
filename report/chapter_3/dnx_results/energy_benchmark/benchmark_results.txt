@@ -1,0 +1,34 @@
+THEORETICAL ENERGY EFFICIENCY REPORT
+============================================================
+Source Diagnostic: exp1_spike_diagnostic_formed.txt
+
+1. COMPUTATIONAL WORKLOAD (Average per Frame)
+------------------------------------------------------------
+CNN Static Workload:      9.2237 G-MACs
+SNN Sparse Workload:      2.6727 G-SOPs
+Workload Reduction:       71.02%
+
+2. THEORETICAL ENERGY (Average per Frame)
+------------------------------------------------------------
+CNN Baseline (4.6 pJ):    42.4292 mJ
+SNN Silicon Min (0.9 pJ):     2.4055 mJ
+Theoretical Savings:       94.33%
+
+3. NEUROMORPHIC EXTRAPOLATION
+------------------------------------------------------------
+Intel Loihi (23.6 pJ):    63.0766 mJ  (-48.7% vs CNN)
+IBM TrueNorth (26.0 pJ):    69.4912 mJ  (-63.8% vs CNN)
+
+4. LAYER-WISE BREAKDOWN
+------------------------------------------------------------
+Layer Name           | FLOPs (M)    | SOPs (M)     | Sparsity (%)
+---------------------|--------------|--------------|-----------
+stem_lif             |        16.59 |        33.49 |     20.19%
+block1.lif1          |       265.42 |       475.90 |     17.93%
+block1.lif2          |       530.84 |      1020.28 |     19.22%
+block2.lif1          |       271.32 |         5.16 |      0.19%
+block2.lif2          |       542.64 |       602.87 |     11.11%
+block3.lif1          |      1085.28 |        20.62 |      0.19%
+block3.lif2          |      2170.55 |       102.02 |      0.47%
+block4.lif1          |      2170.55 |       125.89 |      0.58%
+block4.lif2          |      2170.55 |       286.51 |      1.32%

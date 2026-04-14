@@ -1,1 +1,22 @@
 \subsection{Theoretical Energy Consumption}
+
+\subsubsection{Predicted Energy Costs Across Multiple Platforms}
+
+Using the \gls{flop} and \gls{sop} count recorded in Table \ref{tab:layer_ops} with the energy constants from Table \ref{tab:energy_constants}, we can predict the theoretical energy consumption of the \texttt{ULTRA} architecture across multiple platforms:
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Hardware Platform} & \textbf{Energy Per Frame (mJ)} & \textbf{Energy Savings (\%)} \\
+\hline
+NVIDIA A100 (\gls{cnn} Baseline) & 180.8576 & --- \\
+Intel Loihi (\gls{snn}) & 63.0766 & 65.12\% \\
+IBM TrueNorth (\gls{snn}) & 69.4912 & 61.58\% \\
+\hline
+\end{tabular}
+\caption[Neuromorphic Hardware Energy Extrapolation]{Extrapolated energy consumption per frame across different hardware architectures. Savings are calculated relative to the NVIDIA A100 GPU baseline.}
+\label{tab:hardware_extrapolation}
+\end{table}
+
+% Despite the relatively high per-operation routing overhead inherent to early-generation neuromorphic chips, deploying the \gls{snn} on an Intel Loihi processor yields a $65.12\%$ reduction in energy consumption per frame compared to running the continuous baseline on a high-performance NVIDIA A100 GPU. This confirms that event-driven \glspl{snn} provide a highly efficient deployment pathway for autonomous automotive perception systems at the edge.

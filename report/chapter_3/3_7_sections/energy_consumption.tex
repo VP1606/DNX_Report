@@ -34,6 +34,7 @@ CNN Baseline          & MAC & 4.6 pJ  & \cite{horowitz20141} \\
 Theoretical Silicon Limit & AC  & 0.9 pJ  & \cite{horowitz20141} \\
 Intel Loihi 1         & SOP & 23.6 pJ & \cite{davies2018loihi}       \\
 IBM TrueNorth         & SOP & 26.0 pJ & \cite{merolla2014million}    \\
+NVIDIA DGX A100 (FP32) & FLOP & 19.6 pJ & \cite{a100_usage} \\
 \hline
 \end{tabular}%
 }
@@ -65,5 +66,6 @@ on two complementary properties of the $\bar{E}_{SNN}$ formulation:
 When extrapolated to physical neuromorphic platforms, the \gls{snn}'s event-driven 
 resting state is expected to preserve a power advantage over synchronous \gls{gpu} 
 accelerators despite the higher per-\gls{sop} costs of Intel Loihi ($23.6\text{ pJ}$) 
-and IBM TrueNorth ($26.0\text{ pJ}$) documented in Table \ref{tab:energy_constants} 
-\cite{davies2018loihi, merolla2014million}.
+and IBM TrueNorth ($26.0\text{ pJ}$) compared to per-\gls{flop} cost of the benchmark NVIDIA A100 ($19.6\text{ pJ}$) 
+documented in Table \ref{tab:energy_constants}
+\cite{davies2018loihi, merolla2014million, a100_usage}.
