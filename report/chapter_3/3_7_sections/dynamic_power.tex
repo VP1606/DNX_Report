@@ -35,6 +35,7 @@ The metabolic cost of the spiking backbone can be quantified via the \gls{sop} m
 unlike the static complexity of the \gls{cnn} baseline, the \gls{sop} count for a given layer is a dynamic function, which can be calculated as follows:
 \begin{equation}
 SOPs_l = FLOPs_l \times \zeta \times T
+\label{eq:sop_zeta}
 \end{equation}
 
 \noindent where $\zeta_l$ represents the average firing rate of layer $l$, $T$ is the number of temporal simulation steps ($T=10$).
