@@ -1,0 +1,21 @@
+EXPERIMENTAL FINDINGS SUMMARY
+==============================
+Model Type: CNN
+Weights: cnn_benchmark/best_cnn_model.pt
+Data: /scratch/h34567pv/PRECOMPUTED_10K_DS4_MB_REP/val
+Pool Size: 8
+Conf Threshold: 0.5
+
+METRICS
+----------
+Mean IoU: 0.4861
+Median IoU: 0.5648
+Avg Objects per Frame (GT): 2.02
+Avg Objects per Frame (Pred): 1.75
+Recall (Detections > 0.5): 100.0%
+
+CONFIDENCE DISTRIBUTION
+----------
+Max Conf: 0.9918
+Min Conf: 0.0132
+Mean Conf: 0.3872

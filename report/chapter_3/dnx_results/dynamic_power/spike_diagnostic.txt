@@ -1,0 +1,15 @@
+SPIKE RATE DIAGNOSTIC (MEAN PER LAYER)
+========================================
+Total Frames: 200
+
+Layer Name                | Mean Firing Rate (%)
+--------------------------|---------------------
+stem_lif                  |              20.19%
+block1.lif1               |              17.93%
+block1.lif2               |              19.22%
+block2.lif1               |               0.19%
+block2.lif2               |              11.11%
+block3.lif1               |               0.19%
+block3.lif2               |               0.47%
+block4.lif1               |               0.58%
+block4.lif2               |               1.32%

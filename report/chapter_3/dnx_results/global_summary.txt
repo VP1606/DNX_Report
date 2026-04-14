@@ -1,0 +1,17 @@
+------------------------ SNN --------------------------
+Mean IoU: 0.4658
+Average Objects Per Frame (GT): 2.02
+Average Objects Per Frame (Pred): 1.69
+
+Max Confidence: 1.0000
+Min Confidence: 0.0006
+Mean Confidence: 0.4084
+
+------------------------ CNN --------------------------
+Mean IoU: 0.4861
+Average Objects Per Frame (GT): 2.02
+Average Objects Per Frame (Pred): 1.75
+
+Max Confidence: 0.9918
+Min Confidence: 0.0132
+Mean Confidence: 0.3872

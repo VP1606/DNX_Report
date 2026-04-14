@@ -1,0 +1,26 @@
+DYNAMIC POWER STATISTICAL ANALYSIS
+========================================
+Model: best_model_ultra_s.pt
+Samples Evaluated: 200
+
+SNN LINEAR REGRESSION (Line of Best Fit)
+----------------------------------------
+Equation: y = 0.001757x + 2294.801136
+Correlation Coefficient (R): 0.8668
+R-squared: 0.7514
+
+ENERGY STATISTICS (uJ per Frame)
+----------------------------------------
+Metric          | SNN          | CNN         
+----------------|--------------|-------------
+Mean            | 2404.9758    | 42429.2106  
+Median          | 2428.7420    | 42429.2106  
+Std Dev         | 61.1748      | 0.0000      
+Minimum         | 2287.5422    | 42429.2106  
+Maximum         | 2508.2223    | 42429.2106  
+
+EFFICIENCY SAVINGS
+----------------------------------------
+Max Theoretical Savings: 94.61%
+Min Theoretical Savings: 94.09%
+Mean Theoretical Savings: 94.33%
