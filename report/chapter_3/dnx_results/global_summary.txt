@@ -1,7 +1,7 @@
 ------------------------ SNN --------------------------
-Mean IoU: 0.4658
+Mean IoU: 0.4613
 Average Objects Per Frame (GT): 2.02
-Average Objects Per Frame (Pred): 1.69
+Average Objects Per Frame (Pred): 1.73
 
 Max Confidence: 1.0000
 Min Confidence: 0.0006

@@ -9,7 +9,7 @@ Conf Threshold: 0.5
 METRICS
 ----------
 Mean IoU: 0.4861
-Median IoU: 0.5648
+Median IoU: 0.5649
 Avg Objects per Frame (GT): 2.02
 Avg Objects per Frame (Pred): 1.75
 Recall (Detections > 0.5): 100.0%
