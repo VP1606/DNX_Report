@@ -23,6 +23,8 @@ where $W_{sensor} = 1280$ and $H_{sensor} = 720$. Subsequently, the precision of
 \end{equation}
 
 \subsubsection{Hypothesis: The Scale-Dependent Accuracy Gap}
+\label{subsubsec:quant_hyp}
+
 We hypothesize a significant scale-dependent accuracy gap between the two architectures.
 For large-scale objects, the \gls{snn} is expected to achieve parity with the \gls{cnn} baseline: because the coordinate values are high, the minor fluctuations inherent in binary spike-trains represent a negligible percentage of the total object area, allowing for stable regression.
 
