@@ -1,0 +1,46 @@
+\subsection{Real-Time Latency Benchmark}
+\label{subsec:exp_latency}
+
+The real-time throughput of the model was quantified in \gls{fps}, derived from the reciprocal of the mean inference latency measured over 1,000 trials. 
+To simulate a real-world edge-deployment scenario, a batch size of one was utilized, ensuring that the throughput
+reflects the model's ability to process individual temporal windows
+sequentially. 
+Inference timing was performed using NVIDIA's asynchronous \gls{cuda}
+events ($torch.cuda.Event$) with explicit hardware synchronization to
+ensure that the reported FPS represents the raw computational latency of
+the GPU kernels, independent of CPU-bound communication overhead.
+
+\subsubsection*{Results}
+
+Table \ref{tab:latency_benchmark} shows the difference in both latency and \gls{fps} between the \gls{cnn} and \gls{snn} architectures.
+Beyond the mean throughput, the P99 latency (99th percentile) was
+measured to evaluate the temporal stability of the detectors. In real-time
+safety-critical environments, such as autonomous traffic monitoring, the
+\gls{wcet} is a vital metric for system reliability.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Metric} & \textbf{SNN} & \textbf{CNN} \\
+\hline
+Mean Latency (ms)   & 3.8491 & 0.7130 \\
+Median Latency (ms) & 3.8420 & 0.7086 \\
+Std Dev (ms)        & 0.0640 & 0.1163 \\
+P99 Latency (ms)    & 4.0930 & 0.7260 \\
+Throughput (FPS)    & 259.80 & 1402.60 \\
+\hline
+\end{tabular}
+\caption[Inference Latency Benchmark]{Inference latency benchmark results for the \gls{snn} and \gls{cnn} baseline, measured with a pool size of 8. P99 denotes the 99th percentile latency.}
+\label{tab:latency_benchmark}
+\end{table}
+
+\subsubsection*{Critical Analysis}
+
+The empirical results confirm the hardware-mismatch penalty hypothesized in Section \ref{subsec:exp_latency}: 
+the \gls{cnn} maintains a dominant speed advantage, outperforming the \gls{snn} by a factor of $5.4\times$ ($3.85\text{ms}$ vs.\ $0.71\text{ms}$ mean latency). 
+This divergence is the direct result of simulating iterative \gls{lif} dynamics across $T=10$ sequential timesteps on synchronous \gls{gpu} hardware, which is inherently optimized for the single-pass dense matrix multiplications of the \gls{cnn} paradigm.
+
+Critically, however, the \gls{snn} remains well within the requirements for real-time deployment. At $259.80\text{ FPS}$, the spiking model processes high-definition data significantly faster than the $30\text{ \gls{fps}}$ threshold typically required for automotive perception \cite{khan2024real}. This suggests that while the \gls{snn} faces a latency penalty on \glspl{gpu}, the use of \texttt{step\_mode=`m'} parallelization mitigates the bottleneck enough to ensure the model remains viable for high-speed edge tasks, even when ran on conventional hardware.
+
+Furthermore, the \gls{snn} exhibits high temporal stability, with a P99 latency of only $4.09\text{ms}$ (just $6.3\%$ above the mean). This consistency indicates that the architecture is robust to varying spatial complexity; despite the fluctuating event density inherent to the \gls{etram} dataset, the model maintains a predictable \gls{wcet}. This ensures that high-traffic scenes do not induce hazardous latency spikes, validating the reliability of the spiking paradigm for the safety-critical feedback loops required in autonomous vehicle monitoring.
