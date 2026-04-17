@@ -1,0 +1,28 @@
+\section{Summary of Outcomes}
+\label{sec:summary_outcomes}
+
+This project has systematically deconstructed the performance-efficiency frontier of Spiking Neural Networks (\glspl{snn}) for high-definition automotive object detection. By evaluating the \texttt{DetectorNX ULTRA} architecture against a matched continuous-valued \gls{cnn} baseline on the ETraM dataset \parencite{Verma_2024_CVPR}, several definitive outcomes have been established that validate the neuromorphic paradigm for safety-critical edge deployment.
+
+\subsection{Global Precision Parity}
+The primary outcome of the spatial evaluation was the achievement of a \gls{miou} of $0.4613$ for the spiking model, representing $94.9\%$ of the \gls{cnn} baseline ($0.4861$). 
+Furthermore, both architectures achieved a perfect recall of $100.0\%$ for objects with an \gls{iou} $> 0.5$. 
+These results prove that the architectural refinements introduced in this work---specifically the multi-box architecture, \gls{se} and \gls{sew} residual blocks---successfully mitigated the precision loss inherent in $1$-bit quantization and discrete temporal resolution.
+
+\subsection{Decisive Efficiency Gains}
+The transition from dense \gls{cnn} convolutions to event-driven spiking dynamics yielded an average power saving of $94.33\%$ across the validation subset, 
+which was driven by a $3.45\times$ reduction in the total operations required to process a high-definition frame ($9.22$ G-MACs vs. $2.67$ G-SOPs). Crucially, the \gls{snn} demonstrated ``Reactive Scalability'' ($R^2=0.7514$), where power consumption scaled linearly with scene complexity rather than model size,
+a property that positions neuromorphic perception as inherently 
+suited to the intermittent, sparse event streams characteristic 
+of real-world automotive environments.
+
+\subsection{Temporal Reliability and Sharpening}
+Beyond global averages, the spiking paradigm demonstrated a unique ``Bounding Box Sharpening'' effect. As temporal evidence accumulated across $T=10$ timesteps, the \gls{snn} was observed to produce more stable and spatially accurate regressions in high-traffic scenes compared to the single-pass \gls{cnn}. 
+This temporal integration capability allowed the \gls{snn} to exhibit a more decisive confidence distribution, being confident enough to classify noise with a confidence of $0\%$, effectively suppressing low-evidence background noise.
+
+\subsection{Real-Time Viability}
+Despite the hardware-mismatch penalty of executing iterative spiking logic on synchronous \gls{gpu} hardware, the \gls{snn} achieved a mean inference latency of $3.85$\,ms ($259.80$ \gls{fps}). 
+When evaluated against the industry-standard threshold for real-time automotive perception of $30$ \gls{fps} \cite{khan2024real}, the spiking model maintains an $8.6\times$ safety margin, despite using simulated \gls{lif} nodes. 
+This validates the immediate viability of the proposed architecture for live deployment in vehicle-to-everything (V2X) and driver assistance systems.
+
+\vspace{1em}
+In summary, the empirical evidence demonstrates that the \texttt{DetectorNX ULTRA} has successfully bridged the precision gap, establishing the spiking paradigm not merely as a theoretical curiosity, but as a robust, first-class solution for high-definition, power-constrained automotive perception.
