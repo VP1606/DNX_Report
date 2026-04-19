@@ -1,39 +1,64 @@
-\section{Critical Reflection}
-\label{sec:critical_reflection}
+\section{Critical Reflection \& Future Work}
+\label{sec:critical_reflection_future_work}
 
 In order to appropriately contextualise the empirical findings, this section provides a critical analysis of the technical trade-offs and methodological limitations encountered during the development of the \texttt{DetectorNX} project. 
+Paired with the critical analysis, we propose potential ideas in tandem that can be investigated to resolve these impacts.
 While the results validate the efficiency of the spiking paradigm, several architectural and environmental constraints persist that define the frontier of current \gls{snn} research.
 
 \subsection{Hardware-Paradigm Inequity: The \gls{lif} Simulation Penalty}
+
+\subsubsection*{Impact}
+
 The most significant limitation of this evaluation is the hardware-mismatch penalty inherent in benchmarking an event-driven \gls{snn} on synchronous \gls{gpu} hardware. 
 Utilizing the SpikingJelly library's multi-step execution paradigm (\texttt{step\_mode='m'}) \cite{fang2023spikingjelly}, the $T=10$ temporal window is processed as a series of fused-kernel iterations. The \gls{gpu} must explicitly update the membrane potential and reset state for every neuron in every layer, regardless of whether a spike is generated. 
 
 This ``simulated time'' approach nullifies the asynchronous, event-driven nature of the \gls{snn}, resulting in the $5.4\times$ throughput penalty documented in Section \ref{subsec:exp_latency}. 
+
+\subsubsection*{Future Work}
 To achieve a truly definitive comparison, the architecture should be deployed on non-von Neumann silicon such as the IBM TrueNorth \cite{merolla2014million} or Intel Loihi \cite{davies2018loihi};
 only on such hardware can the $94.33\%$ power savings be realized in a live, asynchronous context.
 
 \subsection{The Temporal Quantization Ceiling}
-The adoption of a fixed temporal window of $T=10$ timesteps established a global precision ceiling that was particularly apparent in the quantization error analysis (Section \ref{subsec:quantization_error}). 
-As established in early spiking vision literature \cite{THORPE2001715}, rate coding over discrete steps creates a $1/T$ ($10\%$) quantization error in the feature maps. 
 
-This representational limit prevents the \gls{snn} from achieving the infinite sub-pixel coordinate refinement of the continuous \gls{cnn} baseline. To break this fixed-precision trade-off, future trials should explore the following approaches:
+\subsubsection*{Impact}
+
+The adoption of a fixed temporal window of $T=10$ timesteps established a global precision ceiling that was particularly apparent in the quantization error analysis (Section \ref{subsec:quantization_error}). 
+As established in early spiking vision literature, rate coding over discrete steps creates a $1/T$ ($10\%$) quantization error in the feature maps \cite{THORPE2001715}. 
+This representational limit prevents the \gls{snn} from achieving the infinite sub-pixel coordinate refinement of the continuous \gls{cnn} baseline.
+
+\subsubsection*{Future Work}
+
+To break this fixed-precision trade-off, future trials should explore the following approaches:
 \begin{itemize}
     \item \textbf{Adaptive Timestepping:} A technique where the model dynamically increases temporal resolution for complex objects.
     \item \textbf{\gls{ttfs}:} An encoding method that utilizes exact spike timing; information is represented by the arrival time of the first spike rather than the firing frequency \cite{ttfs_encoding}.
     \item \textbf{\gls{roc}:} An approach that represents intensities via relative firing orders and sub-millisecond arrival times rather than discrete spike counts \cite{THORPE2001715}.
-\end{itemize}   
+\end{itemize}
 
 \subsection{The Detection Head Mismatch}
+
+\subsubsection*{Impact}
 To enforce strict architectural parity and variable isolation, this project utilized a standard continuous-valued detection head for both models. 
 While this ensured a clean empirical comparison of the backbones, it created an output stability gap. The observed ``Hunting Behaviour'' (Section \ref{subsec:temporal_evidence}) is a positive indicator of the \gls{snn}'s high-frequency temporal sensitivity, proving the backbone is successfully reflecting the sub-millisecond jitter of the raw event stream.
 
 However, the static, float-based head was too slow to resolve this highly reactive evidence, leading to the unstable bounding boxes observed in complex scenes. 
 The use of a shared head was a deliberate methodological constraint to prevent the introduction of a ``black box'' variable, but it highlights the need for an \gls{snn}-native detection head, such as a membrane-regression head, to stabilize the model's sensitive temporal probing into a smoothed output suitable for \gls{adas} and other applications in this domain.
 
+\subsubsection*{Future Work}
+To bridge this output stability gap, future development must focus on the engineering of an \gls{snn}-native temporal fusion head. Rather than relying on a static float-based regression of discrete spikes, this novel head would regress bounding box coordinates continuously from the membrane potential ($V_m$) of the final layer. Alternatively, confidence logits could be derived directly from the relative firing rates of the output grid. 
+This approach would natively interpret the temporal oscillation of the spiking backbone, smoothing the highly reactive event evidence into stable, monotonic predictions suitable for deployment in \gls{adas}-like systems.
+
 \subsection{Dataset Domain Gap and Strategic Selection}
+
+\subsubsection*{Impact}
 Finally, the choice of the \gls{etram} dataset \parencite{Verma_2024_CVPR} introduces a significant domain gap. 
-Because the frames are captured from a static roadside perspective ($\sim$6\,m height), they lack the \textbf{ego-motion artifacts}, such as motion blur and rapid optic flow, that define a vehicle-mounted sensor's environment. In real-world autonomous deployments, cameras are mounted directly to moving vehicles; therefore, it is imperative that a perception system is trained to process and filter such dynamic artifacts.
+Because the frames are captured from a static roadside perspective ($\sim$6\,m height), they lack the ego-motion artifacts, such as motion blur and rapid optic flow, that define a vehicle-mounted sensor's environment. In real-world autonomous deployments, cameras are mounted directly to moving vehicles; therefore, it is imperative that a perception system is trained to process and filter such dynamic artifacts.
 
 However, the selection of \gls{etram} over alternatives like Prophesee GEN1 was a deliberate methodological trade-off; \gls{etram} was prioritized for its manual label fidelity (human-assigned labels) and \gls{hd} resolution, providing a gold standard benchmark that was essential for the architectural validation of the \texttt{ULTRA} backbone. 
 While the static mounting is a weakness, the quality of the annotations ensured that the $94.9\%$ precision parity was a reflection of the architecture's capacity, rather than an artifact of noisy, automated labels.
 Furthermore, the \gls{etram} study also provided a custom pre-processing pipeline optimized towards the specific dataset \cite{Verma_2024_CVPR}, which served as the foundation for the \texttt{REPLICA} pipeline detailed in Section \ref{sec:data_preprocessing}. Leveraging this existing infrastructure significantly accelerated development, ensuring the project's ambitious scope could be realized within the constrained timeframe.
+
+\subsubsection*{Future Work}
+To evolve \texttt{DetectorNX} from a static benchmark into a production-ready automotive system, future evaluations must incorporate vehicle-mounted datasets to expose the model to ego-motion artifacts. To maintain the high-fidelity representation learned from \gls{etram}, future work should employ a joint-training or domain-adaptation strategy. The architecture could be pre-trained on the gold-standard static labels of \gls{etram} and subsequently fine-tuned on a meticulously manually-relabeled subset of the Prophesee GEN1 dataset \cite{prophesse_gen1}. This hybrid approach would validate and train the architecture's robustness against severe optic flow and dynamic backgrounds while circumventing the label noise inherent to fully automated RGB-to-event annotations.
+
+Furthermore, the ultimate test of the \gls{snn}'s low-latency advantage requires integration into a closed-loop automotive simulator such as CARLA \cite{carla_sim} equipped with simulated event cameras. This would shift the evaluation metric from static precision (\gls{miou}) to physical safety outcomes, definitively quantifying how the \gls{snn}'s $3.85$\,ms inference latency reduces emergency braking distances in dynamic environments.
