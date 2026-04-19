@@ -1,0 +1,19 @@
+\section{Motivation}
+\label{sec:intro_motivation}
+
+The primary motivation for this research is rooted in the severe thermal and power consumption trade-offs inherent to deploying continuous-valued \acrfullpl{cnn} in autonomous edge environments. 
+As established by Lin et al.\ \cite{lin_adas_cnn_issues}, the deployment of deep learning models on resource-constrained \gls{adas} platforms exposes a critical sustainability issue: the static, frame-based nature of \glspl{cnn} mandates that they execute billions of dense \gls{mac} operations continuously, generating immense metabolic load and thermal throttling even when processing visually redundant or static environments.
+
+To resolve these computational and thermal constraints, this research looks toward the most power-efficient perception engine known: the biological brain. Unlike traditional cameras that capture absolute frames at a fixed frequency, biological retinas and neuromorphic event sensors only transmit asynchronous changes in luminance.
+Consequently, biological neural networks consume metabolic energy only when processing new, relevant information \cite{pfeiffer_snn_opportunities}.
+
+\acrfullpl{snn} are the computational embodiment of this biological sparsity. 
+By replacing continuous, energy-heavy \gls{mac} operations with discrete, event-driven \acrfull{ac} additions, \glspl{snn} offer a theoretical pathway to sub-milliwatt, real-time object detection at the edge. 
+Since spiking neurons remain dormant until triggered by an input event and respond to a stimulus, they naturally bypass the thermal throttling and battery drain issues that plague continuous \glspl{cnn} \cite{lin_adas_cnn_issues}.
+
+However, a significant gap exists in the current literature regarding the deployment of \glspl{snn} for high-definition automotive perception: 
+the transition from 32-bit floating-point \gls{cnn} activations to 1-bit discrete spikes introduces quantization errors and temporal precision limits. 
+Historically, this has restricted \glspl{snn} to low-resolution classification tasks, as they struggle to resolve the fine-grained spatial coordinates required for multi-object bounding box regression in complex traffic scenes.
+
+The \texttt{DetectorNX} project is motivated by the critical need to both rigorously quantify and mitigate these trade-offs on modern, high-definition event datasets. 
+By establishing strict architectural parity between an \gls{snn} and a \gls{cnn} baseline, this project seeks to definitively prove whether the immense thermal and power savings of the neuromorphic paradigm can be achieved without fatally compromising the spatial precision required for autonomous vehicle safety.
