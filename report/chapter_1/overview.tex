@@ -1,0 +1,15 @@
+\section{Overview}
+\label{sec:intro_overview}
+
+\gls{adas} and self-driving vision systems are computer-vision based solutions implemented by the road cars of today, mandated both by consumers and legislation bodies.
+Consequently, autonomous perception currently represents one of the most critical frontiers of development in automotive engineering and research.
+However, the pursuit of full autonomy has driven a relentless escalation in the complexity and resolution of these perception systems:
+modern vehicles rely on \gls{cnn} to process high-definition video streams in real-time,
+executing billions of dense, floating-point operations (\glspl{flop}) every second.
+
+As the industry scales towards higher resolutions and faster reaction times to ensure passenger safety, the energy demands of this continuous, dense spatial reasoning have begun to push the limits of what resource-constrained edge environments can sustain \cite{lin_adas_cnn_issues},
+posing both a hardware problem to develop more compute-dense computers and a software problem to develop more efficient algorithms.
+
+This project investigates utilizing cutting-edge neuromorphic paradigms, more specifically \glspl{snn},
+and their feasibility in this domain as an alternative computational approach.
+To achieve this, the project develops \texttt{DetectorNX ULTRA}, a high-definition spiking architecture designed for multi-object automotive perception. By rigorously benchmarking this system against a strictly equivalent continuous \gls{cnn} on the event-based \gls{etram} dataset \parencite{Verma_2024_CVPR}, this research empirically deconstructs the performance-efficiency frontier---quantifying the precise trade-offs between the energy savings of event-driven dynamics and the spatial precision constraints of 1-bit temporal quantization.

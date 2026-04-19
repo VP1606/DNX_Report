@@ -391,3 +391,41 @@ We also argue that R-NoM is much more hardware-friendly than the original ROC pr
   biburl       = {https://dblp.org/rec/journals/corr/abs-1711-03938.bib},
   bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
+
+@inproceedings{10.1145/3173162.3173191,
+author = {Lin, Shih-Chieh and Zhang, Yunqi and Hsu, Chang-Hong and Skach, Matt and Haque, Md E. and Tang, Lingjia and Mars, Jason},
+title = {The Architectural Implications of Autonomous Driving: Constraints and Acceleration},
+year = {2018},
+isbn = {9781450349116},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3173162.3173191},
+doi = {10.1145/3173162.3173191},
+abstract = {Autonomous driving systems have attracted a significant amount of interest recently, and many industry leaders, such as Google, Uber, Tesla, and Mobileye, have invested a large amount of capital and engineering power on developing such systems. Building autonomous driving systems is particularly challenging due to stringent performance requirements in terms of both making the safe operational decisions and finishing processing at real-time. Despite the recent advancements in technology, such systems are still largely under experimentation and architecting end-to-end autonomous driving systems remains an open research question. To investigate this question, we first present and formalize the design constraints for building an autonomous driving system in terms of performance, predictability, storage, thermal and power. We then build an end-to-end autonomous driving system using state-of-the-art award-winning algorithms to understand the design trade-offs for building such systems. In our real-system characterization, we identify three computational bottlenecks, which conventional multicore CPUs are incapable of processing under the identified design constraints. To meet these constraints, we accelerate these algorithms using three accelerator platforms including GPUs, FPGAs, and ASICs, which can reduce the tail latency of the system by 169x, 10x, and 93x respectively. With accelerator-based designs, we are able to build an end-to-end autonomous driving system that meets all the design constraints, and explore the trade-offs among performance, power and the higher accuracy enabled by higher resolution cameras.},
+booktitle = {Proceedings of the Twenty-Third International Conference on Architectural Support for Programming Languages and Operating Systems},
+pages = {751–766},
+numpages = {16},
+keywords = {autonomous driving systems, deep neural networks},
+location = {Williamsburg, VA, USA},
+series = {ASPLOS '18}
+}
+
+@article{lin_adas_cnn_issues,
+author = {Lin, Shih-Chieh and Zhang, Yunqi and Hsu, Chang-Hong and Skach, Matt and Haque, Md E. and Tang, Lingjia and Mars, Jason},
+title = {The Architectural Implications of Autonomous Driving: Constraints and Acceleration},
+year = {2018},
+issue_date = {February 2018},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {53},
+number = {2},
+issn = {0362-1340},
+url = {https://doi.org/10.1145/3296957.3173191},
+doi = {10.1145/3296957.3173191},
+abstract = {Autonomous driving systems have attracted a significant amount of interest recently, and many industry leaders, such as Google, Uber, Tesla, and Mobileye, have invested a large amount of capital and engineering power on developing such systems. Building autonomous driving systems is particularly challenging due to stringent performance requirements in terms of both making the safe operational decisions and finishing processing at real-time. Despite the recent advancements in technology, such systems are still largely under experimentation and architecting end-to-end autonomous driving systems remains an open research question. To investigate this question, we first present and formalize the design constraints for building an autonomous driving system in terms of performance, predictability, storage, thermal and power. We then build an end-to-end autonomous driving system using state-of-the-art award-winning algorithms to understand the design trade-offs for building such systems. In our real-system characterization, we identify three computational bottlenecks, which conventional multicore CPUs are incapable of processing under the identified design constraints. To meet these constraints, we accelerate these algorithms using three accelerator platforms including GPUs, FPGAs, and ASICs, which can reduce the tail latency of the system by 169x, 10x, and 93x respectively. With accelerator-based designs, we are able to build an end-to-end autonomous driving system that meets all the design constraints, and explore the trade-offs among performance, power and the higher accuracy enabled by higher resolution cameras.},
+journal = {SIGPLAN Not.},
+month = mar,
+pages = {751–766},
+numpages = {16},
+keywords = {autonomous driving systems, deep neural networks}
+}
