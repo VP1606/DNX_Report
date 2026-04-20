@@ -1,0 +1,26 @@
+\section{Project Aims and Objectives}
+\label{sec:intro_aims_objectives}
+
+This project pursues a single, well-defined research question: can a \gls{snn}, constrained to the same architectural capacity as a continuous \gls{cnn}, achieve competitive object detection accuracy on high-definition event-based data while delivering meaningful energy efficiency gains? To answer this, the following objectives were established:
+
+\begin{enumerate}
+    \item \textbf{Develop a high-definition \gls{snn} for multi-object detection:} 
+    Design and train \texttt{DetectorNX ULTRA}, a spiking architecture capable of performing bounding box regression on the \gls{hd} \gls{etram} event-camera dataset.
+
+    \item \textbf{Develop a structurally equivalent \gls{cnn} baseline:} 
+    Construct \texttt{CNN\_MAX\_REPLICA\_SE}, a continuous-valued counterpart that mirrors the \gls{snn} architecture layer-for-layer with an identical parameter budget, isolating the spiking mechanism as the sole independent variable in all subsequent experiments and evaluations.
+
+    \item \textbf{Train and evaluate both models under identical conditions:} 
+    Apply the same pre-processed dataset, loss function, optimiser, and training duration to both models, ensuring that any observed performance differences are attributable solely to the computational paradigm.
+
+    \item \textbf{Benchmark inference latency on \gls{gpu} hardware:} 
+    Measure the real-time throughput of both architectures to assess their viability for deployment in automotive perception pipelines.
+
+    \item \textbf{Estimate theoretical energy consumption:} 
+    Derive energy usage from layer-wise spike activity using established neuromorphic hardware constants, and project consumption figures onto representative neuromorphic platforms such as Intel Loihi and IBM TrueNorth.
+
+    \item \textbf{Conduct a rigorous, multi-dimensional comparison:} 
+    Synthesise the accuracy, latency, and energy results to empirically characterise the performance-efficiency frontier of the spiking paradigm on a real-world, high-definition detection task.
+    
+\end{enumerate}
+

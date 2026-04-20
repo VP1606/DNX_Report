@@ -1,0 +1,22 @@
+\section{Report Structure}
+\label{sec:intro_report_structure}
+
+In the following chapters, we cover the following:
+
+\paragraph{Background:}
+
+\noindent Chapter~\ref{cha:background} provides the theoretical and empirical context required to situate the \texttt{DetectorNX} project.
+It surveys the development of \glspl{cnn} for object detection, introduces the biological principles underlying \glspl{snn} and the \gls{lif} neuron model, reviews the event-camera sensing paradigm and the \gls{etram} dataset, characterises the energy economics of neuromorphic hardware, and synthesises related work comparing spiking and continuous architectures on detection tasks.
+
+\todo[inline]{Re-write this once background is complete.}
+
+\paragraph{Methodology:}
+
+\noindent Chapter~\ref{cha:methodology} presents the full technical implementation.
+It details the system requirements, the shared multi-box detection head architecture, the data preprocessing pipeline, the design of \texttt{DetectorNX ULTRA} and \texttt{CNN\_MAX\_REPLICA\_SE}, the architectural evolution that led to the final configurations, and the complete experimental setup including training hyperparameters, hardware environment, and evaluation protocol.
+Results and their analysis are presented within this chapter as an integrated discussion of methodology and outcome.
+
+\paragraph{Conclusions:}
+
+\noindent Chapter~\ref{cha:summary_conclusions} concludes the report.
+It revisits each success criterion defined in Section~\ref{sec:intro_success_criteria}, summarises the principal findings across the accuracy, latency, and energy dimensions, reflects critically on the limitations of the experimental design, and proposes concrete directions for future work including deployment on physical neuromorphic hardware and exploration of alternative spiking encodings.

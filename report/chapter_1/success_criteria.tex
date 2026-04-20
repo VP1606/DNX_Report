@@ -1,0 +1,29 @@
+\section{Success Criteria}
+\label{sec:intro_success_criteria}
+
+To provide a concrete evaluation framework, the following measurable success criteria were defined prior to experimentation. Each criterion is revisited explicitly in Chapter~\ref{cha:summary_conclusions}.
+
+\begin{enumerate}
+    \item \textbf{Detection accuracy parity:} 
+    The \gls{snn} must achieve a \gls{miou} of at least $90\%$ of the \gls{cnn} baseline's score on the \gls{etram} validation set.
+    Achieving this will validate that our architecture succeeds in mitigating the compromises expected by the 1-bit temporal quantisation error.
+
+    \item \textbf{Measurable theoretical energy savings:} 
+    The \gls{snn} must demonstrate a reduction in theoretical energy consumption per inference relative to the \gls{cnn} baseline, computed from layer-wise \gls{sop} counts and published neuromorphic hardware constants.
+    The reduction in energy consumption must be realised on real \gls{gpu} hardware, even if it is not to the same extent as the extrapolated values on neuromorphic hardware.
+
+    \item \textbf{Real-time viability:} 
+    Both models must sustain an inference throughput of at least $30$ frames per second on \gls{gpu} hardware, meeting the established minimum threshold for real-time automotive perception \cite{khan2024real}.
+
+    \item \textbf{Architectural parity:} 
+    The \gls{snn} and \gls{cnn} must share an equivalent parameter count (within $1\%$), ensuring that any observed performance gap reflects the spiking mechanism rather than differences in model capacity.
+
+    \item \textbf{Detection completeness:}
+    Both models must achieve a recall of $100\%$ for objects with an \gls{iou} exceeding $0.5$ on the validation set, confirming that the multi-box regression head reliably detects all ground-truth vehicles in the scene.
+
+    \item \textbf{Confidence calibration:}
+    The \gls{snn} must exhibit confidence calibration equivalent to, or superior to, that of the \gls{cnn} baseline, as measured by the \acrfull{ece} computed from reliability diagrams on the \gls{etram} validation set.
+    This criterion is safety-critical: in \gls{adas} applications, a model that systematically over-states its detection confidence may suppress downstream safety interventions.
+    A neuromorphic architecture that delivers energy savings at the cost of increased over-confidence would therefore be unsuitable for deployment, regardless of its accuracy or efficiency gains.
+
+\end{enumerate}
