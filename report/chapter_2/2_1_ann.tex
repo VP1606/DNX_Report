@@ -1,0 +1,26 @@
+\section{Artificial Neural Networks}
+\label{sec:background_ann}
+
+\subsubsection{What is an Artificial Neural Network?}
+
+\glspl{ann} are a family of computational models loosely inspired by the structure of biological neural tissue \cite{lecun2015deep}.
+An \gls{ann} is composed of layers of interconnected nodes, or neurons, each of which computes a weighted sum of its inputs and passes the result through a non-linear activation function.
+By stacking multiple of these layers in sequence, the network learns a hierarchical composition of transformations that progressively maps raw input data to a task-specific output representation.
+The dominant activation function in modern deep learning is the \gls{relu}, defined as $f(x) = \max(0, x)$, which is computationally inexpensive and empirically effective at enabling deep networks to learn complex, non-linear functions \cite{lecun2015deep}.
+
+\subsubsection{Training an Artificial Neural Network}
+
+Training an \gls{ann} is performed by minimising a differentiable loss function over the training set via gradient descent.
+Gradients are propagated from the output layer back through the network using the chain rule of calculus, using a procedure known as backpropagation \cite{lecun2015deep}.
+A fundamental requirement of this process is that every function in the computational graph must be differentiable: if a non-differentiable operation is encountered, the chain rule breaks down and no gradient signal can propagate through it.
+This constraint is unproblematic for standard \glspl{ann} where activations such as \gls{relu} are differentiable almost everywhere, but becomes a significant challenge for the spiking paradigm, which is non-differentiable, as discussed in Section~\ref{sec:background_snn}.
+
+\subsubsection{Multiply-Accumulate Operations}
+
+Deep \glspl{ann} rely predominantly on \acrfull{mac} operations for their arithmetic procressing: for each neuron, its output is the accumulated product of incoming values and their corresponding weights.
+In a standard convolutional or fully connected layer, the total \gls{mac} count is a fixed function of the architecture, determined by filter dimensions, channel widths, and spatial resolution, which is independent of the input content as a result.
+This static computational budget is a defining characteristic of synchronous deep learning, and forms the baseline against which the event-driven efficiency of input-dependent \glspl{snn} is evaluated in Section~\ref{sec:background_neuromorphic}.
+
+\todo[inline]{§3.4 \texttt{Backward Pass} opening paragraph (lines 1--3) re-explains why backpropagation requires differentiability. Once §2.1 is in place, reduce to a single sentence: ``since the Heaviside function is non-differentiable (§\ref{sec:background_ann}), conventional backpropagation fails immediately'', then proceed to the surrogate solution.}
+
+\todo[inline]{§3.7 \texttt{Dynamic Power} opening paragraph re-explains MACs as a static computational primitive. Once §2.1 is in place, reduce the first sentence to a brief reference to §\ref{sec:background_ann} rather than re-defining MACs inline.}
