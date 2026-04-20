@@ -1,0 +1,72 @@
+\section{Event-Based Vision}
+\label{sec:background_eventcamera}
+
+\subsection{Event Cameras}
+\label{subsec:bg_event_camera}
+
+\subsubsection*{Frame-Based vs.\ Event-Based Sensing}
+
+Conventional frame-based cameras operate synchronously, where every pixel is read out at a fixed rate, producing a dense intensity matrix regardless of whether anything in the scene has changed since the last frame.
+This design introduces several well-documented limitations: motion blur at high speeds, a fixed dynamic range bounded by the exposure window, and substantial data redundancy during static scenes --- all of which are particularly problematic for high-speed automotive perception \cite{gallego2020event}.
+
+An event camera fundamentally departs from this paradigm;
+rather than reading out all pixels simultaneously, each pixel operates independently, firing an event the moment its log-intensity changes beyond a threshold.
+The result is a continuous, asynchronous stream of discrete events rather than a sequence of synchronous frames, registering only what has changed between scenes instead of the full scenes themselves.
+In other words, if the scene was completely dormant with no changes occurring, an event-driven camera would capture this as a blank image versus a frame-based camera capturing the empty scene.
+
+\subsubsection*{The Event Representation}
+
+Each emitted event takes the form of a tuple $e = (x, y, t, p)$, where $(x, y)$ are the pixel coordinates at which the change occurred, $t$ is the microsecond-precision timestamp, and $p \in \{-1, +1\}$ is the polarity, indicating whether the log-intensity at that pixel increased (positive event) or decreased (negative event) \cite{gallego2020event}.
+Two properties of this format resolve the limitations of frame-based cameras as mentioned above.
+First, the microsecond-resolution timestamp provides temporal precision several orders of magnitude finer than a conventional $30$ \gls{fps} camera, enabling the capture of fast-moving objects without motion blur.
+Second, the output is inherently sparse: events exist only where and when the scene changes, rather than densely tiling the full sensor resolution at every timestep, resolving the data redundancy during static scenes.
+
+\subsubsection*{Advantages and the Compatibility Problem}
+
+Together, these properties give event cameras a compelling profile for autonomous perception: high temporal resolution, high dynamic range, low latency, and low data redundancy \cite{gallego2020event}.
+However, a sparse, unordered point cloud of $(x, y, t, p)$ tuples is fundamentally incompatible with conventional deep learning frameworks, which expect dense, structured tensors of fixed spatial dimensions.
+Correcting this to adapt to deep learning approaches requires a preprocessing step to convert the asynchronous stream into a format suitable for neural network ingestion, which is the function of \texttt{spatiotemporal voxelization}.
+
+\subsection{Spatiotemporal Voxelization}
+\label{subsec:bg_voxelization}
+
+\subsubsection*{The Voxelization Process}
+
+To make the asynchronous event stream compatible with neural network layers, a voxelization process transforms the continuous point cloud into a structured tensor over a temporal window of duration $\Delta T$.
+This process consists of three core operations:
+
+\begin{itemize}
+    \item \textbf{Temporal Binning:} The total duration of the window $\Delta T$ is divided into $T$ discrete time bins. Each event is assigned to the bin corresponding to its timestamp $t$, discretising the continuous temporal axis into $T$ ordered slices.
+    \item \textbf{Polarity Splitting:} Events are separated into two distinct channels ($C = 2$) based on their polarity, representing positive and negative brightness changes independently. This preserves the directional information of the log-intensity change, which would be lost if both polarities were accumulated into a single channel.
+    \item \textbf{Event Accumulation (Histogramming):} Within each discrete temporal bin and polarity channel, the individual asynchronous events are aggregated at their respective spatial coordinates $(x, y)$. The value of each ``pixel'' in the resulting spatial grid becomes the total count of events of that polarity that occurred at that location during that fraction of time, effectively converting the sparse point cloud into a sequence of dense 2D event histograms.
+\end{itemize}
+
+This accumulation process produces a dense 4D spatiotemporal tensor of shape $[T, 2, H, W]$ (Time $\times$ Channels $\times$ Height $\times$ Width) that standard convolutional and spiking layers can natively process.
+
+\subsubsection*{The Temporal Window}
+
+The choice of window duration $\Delta T$ is a fundamental design parameter that governs the temporal resolution of each voxelized sample.
+Too short a window results in insufficient event density: if too few events accumulate within a bin, the resulting histograms are near-empty, providing insufficient input signal for the network to extract meaningful features.
+Too long a window introduces a different failure mode: fast-moving objects displace significantly within the window, causing the bounding box annotation assigned at the window's centre timestamp to become spatially misaligned with the event distribution by the window's end.
+The specific window duration adopted in this project, and the reasoning behind its selection, is detailed in Section~\ref{sec:data_preprocessing}.
+
+\subsection{The Natural SNN--Event Camera Pairing}
+\label{subsec:bg_snn_event_pairing}
+
+\subsubsection*{An Event-Driven Architecture for an Event-Driven Sensor}
+
+Both systems are fundamentally event-driven: an event camera outputs discrete binary events triggered by scene changes, whilst an \gls{snn} processes discrete binary events in the form of spikes triggered by membrane threshold crossings.
+In both cases, silence is the default operating state, and meaningful activity is generated only in response to genuine stimuli.
+
+A \gls{cnn} must collapse the sparse, asynchronous event stream into a dense synchronous tensor before it can process it, discarding the temporal structure encoded in the event timestamps in the process.
+An \gls{snn} however processes the voxelized stream iteratively across $T$ timesteps via its \gls{lif} dynamics, where each timestep exposes the network to a temporal slice of the event stream, which the \gls{lif} neurons integrate progressively into their membrane potentials.
+This directly mirrors the camera's temporal output structure, preserving and exploiting the event-driven dynamics rather than collapsing them into a single static representation \cite{gallego2020event, pfeiffer_snn_opportunities}.
+
+\subsubsection*{Implications for Neuromorphic Deployment}
+
+On neuromorphic hardware such as Intel Loihi \cite{davies2018loihi} or IBM TrueNorth \cite{merolla2014million}, this alignment extends to the physical level.
+An event camera connected directly to a neuromorphic chip can route events to spiking neurons without any voxelization or dense tensor conversion, since the raw events can be routed directly to spiking neurons without any intermediate tensor representation, enabling a fully asynchronous end-to-end inference pipeline and eliminating the preprocessing bottleneck entirely.
+
+\todo[inline]{\texttt{3\_3\_data\_preprocessing.tex} intro paragraphs 1--2: the event format definition transfers to Section~\ref{subsec:bg_event_camera}. Reduce §3.3 intro to: ``Raw event data takes the form $e = (x, y, t, p)$, as defined in Section~\ref{subsec:bg_event_camera}. The raw \gls{etram} data was provided as pre-recorded \texttt{.h5} event files at $1280 \times 720$ spatial resolution.''}
+
+\todo[inline]{\texttt{3\_3\_data\_preprocessing.tex} §Spatiotemporal Voxelization: the three-bullet conceptual description of temporal binning, polarity splitting, and event accumulation transfers to Section~\ref{subsec:bg_voxelization}. Retain only the \texttt{REPLICA}-specific parameters ($T=10$, resulting tensor shape \texttt{[10, 2, 720, 1280]}) with a back-reference to Section~\ref{subsec:bg_voxelization} for the mechanism.}
