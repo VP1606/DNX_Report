@@ -1,0 +1,24 @@
+\section{\gls{etram} Dataset}
+\label{sec:background_etram}
+
+\subsection{Dataset Overview \& Acquisition Setup}
+
+\gls{etram} is a first-of-its-kind, fully event-based traffic monitoring dataset introduced by \textcite{Verma_2024_CVPR} at CVPR 2024.
+Data was captured using the Prophesee EVK4 HD event camera at $1280 \times 720$ spatial resolution with a temporal resolution exceeding $10{,}000$\,fps, mounted statically at approximately $6$\,m height with a $35^\circ$ pitch angle.
+Unlike ego-motion datasets, where the camera itself moves through the scene, this dataset provides a static perspective; a fixed vantage point ensures that events are generated predominantly by moving traffic participants rather than background infrastructure.
+Recordings span intersections, roadways, and local streets around Arizona State University, Tempe campus, totalling ten hours of annotated event data.
+
+
+\subsection{Class Taxonomy, Scale \& Annotation}
+
+\gls{etram} covers eight distinct object classes organised into three broad categories: Vehicles (Car, Truck, Bus, Tram), Pedestrians, and Micro-mobility (Bicycle, Bike, Wheelchair).
+Over $2$M bounding boxes were manually annotated using CVAT \cite{Verma_2024_CVPR}, with each annotation additionally carrying an object ID to support multi-object tracking.
+Raw data is distributed in multiple formats (RAW, DAT, and H5), with ground-truth annotations provided in NumPy format.
+For this project, the dataset was abstracted to the Vehicle category exclusively, allowing the \gls{snn}--\gls{cnn} comparison to be isolated on a single, well-defined object class.
+
+\subsection{Suitability for This Project}
+
+Two properties motivated the selection of \gls{etram} for this project.
+First, critically for an \gls{adas} and autonomous driving context, recordings span the full spectrum of real-world operating conditions: daytime, nighttime, and twilight, across sunny, overcast, and rainy weather - precisely the range of environments an autonomous perception system must handle reliably, and one that deliberately exercises the conditions under which frame-based sensors are known to degrade.
+Second, the \gls{etram} study provides a dataset-specific spatiotemporal filtering and denoising pipeline tuned to the noise characteristics of the EVK4 sensor, which was adopted directly as the signal conditioning stage of the \texttt{REPLICA} preprocessing system, This eliminated the need to develop bespoke noise suppression from first principles, and significantly accelerated the transition to model development.
+The full \texttt{REPLICA} pipeline is detailed in Section~\ref{sec:data_preprocessing}.
