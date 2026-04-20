@@ -1,0 +1,60 @@
+\section{Convolutional Neural Networks for Object Detection}
+\label{sec:background_cnn}
+
+\subsection{Convolutional Feature Extraction}
+
+A \acrfull{cnn} extends the standard \gls{ann} architecture by replacing dense linear layers with convolutional operations, in which a bank of learned filters is applied across the spatial extent of an input.
+Each filter performs a localised weighted sum at every spatial position, producing a feature map that encodes the presence and magnitude of a particular learned pattern at each location.
+Convolutional layers can also be stacked to build a hierarchy of representations: early layers detect low-level geometric patterns such as edges and motion boundaries, whilst deeper layers synthesise these into semantically meaningful object features \cite{lecun2015deep}.
+
+
+Throughout a stacked network, the spatial resolution is progressively reduced using \textit{strided convolutions} or pooling operations, compressing the input into increasingly compact, dense high-level representations.
+
+\subsection{Calculating the \gls{mac} of a \gls{cnn} Layer}
+
+The total number of \gls{mac} operations in a single convolutional layer is a fixed function of its geometry, and can be calculated as follows:
+\begin{equation}
+    \text{FLOPs}_l = H_{out} \times W_{out} \times K^2 \times C_{in} \times C_{out}
+\end{equation}
+where $(H_{out} \times W_{out})$ is the spatial resolution of the output feature map, $K$ is the kernel size, and $C_{in}$, $C_{out}$ are the input and output channel widths respectively.
+Subsequently, the equation produces a \gls{flop} value, which is the total number of floating point operations, specifically multiplication and addition, performed during the forward pass of the layer.
+As established in Section~\ref{sec:background_ann}, this count is static, determined entirely by the architecture and independent of the visual content of the input, which is an inherent problem for energy-efficiency in such architectures.
+
+\subsection{Residual Learning}
+
+A well-documented failure mode of deep \glspl{cnn} is the \textit{vanishing gradient} problem: as backpropagation proceeds through many successive layers, gradients are repeatedly scaled by values less than one, causing them to decay exponentially and preventing effective learning in early layers \cite{he2015deep}.
+He et al.~\cite{he2015deep} resolved this through the introduction of \textit{residual learning}: rather than tasking each layer with learning a direct mapping $y = \mathcal{H}(x)$, the network instead learns the \textit{residual} $\mathcal{F}(x) = \mathcal{H}(x) - x$, recasting the target as:
+\begin{equation}
+    y = \mathcal{F}(x) + x
+\end{equation}
+The additive shortcut connection, otherwise known as a skip connection, bypasses one or more convolutional layers and adds the input directly to the output, providing an unobstructed gradient path back to the earliest layers, guaranteeing stable training regardless of network depth.
+Within a Standard Residual Block, this shortcut carries the raw input features forward through the identity path, and the convolutional branch learns only the incremental refinement needed to improve the representation.
+This mechanism forms the backbone of the \gls{cnn} baseline employed in this project and, through its spiking equivalent discussed in Section~\ref{sec:background_snn}, underpins the \texttt{DetectorNX ULTRA} architecture itself.
+
+\subsection{Object Detection \& Bounding Box Regression}
+
+Object detection requires a network to simultaneously localise and identify one or more targets within a scene, and determine what its coordinates and size in the space are.
+In the bounding box regression paradigm popularised by Redmon et al.~\cite{redmon2016yolo}, this is framed as a direct regression problem: the network predicts a set of candidate boxes, each parameterised by a feature tuple $\mathcal{F} = \{x, y, w, h, c\}$, where $(x, y)$ and $(w, h)$ are the normalised centre coordinates and dimensions of the box, and $c$ is an objectness confidence score reflecting the probability that a genuine target is present within that region.
+
+By predicting multiple candidate boxes simultaneously in a single forward pass, this multi-box formulation enables real-time detection across the full spatial extent of the input;
+in a real-world application, an autonomous vision system must be able to handle detecting multiple vehicles and artifacts simultaneously, making this multi-box paradigm even more prevalent.
+Each predicted box is evaluated against the ground-truth annotations using an \acrfull{iou} metric, which quantifies the ratio of the intersection to the union of the two boxes, providing a scale-invariant, directly interpretable measure of spatial overlap.
+The multi-box regression paradigm, including the $(x, y, w, h, c)$ output format and the use of \gls{iou} as the evaluation criterion, forms the direct foundation of the detection head employed in this project, as detailed in Section~\ref{subsec:snn_head}.
+
+\subsection{GIoU Loss}
+
+Whilst standard \gls{iou} is an effective evaluation metric, it presents a fundamental problem when used directly as a training loss: when a predicted box and its ground-truth target do not overlap at all, the \gls{iou} score is zero regardless of how far apart the two boxes are.
+Consequently, the gradient of a standard \gls{iou} loss is also zero in this case, providing no optimisation signal to guide the network towards the correct region and stalling training in the early stages when predictions are furthest from the ground truth.
+Rezatofighi et al.~\cite{rezatofighi2019giou} resolved this by proposing \acrfull{giou}, which augments the standard overlap term with a penalty derived from the area of the smallest enclosing convex hull $\mathcal{C}$ that contains both boxes:
+\begin{equation}
+    \text{GIoU} = \text{IoU} - \frac{|\mathcal{C} \setminus (A \cup B)|}{|\mathcal{C}|}
+\end{equation}
+\noindent This penalty is non-zero even when the boxes are entirely disjoint, ensuring a meaningful gradient signal is always available.
+As the predicted box converges towards the ground truth, the \gls{giou} penalty vanishes and the loss reduces to standard \gls{iou}, making it a strict generalisation of the original metric.
+\gls{giou} is employed as the training loss throughout this project, with standard \gls{iou} being reserved for evaluation, where interpretability and comparability with published results take precedence over gradient behaviour.
+
+\todo[inline]{\texttt{3\_5\_cnn\_baseline.tex} §Backbone: the two-sentence He et al.\ / skip connections explanation can be reduced to a single cite pointing here: ``The inclusion of skip connections enables the CNN to avoid the vanishing gradient problem~\cite{he2015deep} (see §\ref{sec:background_cnn})''.}
+
+\todo[inline]{\texttt{3\_5\_cnn\_baseline.tex} §SEWResBlock vs Standard ResBlock, CNN-side prose: strip the explanation of what a Standard ResBlock does and retain only the comparison table. The mechanism now lives in §\ref{sec:background_cnn}.}
+
+\todo[inline]{\texttt{3\_7\_sections/dynamic\_power.tex}: the inline parenthetical explaining the FLOPs formula variables (``where $H_{out} \times W_{out}$ is the number of pixels...'') can be removed --- the reader now has the full formula in §\ref{sec:background_cnn}.}
