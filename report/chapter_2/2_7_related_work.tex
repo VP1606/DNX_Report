@@ -1,0 +1,20 @@
+\section{Related Work}
+\label{sec:background_related_work}
+
+\subsection{The Progression of Spiking Architectures}
+
+Early efforts to close the accuracy gap between \glspl{snn} and \glspl{cnn} focused on classification tasks on low-resolution benchmarks.
+\textcite{pfeiffer_snn_opportunities} provided foundational evidence that \glspl{snn} could exploit temporal sparsity for energy-efficient inference, while \textcite{sengupta2019goingdeeperspikingneural} demonstrated that deep \glspl{snn} could approach \gls{cnn} accuracy on ImageNet via \gls{ann}-to-\gls{snn} conversion.
+The architectural frontier advanced further with the \gls{sew} ResNet introduced by \textcite{fang2022resnet_sew}, which resolved the vanishing gradient problem in directly-trained deep \glspl{snn} through element-wise spike residuals.
+Despite this depth progression, a systematic review of 151 studies by \textcite{iaboni2024review} confirms that \gls{snn} evaluation remains predominantly anchored to low-resolution datasets such as MNIST ($28{\times}28$) and CIFAR-10 ($32{\times}32$); high-definition multi-object detection remains a critically underexplored frontier.
+
+\subsection{Event-Based Object Detection}
+
+The landscape of event-based object detection has been comprehensively surveyed by \textcite{gallego2020event}, who established that tensor-based representations, voxel grids and event surfaces, dominate the field, typically consumed by continuous-valued detectors.
+The introduction of \gls{etram} by \textcite{Verma_2024_CVPR} reinforced this pattern; despite providing the first \gls{hd} event-based traffic dataset, all published baselines, RVT, RED, and YOLOv8, are continuous architectures, and no spiking detector has been evaluated against them.
+Furthermore, no prior work has systematically compared a spiking and a non-spiking detector on a shared \gls{hd} event dataset under strict architectural parity.
+
+\subsection{The Gap This Project Addresses}
+
+As shown by \textcite{lin_adas_cnn_issues}, the thermal and power cost of deploying continuous \glspl{cnn} in \gls{adas} contexts is unsustainable. Despite this, as \textcite{pfeiffer_snn_opportunities} and the event-vision survey of \textcite{gallego2020event} collectively establish, the neuromorphic alternative has not been rigorously validated for high-definition multi-object detection.
+The \texttt{DetectorNX} project directly addresses this gap: by enforcing strict architectural parity between an \gls{snn} and a \gls{cnn} baseline on the \gls{hd} \gls{etram} dataset, it provides the first controlled empirical quantification of the precision--efficiency trade-off at the spatial resolution demanded by real-world automotive perception.
