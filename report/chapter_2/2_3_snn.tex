@@ -15,10 +15,12 @@ The dynamics of the \gls{lif} neuron at a given spatial position and timestep $t
 The hidden membrane potential $H[t]$ prior to spiking is mathematically defined as:
 \begin{equation}
     H[t] = V[t-1] + \frac{1}{\tau} \left(X[t] - (V[t-1] - V_{reset})\right)
+    \label{eq:lif_membrane}
 \end{equation}
 When $H[t]$ exceeds a predefined threshold $V_{th}$, the neuron emits a binary spike $S[t] \in \{0, 1\}$ to the subsequent layer, governed by the Heaviside step function $\Theta(x)$:
 \begin{equation}
     S[t] = \Theta(H[t] - V_{th})
+    \label{eq:lif_spike}
 \end{equation}
 Following a spike ($S[t]=1$), the neuron undergoes a hard reset, instantly dropping its potential $V[t]$ to $V_{reset}$, mimicking the refractory period of biological neurons, preventing infinite spiking and overstimulation \cite{sarpeshkar1992refractory}.
 If no spike is emitted ($S[t]=0$), the potential naturally decays, ensuring that subsequent layers only perform computations upon receiving active events \cite{sengupta2019goingdeeperspikingneural}.
@@ -36,6 +38,7 @@ While the forward pass remains strictly binary, the backward pass approximates t
 A common choice is the \gls{atan} function:
 \begin{equation}
     \frac{\partial S}{\partial H} \approx \frac{\alpha}{2\left(1 + \left(\frac{\pi}{2} \alpha (H - V_{th})\right)^2\right)}
+\label{eq:atan_function}
 \end{equation}
 where $\alpha$ is a hyperparameter controlling the steepness of the surrogate curve.
 This mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution, with gradients propagated through the temporal dimension via \acrfull{bptt}.
@@ -93,6 +96,7 @@ Both extremes halt gradient flow and destroy the activation sparsity that underp
 To constrain the network against these failure modes, a \acrfull{frr} metabolic penalty can be integrated into the training loss by applying a squared-error penalty to the network's average firing rate, pushing it towards a biologically plausible target:
 \begin{equation}
     L_{frr} = \lambda \cdot (\text{Rate}_{avg} - \text{Target})^2
+    \label{eq:frr}
 \end{equation}
 Penalising deviation from a target firing rate is an established technique for preserving activation sparsity in directly trained \glspl{snn} \cite{deng2021comprehensive, yan2022backpropagation}, ensuring high information flow while maintaining the sparse, event-driven activations required for efficient neuromorphic deployment.
 
@@ -113,15 +117,5 @@ Alternative temporal coding schemes have been proposed to overcome this ceiling,
 
 In practice, efficiently executing the $T$-step iterative dynamics of a deep \gls{snn} on synchronous \gls{gpu} hardware requires careful implementation.
 The SpikingJelly framework addresses this through a multi-step execution paradigm (\texttt{step\_mode=`m'}), in which the entire spatiotemporal tensor is passed directly into custom-compiled \gls{cuda} kernels rather than iterating through timesteps sequentially, enabling parallelised execution of the temporal dynamics on conventional hardware \cite{fang2023spikingjelly}.
-
-\todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §Neuron Dynamics: LIF --- strip all equations and mechanistic explanation. Retain only project-specific parameters ($V_{th}=0.2$, hard reset, $\tau$) and add a back-reference: ``the \gls{lif} model, as defined in Section~\ref{subsec:bg_lif}, governs the temporal dynamics of the network''.}
-
-\todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §Backward Pass --- strip the opening ``dead neuron'' motivation paragraph (covered in Sections~\ref{sec:background_ann} and~\ref{subsec:bg_surrogate}). Retain only the \gls{atan} equation and the project-specific $\alpha$ hyperparameter value, with a back-reference to Section~\ref{subsec:bg_surrogate}.}
-
-\todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §SEW-ResBlocks --- strip the vanishing spike explanation and remove the duplicate \texttt{sewresblock\_diagram.pdf} figure (now in Figure~\ref{fig:sewresblock_bg}). Reduce the intro to: ``as detailed in Section~\ref{subsec:bg_sew}, \gls{sew} ResBlocks resolve the vanishing spike problem by placing the residual operation after the spiking activation function \cite{fang2022resnet_sew}''.}
-
-\todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §SE-Block --- remove the duplicate \texttt{se\_block\_diagram.pdf} figure (now in Figure~\ref{fig:se_block_bg}) and strip the Squeeze/Excitation mechanism explanation (see Section~\ref{subsec:bg_se}). Retain only the Stage 3 / $22\times40\times256$ application context and the ``Objectness'' framing, with a back-reference to Section~\ref{subsec:bg_se}.}
-
-\todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §FRR --- strip the network silencing/over-saturation motivation and the squared-error equation (both now in Section~\ref{subsec:bg_frr}). Retain only the project-specific $\lambda=5.0$, $\text{Target}=20\%$, and cite, with a back-reference to Section~\ref{subsec:bg_frr}.}
 
 \todo[inline]{\texttt{3\_7\_sections/temporal\_evidence.tex} §Hypothesis: Bounding Box Sharpening --- strip the Thorpe rapid categorisation paragraphs (transferred to Section~\ref{subsec:bg_temporal}). Reduce to one sentence establishing the sharpening hypothesis, then proceed directly to the experimental methodology.}

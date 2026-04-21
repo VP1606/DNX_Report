@@ -17,35 +17,27 @@ This low-level optimization enables high-speed, parallelized execution of the te
 
 \subsection{Neuron Dynamics: \gls{lif}}
 \label{subsec:snn_lif}
-At the foundation of the architecture lies the \gls{lif} neuron model, which governs the temporal dynamics and binary spike generation of the network. 
-Unlike traditional \glspl{ann} that utilize continuous activation functions such as \acrshort{relu}, the \gls{lif} node maintains an internal state: the membrane potential $V[t]$, which updates iteratively across discrete time steps $t \in [1, T]$.
+At the foundation of the architecture lies the \gls{lif} neuron model as defined in Section \ref{subsec:bg_lif}, which governs the temporal dynamics and binary spike generation of the network. 
 
 \subsubsection{The Forward Pass (Spike Generation)}
-The dynamics of the \gls{lif} neuron at a given spatial position and time step $t$ are governed by the integration of incoming pre-synaptic spatial features $X[t]$ and an inherent leak factor $\tau$. 
-The hidden membrane potential $H[t]$ prior to spiking is mathematically defined as:
-\begin{equation}
-    H[t] = V[t-1] + \frac{1}{\tau} \left(X[t] - (V[t-1] - V_{reset})\right)
-\end{equation}
-When $H[t]$ exceeds a predefined threshold $V_{th}$, the neuron emits a binary spike $S[t] \in \{0, 1\}$ to the subsequent layer, governed by the Heaviside step function $\Theta(x)$:
-\begin{equation}
-    S[t] = \Theta(H[t] - V_{th})
-\end{equation}
-Following a spike ($S[t]=1$), the neuron undergoes a hard reset, instantly dropping its potential $V[t]$ to $V_{reset}$. 
-If no spike is emitted ($S[t]=0$), the potential naturally decays, ensuring that subsequent layers only perform computations (Synaptic Operations) upon receiving active events \cite{sengupta2019goingdeeperspikingneural}. 
-This ``activation sparsity'' is the primary driver of the \glspl{snn} exceptional energy efficiency  \cite{Roy2019SpikeBasedMI}.
+Both the membrane potential dynamics from Equation \ref{eq:lif_membrane} and Heaviside spike function from Equation \ref{eq:lif_spike} are configured with the following project-specific parameters:
+
+\begin{align*}
+    V_{th} &= 0.2 \\
+    \tau &= \langle 4.0 \rangle
+\end{align*}
+
+The voltage threshold $V_{th}$ was lowered to 0.2 to enable more information flow through the network; in earlier revisions, this was set to 0.3, which caused the network to become silent, whereas decreasing it further would result in too much noise.
+The time constant $\tau = 4.0$ creates a leaky effect, where the neuron remembers information for roughly four to five timesteps.
+In deep spiking networks, a lower $\tau$ value can cause the signal to die before it reaches the regression head, since the neuron forgets the input too quickly; in this implementation, $\tau = 4.0$ was determined to be the optimal value where the input was not forgotten, whilst preventing over-saturation.
 
 \subsubsection{The Backward Pass (Surrogate Gradients)}
-Training deep \glspl{snn} via backpropagation presents a fundamental mathematical challenge, since the Heaviside step function governing spike generation (Equation 2) is non-differentiable. 
-Its derivative is zero everywhere except at the threshold $V_{th}$, where it is infinite. 
-Using conventional backpropagation here would immediately result in zeroed gradients, halting the learning process - this is a phenomenon known as the ``dead neuron'' problem.
 
-To resolve this, the network employs a Surrogate Gradient during the backward pass \cite{nfetci2019_surrogate}. 
-While the forward pass remains strictly binary, the backward pass approximates the step function using a smooth, differentiable curve. This specific architecture uses the \gls{atan} function:
-\begin{equation}
-    \frac{\partial S}{\partial H} \approx \frac{\alpha}{2\left(1 + \left(\frac{\pi}{2} \alpha (H - V_{th})\right)^2\right)}
-\end{equation}
-Where $\alpha$ is a hyperparameter controlling the steepness of the surrogate curve. 
-This mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution.
+As described in Section \ref{sec:background_ann}, the Heaviside function's non-differentiable property poses a challenge in spiking neural networks.
+To get around the zeroed gradients and the consequent ``dead neuron'' problem, the \gls{snn} model employs the \gls{atan} function described in \ref{subsec:bg_surrogate},
+where the backward pass approximates the step function using Equation \ref{eq:atan_function};
+this mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution.
+In this implementation, SpikingJelly's default value of $\alpha=2.0$ was used, which is the standard value used for high-performance \gls{snn} training.
 
 \subsection{Backbone: SEW-ResNet \& Attention}
 \label{subsec:snn_backbone}
@@ -80,24 +72,16 @@ Building deep \glspl{snn} presents significant challenges due to the ``vanishing
 In a standard \gls{resnet}, the residual addition occurs \textit{before} the activation function.
 However, if we follow this standard and add two binary spike trains, the result is a non-binary, continuous value (e.g., $1+1=2$), which destroys the energy-efficient, event-driven nature of the network \cite{fang2022resnet_sew}.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.9\textwidth]{chapter_3/figures/sewresblock_diagram.pdf}
-    \caption{The \gls{sew} residual block (\texttt{SEWResBlock}) as proposed by 
-    \cite{fang2022resnet_sew}.}
-    \label{fig:sewresblock}
-\end{figure}
-
-To overcome this, the \texttt{SNN\_MAX\_REPLICA\_SE} architecture adopts the \gls{sew} residual paradigm \cite{fang2022resnet_sew}, instantiated as \texttt{SEWResBlock} units throughout the backbone. 
-Unlike standard Spiking ResNets, SEW ResBlocks apply the element-wise residual operation \textit{after} the spiking activation function, guaranteeing that the output remains strictly binary. 
-Fang et al.\ \cite{fang2022resnet_sew} prove that this reordering is both necessary and sufficient to achieve identity mapping in a purely spike-based network, resolving the degradation problem without sacrificing neuromorphic compatibility. 
-In this architecture, this property is exploited to stack 4 SEWResBlocks across the backbone stages (Stages 2 and 4 in \ref{tab:snn_staged_architecture}), enabling representational depth that would otherwise cause spike degradation under a standard residual formulation.
+As detailed in Section \ref{subsec:bg_sew}, and visually in Figure \ref{fig:sewresblock_bg}, \gls{sew} ResBlocks solve
+the vanishing spike problem by placing the residual operation after the spiking activation function \cite{fang2022resnet_sew}.
+This architecture exploits this property by stacking 4 \texttt{SEWResBlock} units across Stages 2 and 4 of the backbone (Table \ref{tab:snn_staged_architecture}),
+enabling representational depth that would otherwise induce spike degradation under a standard residual equivalent.
 
 \subsubsection{Structural Attention: SE-Block}
 \label{subsec:snn_se_block}
 
 In deep learning, a bottleneck refers to a point in the neural network where the information flow is forced through its most compressed and abstract representation. 
-In this \texttt{SNN\_MAX\_REPLICA\_SE} architecture, the bottleneck exists at the transition point between stages 2 and 3 of the backbone, and represents two things:
+In this \texttt{SNN\_ULTRA} architecture, the bottleneck exists at the transition point between stages 2 and 3 of the backbone, and represents two things:
 
   \begin{enumerate}
       \item \textbf{A Spatial Constraint (Resolution Limit):} 
@@ -110,35 +94,22 @@ In this \texttt{SNN\_MAX\_REPLICA\_SE} architecture, the bottleneck exists at th
       Without an explicit selection mechanism, the network at this depth is susceptible to noise and artifacts from the HD event stream, which can blur the distinction between legitimate targets and background interference.
   \end{enumerate}
 
-To both mitigate and solve these bottleneck constraints, a \gls{se} mechanism is introduced in Stage 3 of the backbone, sitting directly at the transition point \cite{hu2019_se_block}.
-The \gls{se} block operates by performing a global average pooling of the 256 feature channels (the ``Squeeze`` phase), followed by two fully connected layers that calculate a weighting factor for each channel (the ``Excitation`` phase).
-This effectively mitigates the spatial constraint by allowing the network to incorporate global context into its local representations, compensating for the loss of resolution.
+To both mitigate and solve these bottleneck constraints, the \gls{se} mechanism depicted in Section \ref{subsec:bg_se} and Figure \ref{fig:se_block_bg} is introduced in Stage 3 of the backbone to operate on the $22\times40$ feature map, sitting directly at the transition point \cite{hu2019_se_block}.
+The combination of the ``Squeeze'' and ``Excitation'' phases effectively mitigate the spatial constraint by allowing the network to incorporate global context into its local representations, compensating for the loss of resolution.
 
 When applied in the context of an \gls{snn}, this acts as a dynamic firing modulator: the backbone's activations are re-calibrated by looking at the global context of the entire frame, magnifying the most informative channels whilst suppressing those containing artifacts.
 By applying this recalibration, the \gls{se} block ensures that only the most relevant ``Objectness`` (the probability that a specific region of an image contains a generic object of interest rather than background noise) features are passed into the final high-capacity blocks, effectively mitigating the semantic ambiguity before the final bounding box regression.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.9\textwidth]{chapter_3/figures/se_block_diagram.pdf}
-    \caption{The Squeeze-and-Excitation (SE) block \cite{hu2019_se_block} as 
-    applied in Stage 3 of the \texttt{SNN\_MAX\_REPLICA\_SE} backbone 
-    (22$\times$40$\times$256).}
-    \label{fig:se_block}
-\end{figure}
-
 \subsection{Firing Rate Regularization (FRR)}
 \label{subsec:snn_frr}
-A common failure mode in deep SNN training is network silencing (zero spikes emitted) or over-saturation (firing continuously at every timestep), both of which halt gradient flow and destroy energy efficiency. 
-To constrain the network, a custom Firing Rate Regularization (FRR) Metabolic Penalty was integrated into the training pipeline.
 
-The FRR applies a squared error loss to the network's average firing rate:
-\begin{equation}
-    L_{frr} = \lambda \cdot (Rate_{avg} - Target)^2
-\end{equation}
-
-This biologically inspired metabolic constraint \cite{roy2019towards} forces the 11.7M parameter backbone to maintain a selective but informative firing rate (e.g., $Target = 20\%$) across its hidden layers. 
-Penalising derivation from a target firing rate is an established technique for preserving activation sparsity in directly trained \glspl{snn} \cite{deng2021comprehensive,yan2022backpropagation}.
-Adding this penalty to the model's loss ensures high information flow while strictly preserving the activation sparsity required for efficient neuromorphic deployment.
+As detailed in Section \ref{subsec:bg_frr}, an \gls{frr} metabolic penalty (Equation \ref{eq:frr}) is integrated into the training loss to prevent
+network silencing and over-saturation \cite{roy2019towards}.
+For the \texttt{SNN\_ULTRA} architecture, the penalty is configured with $\lambda = 5.0$ and a target firing rate of $\text{Target} = 20\%$.
+Using a high $\lambda$ value punishes the model for being silent, forcing the backbone to wake up and fire.
+Setting the target firing rate to $20\%$ was chosen designed to balance
+spatiotemporal integration with power efficiency - providing enough temporal resolution to
+draw smooth bounding boxes while still maintaining $80\%$ sparsity for energy savings.
 
 \subsection{Multi-Box Regression Head}
 \label{subsec:snn_head}
