@@ -22,7 +22,7 @@ To provide a concrete evaluation framework, the following measurable success cri
     Both models must achieve a recall of $100\%$ for objects with an \gls{iou} exceeding $0.5$ on the validation set, confirming that the multi-box regression head reliably detects all ground-truth vehicles in the scene.
 
     \item \textbf{Confidence calibration:}
-    The \gls{snn} must exhibit confidence calibration equivalent to, or superior to, that of the \gls{cnn} baseline, as measured by the \acrfull{ece} computed from reliability diagrams on the \gls{etram} validation set.
+    The \gls{snn} must exhibit confidence calibration equivalent to, or superior to, that of the \gls{cnn} baseline on the \gls{etram} validation set.
     This criterion is safety-critical: in \gls{adas} applications, a model that systematically over-states its detection confidence may suppress downstream safety interventions.
     A neuromorphic architecture that delivers energy savings at the cost of increased over-confidence would therefore be unsuitable for deployment, regardless of its accuracy or efficiency gains.
 

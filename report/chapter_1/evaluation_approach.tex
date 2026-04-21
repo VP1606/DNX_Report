@@ -2,7 +2,7 @@
 \label{sec:intro_evaluation_approach}
 
 Evaluation in this project is designed to isolate the effect of the spiking mechanism as precisely as possible.
-Because \texttt{DetectorNX ULTRA} and \texttt{CNN\_MAX\_REPLICA\_SE} are constrained to within $1\%$ of each other in parameter count and are trained under strictly identical conditions, any observed differences in the metrics described below can be attributed to the computational paradigm rather than to capacity or training asymmetries.
+Because \texttt{DetectorNX ULTRA} and \texttt{CNN\_MAX\_REPLICA\_SE} are parameter-matched and trained under strictly identical conditions, any observed differences in the metrics described below can be attributed to the computational paradigm rather than to capacity or training asymmetries.
 
 A validation set is created from the original \gls{etram} dataset for all experiments, which was built using a stratified sampling approach further described in Section \ref{},
 to ensure that all results obtained were collected across all available environment scenarios: night, day, rain, perfect weather and more.
@@ -13,11 +13,12 @@ the following metrics will be employed:
 
 \begin{enumerate}
     \item \textbf{\acrfull{iou}:}
-    The primary measure of detection quality is mean \gls{iou}, aggregated across all predictions on the held-out validation split.
-    Standard \gls{iou} quantifies the ratio of the intersection to the union of predicted and ground-truth bounding boxes, providing a scale-invariant, directly interpretable measure of spatial overlap that is universally comparable across architectures and datasets.
-    It is important to note the distinction between the evaluation metric and the training loss: during training, \acrfull{giou} is employed as the loss function because standard \gls{iou} produces zero gradients when predicted and ground-truth boxes do not overlap, stalling optimisation~\cite{rezatofighi2019giou}.
-    \gls{giou} resolves this by incorporating a penalty term derived from the smallest enclosing convex hull, providing a meaningful gradient signal even in the non-overlapping case.
-    For evaluation, however, standard \gls{iou} is used in preference to \gls{giou} because the additional geometric term in \gls{giou} is a training convenience rather than an interpretable measure of detection quality, and because standard \gls{iou} enables direct comparison with published results in the event-based detection literature.
+    Standard \gls{iou} quantifies the ratio of the intersection to the union of predicted and ground-truth bounding boxes, providing a scale-invariant, directly interpretable measure of spatial overlap that is universally comparable with published results in the event-based detection literature.
+    % The primary measure of detection quality is mean \gls{iou}, aggregated across all predictions on the held-out validation split.
+    % Standard \gls{iou} quantifies the ratio of the intersection to the union of predicted and ground-truth bounding boxes, providing a scale-invariant, directly interpretable measure of spatial overlap that is universally comparable across architectures and datasets.
+    % % It is important to note the distinction between the evaluation metric and the training loss: during training, \acrfull{giou} is employed as the loss function because standard \gls{iou} produces zero gradients when predicted and ground-truth boxes do not overlap, stalling optimisation~\cite{rezatofighi2019giou}.
+    % % \gls{giou} resolves this by incorporating a penalty term derived from the smallest enclosing convex hull, providing a meaningful gradient signal even in the non-overlapping case.
+    % % For evaluation, however, standard \gls{iou} is used in preference to \gls{giou} because the additional geometric term in \gls{giou} is a training convenience rather than an interpretable measure of detection quality, and because standard \gls{iou} enables direct comparison with published results in the event-based detection literature.
 
     \item \textbf{Recall:}
     Detection completeness is assessed by computing recall at an \gls{iou} threshold of $0.5$ across the full validation set.
@@ -25,10 +26,9 @@ the following metrics will be employed:
     A recall of $100\%$ at this threshold is therefore treated as a hard deployment requirement and evaluated as a binary pass or fail criterion rather than a continuous metric.
 
     \item \textbf{\acrfull{ece}:}
-    Confidence calibration is assessed by computing the \gls{ece} from reliability diagrams generated on the validation set, following the methodology of \textcite{guo2017calibration}.
+    Confidence calibration is assessed by computing \gls{ece} from reliability diagrams generated on the validation set, following the methodology of \textcite{guo2017calibration}.
     A well-calibrated model produces confidence scores that faithfully reflect empirical detection accuracy: a prediction assigned $80\%$ confidence should be correct approximately $80\%$ of the time.
-    This criterion is particularly relevant when comparing the \gls{snn} against the \gls{cnn}, as the temporal quantisation inherent to spike-based computation may introduce systematic over- or under-confidence that would be invisible to accuracy metrics alone.
-    In an autonomous perception pipeline, a systematically over-confident model may suppress safety-critical interventions; the \gls{ece} makes this failure mode directly measurable.
+    \gls{ece} makes the magnitude of any systematic over- or under-confidence directly measurable, complementing the accuracy metrics above with a deployment-relevant reliability signal.
 
 \end{enumerate}
 
@@ -43,9 +43,8 @@ To evaluate both models' suitability for real-world deployment, two complementar
     This measurement is conducted on \gls{gpu} hardware rather than neuromorphic hardware, since no physical neuromorphic device was available for this project.
 
     \item \textbf{Theoretical Energy Consumption:}
-    Energy consumption is estimated analytically rather than measured on physical hardware.
-    Each layer's energy footprint is computed from its operation count: \gls{mac} operations for the \gls{cnn} and \acrfull{sop} for the \gls{snn}, scaled by published per-operation energy constants ($E_{\text{MAC}}$ and $E_{\text{AC}}$ respectively) \cite{horowitz20141}.
+    Energy consumption is estimated analytically rather than measured on physical hardware, using an operation-level model that counts each layer's arithmetic work and scales it by published per-operation silicon costs.
     This approach is chosen because it yields a hardware-agnostic efficiency measure that isolates the effect of the spiking mechanism, independent of implementation-specific factors such as clock frequency or memory bandwidth.
-    Aggregate figures are then projected onto representative neuromorphic targets, Intel Loihi and IBM TrueNorth, to contextualise the savings achievable under neuromorphic deployment.
+    Aggregate figures are then projected onto two representative neuromorphic targets, Intel Loihi and IBM TrueNorth, to contextualise the savings achievable under neuromorphic deployment.
 
 \end{enumerate}
