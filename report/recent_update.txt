@@ -1,29 +1,45 @@
-=== Stale \todo cleanup (§2.1) ===
+=== Thorpe rapid-categorisation strip (§3.7.4) ===
 
-Goal: remove a \todo note in chapter_2/2_1_ann.tex that described a
-refactor already executed during the prior LIF / surrogate-gradient
-deduplication. Keeping stale markers around risks future confusion
-about what work remains.
+Goal: eliminate the Background-vs-Methodology duplication in which the
+Thorpe rapid-categorisation paragraph appeared in both §2.3.3
+(subsec:bg_temporal) and §3.7.4 (subsec:temporal_evidence, Hypothesis).
+The §2.3.3 version is the authoritative home; §3.7.4 should back-
+reference it rather than restating it.
 
 Files touched:
-  - report/chapter_2/2_1_ann.tex
+  - report/chapter_3/3_7_sections/temporal_evidence.tex
+  - report/chapter_2/2_3_snn.tex
 
 Edits applied:
 
-1. chapter_2/2_1_ann.tex
-   - Deleted the \todo (previously line 24) that prescribed reducing
-     §3.4.2's Backward Pass opening paragraph to a single-sentence
-     back-reference to §2.1. That reduction has already been completed
-     in §3.4.2 (current opener: "As described in
-     Section~\ref{subsec:bg_surrogate}, the Heaviside function's
-     non-differentiable property poses a challenge..."). The reference
-     target is §2.3.2 rather than §2.1, but §2.3.2 itself back-chains
-     to §2.1, so the reader trail is preserved and the spirit of the
-     \todo is fulfilled.
-   - Retained the sibling \todo (now line 24) about §3.7 Dynamic Power
-     still re-explaining MACs inline -- that refactor has not yet been
-     executed, so its \todo is still live.
+1. chapter_3/3_7_sections/temporal_evidence.tex
+   - Under §Hypothesis: Bounding Box Sharpening, deleted the second
+     paragraph (the duplicated Thorpe rapid-categorisation prose).
+   - Rewrote the opening sentence of the retained paragraph to add a
+     short back-reference to §2.3.3, preserving the reader trail:
+     "consistent with the rapid categorisation principle established
+     in Section~\ref{subsec:bg_temporal}."
+   - Incidental polish: "hypothesize" -> "hypothesise" (British
+     spelling, matches the rest of the document).
+   - Ghost commented-out paragraph on the former line 29 was already
+     removed by Varun prior to this refactor.
+
+2. chapter_2/2_3_snn.tex
+   - Deleted the \todo (previously line 56): "Can refer to this in
+     3.7.4". Fulfilled: §3.7.4's opening Hypothesis sentence now
+     explicitly \ref's §2.3.3 (subsec:bg_temporal).
+   - Deleted the \todo (previously line 61) that prescribed the
+     Thorpe strip in temporal_evidence.tex. Fulfilled by edit #1 above.
+
+Scope notes:
+  - The LIF equation on lines 21-23 of temporal_evidence.tex is a
+    duplicate of eq:lif_membrane from §2.3.1, but Varun elected to
+    retain it for local context. Flagged as a future refactor
+    candidate; not touched in this pass.
 
 Net outcome:
-  - One stale \todo removed.
-  - No other live \todos were affected; the pending queue is unchanged.
+  - §3.7.4 Hypothesis subsection shortened by ~7 lines.
+  - Two stale \todos removed; Background -> Methodology flow is clean
+    for the Thorpe / rapid-categorisation thread.
+  - No broken \refs introduced (subsec:bg_temporal target verified
+    present at line 47 of 2_3_snn.tex).

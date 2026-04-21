@@ -26,20 +26,12 @@ where $v_i[t]$ represents the accumulated evidence (membrane potential) and $\su
 This recursive filtering allows the network to update its belief about vehicle localization with every incoming pulse of data.
 
 \subsubsection{Hypothesis: Bounding Box Sharpening}
-% We hypothesize a phenomenon of \textit{Bounding Box Sharpening} over time. At $t=20\text{ms}$, we anticipate low confidence and high coordinate jitter, as most \gls{lif} neurons will not have aggregated sufficient potential to cross the firing threshold ($V_{th}=0.2$). As $t$ progresses toward 100ms, the integration of further spike-trains should allow the model to filter out stochastic noise and consolidate the structured geometric edges of the vehicle. This transition from early-stage estimation to high-precision localization mirrors the ``rapid categorization'' observed in the human visual system, where initial spikes are sufficient to drive meaningful, albeit lower-precision, semantic decisions \cite{thorpe1996speed}.
-
-We hypothesize a phenomenon of \textit{Bounding Box Sharpening} over time. 
-At $t = 20\text{ms}$, we anticipate high coordinate variance, as the majority 
-of \gls{lif} neurons will not have accumulated sufficient membrane potential to 
-cross the firing threshold ($V_{th} = 0.2$) within the first two of ten 
-timesteps. As $t$ progresses toward $100\text{ms}$, continued spike train 
-integration allows stochastic membrane noise to average out, consolidating 
+We hypothesise a phenomenon of \textit{Bounding Box Sharpening} over time,
+consistent with the rapid categorisation principle established in
+Section~\ref{subsec:bg_temporal}.
+At $t = 20\text{ms}$, we anticipate high coordinate variance, as the majority
+of \gls{lif} neurons will not have accumulated sufficient membrane potential to
+cross the firing threshold ($V_{th} = 0.2$) within the first two of ten
+timesteps. As $t$ progresses toward $100\text{ms}$, continued spike train
+integration allows stochastic membrane noise to average out, consolidating
 responses to the vehicle's geometric edges into a stable coordinate estimate.
-
-This progressive refinement is analogous in spirit to the ``rapid categorisation'' 
-phenomenon documented in the human visual system, wherein early feedforward spikes 
-drive coarse semantic decisions that sharpen as further neural evidence accumulates 
-\cite{thorpe1996speed}. While Thorpe et al.\ address categorical recognition rather 
-than coordinate regression, the underlying principle --- that sparse early spike 
-activity produces meaningful but imprecise representations which sharpen over time 
---- is consistent with the anticipated behaviour of the \gls{snn} backbone.

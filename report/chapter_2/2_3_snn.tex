@@ -53,9 +53,5 @@ This property is absent in a standard \gls{cnn}, which performs a single spatial
 This progressive refinement is analogous in spirit to the \textit{rapid categorisation} phenomenon documented in the human visual system, where early feedforward spikes drive coarse semantic decisions that sharpen as further neural evidence accumulates \cite{thorpe1996speed}.
 While \textcite{thorpe1996speed} address categorical recognition rather than coordinate regression, the underlying principle that sparse early spike activity produces meaningful but imprecise representations which sharpen over time is directly consistent with the anticipated behaviour of a spiking detection backbone.
 
-\todo[inline]{Can refer to this in 3.7.4}
-
 Rate coding over a fixed window of $T$ timesteps carries an inherent representational limit known as the "quantisation error"; the precision of the encoded signal is bounded by a $1/T$ quantisation floor, since information is encoded as spike counts that can take only $T+1$ discrete values \cite{THORPE2001715}.
 Alternative temporal coding schemes have been proposed to overcome this ceiling, including \acrfull{ttfs} encoding, where information is represented by the arrival time of the first spike rather than the firing frequency, and \acrfull{roc}, which represents signal intensities via relative firing orders and sub-millisecond arrival times \cite{THORPE2001715}.
-
-\todo[inline]{\texttt{3\_7\_sections/temporal\_evidence.tex} §Hypothesis: Bounding Box Sharpening --- strip the Thorpe rapid categorisation paragraphs (transferred to Section~\ref{subsec:bg_temporal}). Reduce to one sentence establishing the sharpening hypothesis, then proceed directly to the experimental methodology.}
