@@ -75,11 +75,11 @@ THe first step of the \texttt{REPLICA} pipeline is to apply a series of signal c
     \item \textbf{Improved objectness discrimination:}
     Background artifacts inherent to \gls{hd} event cameras, such as flickering illumination and sensor noise, generate erraneous event clusters that appear similar to small objects. 
     By rejecting these low-activity events during the \gls{baf} denoising step, the network is not required to expend representational capacity on learning to suppress noise, 
-    and can instead focus on learning the geometric structure of real vehicles \cite{eshraghian2021training, roy2019towards}.
+    and can instead focus on learning the geometric structure of real vehicles \cite{eshraghian2021training, Roy2019SpikeBasedMI}.
 
     \item \textbf{Reduced synaptic operations and neuromorphic energy efficiency:}
     Since \glspl{snn} consume energy only upon spike emission, every erraneous background event that is suppressed during preprocessing directly reduces the number of \glspl{sop} at inference time. 
-    This establishes a direct link between preprocessing quality and the power efficiency of the architecture when deployed on neuromorphic hardware \cite{roy2019towards}.
+    This establishes a direct link between preprocessing quality and the power efficiency of the architecture when deployed on neuromorphic hardware \cite{Roy2019SpikeBasedMI}.
 \end{itemize}
 
 The Signal Conditioning segment of the \texttt{REPLICA} pipeline was lifted directly from the original \gls{etram} study, since it was designed specifically to suit the characteristics of the dataset \cite{Verma_2024_CVPR}.

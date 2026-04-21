@@ -34,7 +34,7 @@ In this experiment, four complementary metrics are evaluated:
 We hypothesise that whilst the \gls{cnn} establishes the upper \gls{miou} bound, the \gls{snn} will achieve \textit{detection parity} in recall and ADP, 
 yielding an average detection count consistent with the ground truth distribution. 
 This would demonstrate that spiking temporal dynamics are sufficient for objectness discrimination without
-continuous-valued feature maps \parencite{roy2019towards,cordone2022objectdetectionspikingneural}. 
+continuous-valued feature maps \parencite{Roy2019SpikeBasedMI,cordone2022objectdetectionspikingneural}. 
 A measurable confidence gap is also anticipated: the \gls{snn}'s binary spike outputs are expected to produce lower but temporally
 stable confidence distributions across the $T = 10$ timestep window, consistent with
 prior observations that surrogate-trained networks distribute representational energy across timesteps rather than single forward passes \parencite{fang2022resnet_sew}.

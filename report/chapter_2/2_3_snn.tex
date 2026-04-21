@@ -33,7 +33,7 @@ Training deep \glspl{snn} via backpropagation presents a fundamental mathematica
 As established in Section~\ref{sec:background_ann}, the chain rule requires every function in the computational graph to be differentiable; the Heaviside function violates this directly, since its derivative is zero everywhere except at the threshold $V_{th}$, where it is infinite.
 Using conventional backpropagation therefore results in zeroed gradients that immediately halt the learning process, a phenomenon known as the ``dead neuron'' problem.
 
-To resolve this, \glspl{snn} employ a \textit{surrogate gradient} during the backward pass \cite{nfetci2019_surrogate}.
+To resolve this, \glspl{snn} employ a \textit{surrogate gradient} during the backward pass \cite{neftci2019surrogate}.
 While the forward pass remains strictly binary, the backward pass approximates the step function using a smooth, differentiable curve.
 A common choice is the \gls{atan} function:
 \begin{equation}

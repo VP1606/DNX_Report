@@ -128,7 +128,7 @@ The FRR applies a squared error loss to the network's average firing rate:
     L_{frr} = \lambda \cdot (Rate_{avg} - Target)^2
 \end{equation}
 
-This biologically inspired metabolic constraint \cite{roy2019towards} forces the 11.7M parameter backbone to maintain a selective but informative firing rate (e.g., $Target = 20\%$) across its hidden layers. 
+This biologically inspired metabolic constraint \cite{Roy2019SpikeBasedMI} forces the 11.7M parameter backbone to maintain a selective but informative firing rate (e.g., $Target = 20\%$) across its hidden layers. 
 Penalising derivation from a target firing rate is an established technique for preserving activation sparsity in directly trained \glspl{snn} \cite{deng2021comprehensive,yan2022backpropagation}.
 Adding this penalty to the model's loss ensures high information flow while strictly preserving the activation sparsity required for efficient neuromorphic deployment.
 

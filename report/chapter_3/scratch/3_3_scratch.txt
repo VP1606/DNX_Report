@@ -20,7 +20,7 @@ confers several critical advantages for the stability and efficiency of the
     events during the \gls{baf} denoising step, the network is not required to 
     expend representational capacity on learning to suppress noise. Instead, 
     the full parameter budget of the backbone can be directed towards learning 
-    the geometric structure of real vehicles \cite{eshraghian2021training, roy2019towards}.
+    the geometric structure of real vehicles \cite{eshraghian2021training, Roy2019SpikeBasedMI}.
 
     \item \textbf{Membrane potential stability and temporal coding fidelity.}
     \gls{lif} neurons integrate input current over time to build their membrane 
@@ -48,6 +48,6 @@ confers several critical advantages for the stability and efficiency of the
     background event that is suppressed during preprocessing directly reduces 
     the number of \glspl{sop} at inference time. This establishes a direct 
     link between preprocessing quality and the power efficiency of the 
-    architecture when deployed on neuromorphic hardware \cite{roy2019towards}.
+    architecture when deployed on neuromorphic hardware \cite{Roy2019SpikeBasedMI}.
 
 \end{itemize}
