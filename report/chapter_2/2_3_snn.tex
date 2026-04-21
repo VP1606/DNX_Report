@@ -40,26 +40,6 @@ A common choice is the \gls{atan} function:
 where $\alpha$ is a hyperparameter controlling the steepness of the surrogate curve.
 This mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution, with gradients propagated through the temporal dimension via \acrfull{bptt}.
 
-\subsection{Spike-Element-Wise Residual Blocks}
-\label{subsec:bg_sew}
-
-Building deep \glspl{snn} introduces a further challenge beyond the surrogate gradient problem: the \textit{vanishing spike} problem inherent in standard residual connections.
-In a standard \gls{resnet} (Section~\ref{sec:background_cnn}), the residual addition occurs before the activation function.
-However, applying this directly to a spiking network causes a critical failure, because adding two binary spike trains produces a non-binary, continuous value (e.g., $1 + 1 = 2$), which destroys the energy-efficient, event-driven nature of the network \cite{fang2022resnet_sew}.
-
-To overcome this, \textcite{fang2022resnet_sew} proposed the \acrfull{sew} residual paradigm, instantiated as \texttt{SEWResBlock} units.
-Unlike standard Spiking ResNets, \gls{sew} ResBlocks apply the element-wise residual operation after the spiking activation function, guaranteeing that the output remains strictly binary.
-\textcite{fang2022resnet_sew} proved that this reordering is both necessary and sufficient to achieve identity mapping in a purely spike-based network, resolving the vanishing spike problem and enabling representational depth that would otherwise induce spike degradation.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.9\textwidth]{chapter_3/figures/sewresblock_diagram.pdf}
-    \caption[SEW Residual Block]{The \gls{sew} residual block (\texttt{SEWResBlock}) as proposed by \textcite{fang2022resnet_sew}.}
-    \label{fig:sewresblock_bg}
-\end{figure}
-
-\clearpage
-
 \subsection{Temporal Dynamics \& Rapid Categorisation}
 \label{subsec:bg_temporal}
 
@@ -78,7 +58,5 @@ Alternative temporal coding schemes have been proposed to overcome this ceiling,
 \todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §Neuron Dynamics: LIF --- strip all equations and mechanistic explanation. Retain only project-specific parameters ($V_{th}=0.2$, hard reset, $\tau$) and add a back-reference: ``the \gls{lif} model, as defined in Section~\ref{subsec:bg_lif}, governs the temporal dynamics of the network''.}
 
 \todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §Backward Pass --- strip the opening ``dead neuron'' motivation paragraph (covered in Sections~\ref{sec:background_ann} and~\ref{subsec:bg_surrogate}). Retain only the \gls{atan} equation and the project-specific $\alpha$ hyperparameter value, with a back-reference to Section~\ref{subsec:bg_surrogate}.}
-
-\todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §SEW-ResBlocks --- strip the vanishing spike explanation and remove the duplicate \texttt{sewresblock\_diagram.pdf} figure (now in Figure~\ref{fig:sewresblock_bg}). Reduce the intro to: ``as detailed in Section~\ref{subsec:bg_sew}, \gls{sew} ResBlocks resolve the vanishing spike problem by placing the residual operation after the spiking activation function \cite{fang2022resnet_sew}''.}
 
 \todo[inline]{\texttt{3\_7\_sections/temporal\_evidence.tex} §Hypothesis: Bounding Box Sharpening --- strip the Thorpe rapid categorisation paragraphs (transferred to Section~\ref{subsec:bg_temporal}). Reduce to one sentence establishing the sharpening hypothesis, then proceed directly to the experimental methodology.}

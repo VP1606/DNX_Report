@@ -19,7 +19,7 @@ He et al.~\cite{he2015deep} resolved this through the introduction of \textit{re
 \end{equation}
 The additive shortcut connection, otherwise known as a skip connection, bypasses one or more convolutional layers and adds the input directly to the output, providing an unobstructed gradient path back to the earliest layers, guaranteeing stable training regardless of network depth.
 Within a Standard Residual Block, this shortcut carries the raw input features forward through the identity path, and the convolutional branch learns only the incremental refinement needed to improve the representation.
-This mechanism forms the backbone of the \gls{cnn} baseline employed in this project and, through its spiking equivalent discussed in Section~\ref{sec:background_snn}, underpins the \texttt{DetectorNX ULTRA} architecture itself.
+This mechanism forms the backbone of the \gls{cnn} baseline employed in this project. In a spiking network, however, the standard residual formulation fails, since naively summing two binary spikes produces a non-binary value; a variant that preserves binary output therefore underpins the \texttt{DetectorNX ULTRA} architecture, as detailed in Section~\ref{subsec:snn_backbone}.
 
 \subsection{Object Detection \& Bounding Box Regression}
 
