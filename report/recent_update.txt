@@ -1,45 +1,41 @@
-=== Thorpe rapid-categorisation strip (§3.7.4) ===
+=== TTFS / ROC removal from §2.3.3 (word-count reduction) ===
 
-Goal: eliminate the Background-vs-Methodology duplication in which the
-Thorpe rapid-categorisation paragraph appeared in both §2.3.3
-(subsec:bg_temporal) and §3.7.4 (subsec:temporal_evidence, Hypothesis).
-The §2.3.3 version is the authoritative home; §3.7.4 should back-
-reference it rather than restating it.
+Goal: cut the TTFS (Time-to-First-Spike) and ROC (Rank Order Coding)
+alternative-encoding paragraph from §2.3.3 (subsec:bg_temporal) as part
+of the drive to bring total word count below 17k. The project uses
+rate coding exclusively, so alternative coding schemes are out of
+scope for Background; they properly belong in Future Work, where
+they are already introduced.
 
 Files touched:
-  - report/chapter_3/3_7_sections/temporal_evidence.tex
   - report/chapter_2/2_3_snn.tex
 
 Edits applied:
 
-1. chapter_3/3_7_sections/temporal_evidence.tex
-   - Under §Hypothesis: Bounding Box Sharpening, deleted the second
-     paragraph (the duplicated Thorpe rapid-categorisation prose).
-   - Rewrote the opening sentence of the retained paragraph to add a
-     short back-reference to §2.3.3, preserving the reader trail:
-     "consistent with the rapid categorisation principle established
-     in Section~\ref{subsec:bg_temporal}."
-   - Incidental polish: "hypothesize" -> "hypothesise" (British
-     spelling, matches the rest of the document).
-   - Ghost commented-out paragraph on the former line 29 was already
-     removed by Varun prior to this refactor.
+1. chapter_2/2_3_snn.tex
+   - Deleted the entire "Alternative temporal coding schemes have been
+     proposed to overcome this ceiling..." sentence (previously line
+     57) which defined \acrfull{ttfs} and \acrfull{roc} inline.
+   - Retained the preceding "quantisation error / 1/T ceiling" sentence
+     (line 56), which anchors the §3.8 quantization_error experiment.
 
-2. chapter_2/2_3_snn.tex
-   - Deleted the \todo (previously line 56): "Can refer to this in
-     3.7.4". Fulfilled: §3.7.4's opening Hypothesis sentence now
-     explicitly \ref's §2.3.3 (subsec:bg_temporal).
-   - Deleted the \todo (previously line 61) that prescribed the
-     Thorpe strip in temporal_evidence.tex. Fulfilled by edit #1 above.
+Savings: ~42 texcount words.
 
-Scope notes:
-  - The LIF equation on lines 21-23 of temporal_evidence.tex is a
-    duplicate of eq:lif_membrane from §2.3.1, but Varun elected to
-    retain it for local context. Flagged as a future refactor
-    candidate; not touched in this pass.
+Safety checks (verified before applying):
+  - \gls{ttfs} and \gls{roc} are still used in
+    chapter_4/reflection_future.tex lines 34-35, where their first-use
+    expansion will now occur. Acronym definitions in
+    abbreviations.tex:33-34 are untouched, so \gls auto-expansion still
+    works correctly.
+  - ttfs_encoding bibkey remains cited at reflection_future.tex:34, so
+    it does not become orphaned.
+  - THORPE2001715 is still cited on the retained line 56, so the
+    citation remains live.
+  - No \ref{} or \cite{} becomes broken.
 
-Net outcome:
-  - §3.7.4 Hypothesis subsection shortened by ~7 lines.
-  - Two stale \todos removed; Background -> Methodology flow is clean
-    for the Thorpe / rapid-categorisation thread.
-  - No broken \refs introduced (subsec:bg_temporal target verified
-    present at line 47 of 2_3_snn.tex).
+Rubric fit:
+  - Tightens the Background narrative to the coding scheme the project
+    actually uses (rate coding), removing a tangent the examiner does
+    not need.
+  - Alternative encodings now live exclusively in the Future Work
+    section, where they are more natural as proposed directions.
