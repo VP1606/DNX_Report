@@ -1,44 +1,24 @@
 \section{Evaluation Approach}
 \label{sec:intro_evaluation_approach}
 
-Evaluation in this project is designed to isolate the effect of the spiking mechanism as precisely as possible.
-Because \texttt{DetectorNX ULTRA} and \texttt{CNN\_MAX\_REPLICA\_SE} are parameter-matched and trained under strictly identical conditions, any observed differences in the metrics described below can be attributed to the computational paradigm rather than to capacity or training asymmetries.
+Evaluation is designed to isolate the effect of the spiking mechanism as
+precisely as possible. Because \texttt{DetectorNX ULTRA} and
+\texttt{CNN\_MAX\_REPLICA\_SE} are parameter-matched and trained under
+strictly identical conditions, any observed differences can be attributed
+to the computational paradigm rather than to capacity or training
+asymmetries. All experiments are conducted on a validation split of the
+\gls{etram} dataset, built using the stratified sampling strategy
+described in Section~\ref{subsec:runtime_environment}, to ensure that
+day, night, rain, and clear-weather scenes are proportionally
+represented.
 
-A validation set is created from the original \gls{etram} dataset for all experiments, which was built using a stratified sampling approach further described in Section \ref{},
-to ensure that all results obtained were collected across all available environment scenarios: night, day, rain, perfect weather and more.
-
-\subsection{Prediction Performance}
-To evaluate both models' performance at predicting the position of vehicles across the event-driven scenes,
-the following metrics will be employed:
-
-\begin{enumerate}
-    \item \textbf{\acrfull{iou}:}
-    Standard \gls{iou} quantifies the ratio of the intersection to the union of predicted and ground-truth bounding boxes, providing a scale-invariant, directly interpretable measure of spatial overlap that is universally comparable with published results in the event-based detection literature.
-    \item \textbf{Recall:}
-    Detection completeness is assessed by computing recall at an \gls{iou} threshold of $0.5$ across the full validation set.
-    In safety-critical \gls{adas} applications, a missed detection is categorically more dangerous than a false positive: an undetected vehicle cannot be acted upon, whereas a spurious detection can be suppressed by downstream filtering.
-    A recall of $100\%$ at this threshold is therefore treated as a hard deployment requirement and evaluated as a binary pass or fail criterion rather than a continuous metric.
-
-    \item \textbf{\acrfull{ece}:}
-    Confidence calibration is assessed by computing \gls{ece} from reliability diagrams generated on the validation set, following the methodology of \textcite{guo2017calibration}.
-    A well-calibrated model produces confidence scores that faithfully reflect empirical detection accuracy: a prediction assigned $80\%$ confidence should be correct approximately $80\%$ of the time.
-    \gls{ece} makes the magnitude of any systematic over- or under-confidence directly measurable, complementing the accuracy metrics above with a deployment-relevant reliability signal.
-
-\end{enumerate}
-
-\subsection{Model Performance}
-To evaluate both models' suitability for real-world deployment, two complementary efficiency dimensions are measured:
-
-\begin{enumerate}
-
-    \item \textbf{Inference Latency:}
-    Throughput is measured by timing forward passes over a fixed batch of validation frames on the same \gls{gpu} hardware, reporting mean latency in milliseconds per frame and the equivalent \gls{fps}.
-    The $30$\,\gls{fps} threshold established by \textcite{khan2024real} as the minimum for real-time automotive perception is used as the viability boundary.
-    This measurement is conducted on \gls{gpu} hardware rather than neuromorphic hardware, since no physical neuromorphic device was available for this project.
-
-    \item \textbf{Theoretical Energy Consumption:}
-    Energy consumption is estimated analytically rather than measured on physical hardware, using an operation-level model that counts each layer's arithmetic work and scales it by published per-operation silicon costs.
-    This approach is chosen because it yields a hardware-agnostic efficiency measure that isolates the effect of the spiking mechanism, independent of implementation-specific factors such as clock frequency or memory bandwidth.
-    Aggregate figures are then projected onto two representative neuromorphic targets, Intel Loihi and IBM TrueNorth, to contextualise the savings achievable under neuromorphic deployment.
-
-\end{enumerate}
+Two complementary dimensions are measured. \emph{Prediction Performance}
+captures how accurately each model localises vehicles in the event
+stream, using \gls{iou}, recall at a fixed overlap threshold, and
+\gls{ece}-based confidence calibration. \emph{Model Performance}
+captures deployment efficiency, using inference latency on \gls{gpu}
+hardware against the $30$\,\gls{fps} real-time threshold
+\cite{khan2024real}, and a theoretical energy model projected onto
+neuromorphic targets. Detailed formulations, hypotheses, and the
+analytical energy framework are presented with their experiments in
+Section~\ref{sec:experimental_setup}.
