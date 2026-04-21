@@ -41,11 +41,7 @@ This approach allows the \gls{cnn} to correlate events across the entire 100ms w
 \subsection{Backbone: Identity Mapping \& Residual Connections}
 \label{subsec:cnn_backbone}
 
-The \gls{cnn} backbone employs deep residual learning, utilizing four Residual Blocks that expand to 512 channels in the final stage. 
-To satisfy the functional requirement of Architectural Parity, the spiking \texttt{SEWResBlock}s from the \gls{snn} were replaced with Standard Residual Blocks. 
-The standard structure within these blocks is $\text{Conv} \rightarrow \text{BatchNorm} \rightarrow \text{ReLU} \rightarrow \text{Conv} \rightarrow \text{BatchNorm} + \text{Shortcut} \rightarrow \text{ReLU}$. 
-
-The inclusion of these skip connections (shortcuts) is vital for enabling the \gls{cnn} network to avoid the same vanishing gradient problem seen in its \gls{snn} counterpart, and successfully learn complex vehicle geometries across the $320 \times 180$ field of view \cite{he2015deep}.
+The \gls{cnn} backbone employs deep residual learning (Section~\ref{sec:background_cnn}), utilizing four Standard Residual Blocks that expand to 512 channels in the final stage. To satisfy Architectural Parity, the \texttt{SEWResBlock}s of the \gls{snn} were replaced with Standard Residual Blocks of the structure $\text{Conv} \rightarrow \text{BN} \rightarrow \text{ReLU} \rightarrow \text{Conv} \rightarrow \text{BN} + \text{Shortcut} \rightarrow \text{ReLU}$; these shortcut paths mitigate vanishing gradients and enable stable training at this depth \cite{he2015deep}.
 
 \subsection{SEWResBlock vs Standard ResBlock}
 The core mathematical difference between the two architectures lies in their summation logic and the resulting information flow across the shortcut connection:
