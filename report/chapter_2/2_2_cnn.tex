@@ -42,5 +42,3 @@ Rezatofighi et al.~\cite{rezatofighi2019giou} resolved this by proposing \acrful
 \noindent This penalty is non-zero even when the boxes are entirely disjoint, ensuring a meaningful gradient signal is always available.
 As the predicted box converges towards the ground truth, the \gls{giou} penalty vanishes and the loss reduces to standard \gls{iou}, making it a strict generalisation of the original metric.
 \gls{giou} is employed as the training loss throughout this project, with standard \gls{iou} being reserved for evaluation, where interpretability and comparability with published results take precedence over gradient behaviour.
-
-\todo[inline]{\texttt{3\_7\_sections/dynamic\_power.tex}: the inline parenthetical explaining the FLOPs formula variables (``where $H_{out} \times W_{out}$ is the number of pixels...'') can be removed --- the reader now has the full formula in §\ref{sec:background_cnn}.}

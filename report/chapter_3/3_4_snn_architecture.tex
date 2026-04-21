@@ -84,14 +84,14 @@ However, if we follow this standard and add two binary spike trains, the result 
     \centering
     \includegraphics[width=0.9\textwidth]{chapter_3/figures/sewresblock_diagram.pdf}
     \caption{The \gls{sew} residual block (\texttt{SEWResBlock}) as proposed by 
-    \cite{fang2022resnet_sew}.}
+    \textcite{fang2022resnet_sew}.}
     \label{fig:sewresblock}
 \end{figure}
 
 To overcome this, the \texttt{SNN\_MAX\_REPLICA\_SE} architecture adopts the \gls{sew} residual paradigm \cite{fang2022resnet_sew}, instantiated as \texttt{SEWResBlock} units throughout the backbone. 
 Unlike standard Spiking ResNets, SEW ResBlocks apply the element-wise residual operation \textit{after} the spiking activation function, guaranteeing that the output remains strictly binary. 
-Fang et al.\ \cite{fang2022resnet_sew} prove that this reordering is both necessary and sufficient to achieve identity mapping in a purely spike-based network, resolving the degradation problem without sacrificing neuromorphic compatibility. 
-In this architecture, this property is exploited to stack 4 SEWResBlocks across the backbone stages (Stages 2 and 4 in \ref{tab:snn_staged_architecture}), enabling representational depth that would otherwise cause spike degradation under a standard residual formulation.
+\textcite{fang2022resnet_sew} prove that this reordering is both necessary and sufficient to achieve identity mapping in a purely spike-based network, resolving the degradation problem without sacrificing neuromorphic compatibility. 
+In this architecture, this property is exploited to stack 4 SEWResBlocks across the backbone stages (Stages 2 and 4 in Table \ref{tab:snn_staged_architecture}), enabling representational depth that would otherwise cause spike degradation under a standard residual formulation.
 
 \subsubsection{Structural Attention: SE-Block}
 \label{subsec:snn_se_block}
