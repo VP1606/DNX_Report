@@ -10,16 +10,6 @@ Convolutional layers can also be stacked to build a hierarchy of representations
 
 Throughout a stacked network, the spatial resolution is progressively reduced using \textit{strided convolutions} or pooling operations, compressing the input into increasingly compact, dense high-level representations.
 
-\subsection{Calculating the \gls{mac} of a \gls{cnn} Layer}
-
-The total number of \gls{mac} operations in a single convolutional layer is a fixed function of its geometry, and can be calculated as follows:
-\begin{equation}
-    \text{FLOPs}_l = H_{out} \times W_{out} \times K^2 \times C_{in} \times C_{out}
-\end{equation}
-where $(H_{out} \times W_{out})$ is the spatial resolution of the output feature map, $K$ is the kernel size, and $C_{in}$, $C_{out}$ are the input and output channel widths respectively.
-Subsequently, the equation produces a \gls{flop} value, which is the total number of floating point operations, specifically multiplication and addition, performed during the forward pass of the layer.
-As established in Section~\ref{sec:background_ann}, this count is static, determined entirely by the architecture and independent of the visual content of the input, which is an inherent problem for energy-efficiency in such architectures.
-
 \subsection{Residual Learning}
 
 A well-documented failure mode of deep \glspl{cnn} is the \textit{vanishing gradient} problem: as backpropagation proceeds through many successive layers, gradients are repeatedly scaled by values less than one, causing them to decay exponentially and preventing effective learning in early layers \cite{he2015deep}.
@@ -52,9 +42,5 @@ Rezatofighi et al.~\cite{rezatofighi2019giou} resolved this by proposing \acrful
 \noindent This penalty is non-zero even when the boxes are entirely disjoint, ensuring a meaningful gradient signal is always available.
 As the predicted box converges towards the ground truth, the \gls{giou} penalty vanishes and the loss reduces to standard \gls{iou}, making it a strict generalisation of the original metric.
 \gls{giou} is employed as the training loss throughout this project, with standard \gls{iou} being reserved for evaluation, where interpretability and comparability with published results take precedence over gradient behaviour.
-
-\todo[inline]{\texttt{3\_5\_cnn\_baseline.tex} §Backbone: the two-sentence He et al.\ / skip connections explanation can be reduced to a single cite pointing here: ``The inclusion of skip connections enables the CNN to avoid the vanishing gradient problem~\cite{he2015deep} (see §\ref{sec:background_cnn})''.}
-
-\todo[inline]{\texttt{3\_5\_cnn\_baseline.tex} §SEWResBlock vs Standard ResBlock, CNN-side prose: strip the explanation of what a Standard ResBlock does and retain only the comparison table. The mechanism now lives in §\ref{sec:background_cnn}.}
 
 \todo[inline]{\texttt{3\_7\_sections/dynamic\_power.tex}: the inline parenthetical explaining the FLOPs formula variables (``where $H_{out} \times W_{out}$ is the number of pixels...'') can be removed --- the reader now has the full formula in §\ref{sec:background_cnn}.}

@@ -15,29 +15,4 @@ The per-\gls{sop} energy costs of these platforms, $23.6$\,pJ for Intel Loihi \c
 The foundational energy analysis underlying this project rests on the silicon-level operation costs documented by \textcite{horowitz20141}.
 A standard \gls{cnn} performs a full \gls{mac} at each synaptic connection - a floating-point multiplication followed by an accumulation, costing $E_{\text{MAC}} = 4.6$\,pJ per 32-bit operation.
 An \gls{snn}, by contrast, communicates exclusively via binary spikes; since a spike is either $0$ or $1$, the multiplication is eliminated entirely, reducing each synaptic event to an \gls{ac} operation at a cost of $E_{\text{AC}} = 0.9$\,pJ - a $5\times$ reduction in per-operation energy at the silicon level \cite{horowitz20141}.
-This asymmetry is the first of two complementary mechanisms that underpin the \gls{snn}'s energy advantage over its \gls{cnn} counterpart.
-
-\subsection{The Synaptic Operations Metric \& Energy Model}
-
-The \acrfull{sop} is the \gls{snn} equivalent of the \gls{cnn}'s \gls{flop}, reflecting the number of binary synaptic accumulations performed during a forward pass per layer.
-Crucially, unlike \glspl{flop}, which are a static function of architecture geometry that is entirely independent of input content, \glspl{sop} are input-dependent, scaled by the activation sparsity $\zeta$ of each layer and the number of temporal timesteps $T$:
-\begin{equation}
-    \text{SOPs}_l = \text{FLOPs}_l \times \zeta_l \times T
-\end{equation}
-This is the second complementary efficiency mechanism: if the network's average firing rate is low, the \gls{snn} performs only a small fraction of the operations that the \gls{cnn} executes unconditionally for every input.
-The total energy models for both architectures follow directly from these definitions:
-\begin{equation}
-    E_{\text{CNN}} = \sum_{l=1}^{L} \left( \text{FLOPs}_l \times E_{\text{MAC}} \right)
-\end{equation}
-\begin{equation}
-    E_{\text{SNN}} = \sum_{l=1}^{L} \left( \text{SOPs}_l \times E_{\text{AC}} \right)
-\end{equation}
-
-\noindent where $L$ is the set of layers that is present in the network.
-
-Together, the \gls{mac}--\gls{ac} cost asymmetry and the input-dependent sparsity of the \gls{sop} count establish the theoretical basis for the energy efficiency claims of spiking architectures.
-The empirical application of this model to the trained architectures, including platform-specific extrapolation to Intel Loihi and IBM TrueNorth, is detailed in Section~\ref{subsec:energy_consumption}.
-
-\todo[inline]{\texttt{3\_7\_sections/dynamic\_power.tex} opening paragraph: strip the MAC static computation explanation and the MAC/AC energy definitions (now in Sections~\ref{sec:background_ann} and~\ref{subsec:bg_mac_ac}). Retain only the SpikeRateMonitor mechanism and the project-specific $\zeta$ derivation, with back-references to Sections~\ref{sec:background_ann} and~\ref{sec:background_neuromorphic}.}
-
-\todo[inline]{\texttt{3\_7\_sections/energy\_consumption.tex}: strip the $E_{\text{CNN}}$/$E_{\text{SNN}}$ formula derivations and the Horowitz energy constants preamble (now in Section~\ref{sec:background_neuromorphic}). Retain only the platform extrapolation results, the Energy Savings formula, and the results table, with back-references to Section~\ref{sec:background_neuromorphic}.}
+This asymmetry is the first of two complementary mechanisms underpinning the \gls{snn}'s energy advantage over its \gls{cnn} counterpart; the second, input-dependent activation sparsity, is introduced and materialised alongside the complete per-frame energy model in Sections~\ref{subsec:dynamic_power} and~\ref{subsec:energy_consumption}.
