@@ -14,16 +14,9 @@ rather than reading out all pixels simultaneously, each pixel operates independe
 The result is a continuous, asynchronous stream of discrete events rather than a sequence of synchronous frames, registering only what has changed between scenes instead of the full scenes themselves.
 In other words, if the scene was completely dormant with no changes occurring, an event-driven camera would capture this as a blank image versus a frame-based camera capturing the empty scene.
 
-\subsubsection*{The Event Representation}
-
-Each emitted event takes the form of a tuple $e = (x, y, t, p)$, where $(x, y)$ are the pixel coordinates at which the change occurred, $t$ is the microsecond-precision timestamp, and $p \in \{-1, +1\}$ is the polarity, indicating whether the log-intensity at that pixel increased (positive event) or decreased (negative event) \cite{gallego2020event}.
-Two properties of this format resolve the limitations of frame-based cameras as mentioned above.
-First, the microsecond-resolution timestamp provides temporal precision several orders of magnitude finer than a conventional $30$ \gls{fps} camera, enabling the capture of fast-moving objects without motion blur.
-Second, the output is inherently sparse: events exist only where and when the scene changes, rather than densely tiling the full sensor resolution at every timestep, resolving the data redundancy during static scenes.
-
 \subsubsection*{Advantages and the Compatibility Problem}
 
-Together, these properties give event cameras a compelling profile for autonomous perception: high temporal resolution, high dynamic range, low latency, and low data redundancy \cite{gallego2020event}.
+This per-pixel, threshold-driven design gives event cameras a compelling profile for autonomous perception: high temporal resolution, high dynamic range, low latency, and low data redundancy \cite{gallego2020event}.
 However, a sparse, unordered point cloud of $(x, y, t, p)$ tuples is fundamentally incompatible with conventional deep learning frameworks, which expect dense, structured tensors of fixed spatial dimensions.
 Correcting this to adapt to deep learning approaches requires a preprocessing step to convert the asynchronous stream into a format suitable for neural network ingestion, which is the function of \texttt{spatiotemporal voxelization}.
 

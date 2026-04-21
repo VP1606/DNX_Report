@@ -60,42 +60,6 @@ Unlike standard Spiking ResNets, \gls{sew} ResBlocks apply the element-wise resi
 
 \clearpage
 
-\subsection{Squeeze-and-Excitation Blocks}
-\label{subsec:bg_se}
-
-The \gls{se} block is a lightweight attention mechanism that recalibrates the importance of each feature channel based on global spatial context \cite{hu2019_se_block}.
-The block operates in two phases:
-\begin{enumerate}
-    \item \textbf{The Squeeze Phase:} A global average pooling is applied across all spatial positions per channel, compressing the full spatial feature map into a single descriptor that captures the channel's global response.
-    \item \textbf{The Excitation Phase:} 
-    The descriptor is passed through two fully-connected layers that calculate a learned weighting factor per channel.
-    These weights are multiplied back into the original feature maps, amplifying the most informative channels whilst suppressing those carrying redundant or noisy information.
-\end{enumerate}
-\noindent This effectively mitigates the spatial constraint by allowing the network to incorporate global context into its local representations, compensating for the loss of resolution.
-
-When applied in the context of an \gls{snn}, this acts as a dynamic firing modulator: the backbone's activations are re-calibrated by looking at the global context of the entire frame, magnifying the most informative channels whilst suppressing those containing artifacts.
-By applying this recalibration, the \gls{se} block ensures that only the most relevant ``Objectness`` (the probability that a specific region of an image contains a generic object of interest rather than background noise) features are passed into the final high-capacity blocks, effectively mitigating the semantic ambiguity before the final bounding box regression.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.9\textwidth]{chapter_3/figures/se_block_diagram.pdf}
-    \caption[Squeeze-and-Excitation Block]{The Squeeze-and-Excitation (\gls{se}) block as proposed by \textcite{hu2019_se_block}.}
-    \label{fig:se_block_bg}
-\end{figure}
-
-\clearpage
-
-\subsection{Firing Rate Regularisation}
-\label{subsec:bg_frr}
-
-A common failure mode in deep \gls{snn} training is \textit{network silencing}, where zero spikes are emitted throughout the backbone, or \textit{over-saturation}, where neurons fire continuously at every timestep.
-Both extremes halt gradient flow and destroy the activation sparsity that underpins the \gls{snn}'s energy efficiency.
-To constrain the network against these failure modes, a \acrfull{frr} metabolic penalty can be integrated into the training loss by applying a squared-error penalty to the network's average firing rate, pushing it towards a biologically plausible target:
-\begin{equation}
-    L_{frr} = \lambda \cdot (\text{Rate}_{avg} - \text{Target})^2
-\end{equation}
-Penalising deviation from a target firing rate is an established technique for preserving activation sparsity in directly trained \glspl{snn} \cite{deng2021comprehensive, yan2022backpropagation}, ensuring high information flow while maintaining the sparse, event-driven activations required for efficient neuromorphic deployment.
-
 \subsection{Temporal Dynamics \& Rapid Categorisation}
 \label{subsec:bg_temporal}
 
@@ -111,17 +75,10 @@ While \textcite{thorpe1996speed} address categorical recognition rather than coo
 Rate coding over a fixed window of $T$ timesteps carries an inherent representational limit known as the "quantisation error"; the precision of the encoded signal is bounded by a $1/T$ quantisation floor, since information is encoded as spike counts that can take only $T+1$ discrete values \cite{THORPE2001715}.
 Alternative temporal coding schemes have been proposed to overcome this ceiling, including \acrfull{ttfs} encoding, where information is represented by the arrival time of the first spike rather than the firing frequency, and \acrfull{roc}, which represents signal intensities via relative firing orders and sub-millisecond arrival times \cite{THORPE2001715}.
 
-In practice, efficiently executing the $T$-step iterative dynamics of a deep \gls{snn} on synchronous \gls{gpu} hardware requires careful implementation.
-The SpikingJelly framework addresses this through a multi-step execution paradigm (\texttt{step\_mode=`m'}), in which the entire spatiotemporal tensor is passed directly into custom-compiled \gls{cuda} kernels rather than iterating through timesteps sequentially, enabling parallelised execution of the temporal dynamics on conventional hardware \cite{fang2023spikingjelly}.
-
 \todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §Neuron Dynamics: LIF --- strip all equations and mechanistic explanation. Retain only project-specific parameters ($V_{th}=0.2$, hard reset, $\tau$) and add a back-reference: ``the \gls{lif} model, as defined in Section~\ref{subsec:bg_lif}, governs the temporal dynamics of the network''.}
 
 \todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §Backward Pass --- strip the opening ``dead neuron'' motivation paragraph (covered in Sections~\ref{sec:background_ann} and~\ref{subsec:bg_surrogate}). Retain only the \gls{atan} equation and the project-specific $\alpha$ hyperparameter value, with a back-reference to Section~\ref{subsec:bg_surrogate}.}
 
 \todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §SEW-ResBlocks --- strip the vanishing spike explanation and remove the duplicate \texttt{sewresblock\_diagram.pdf} figure (now in Figure~\ref{fig:sewresblock_bg}). Reduce the intro to: ``as detailed in Section~\ref{subsec:bg_sew}, \gls{sew} ResBlocks resolve the vanishing spike problem by placing the residual operation after the spiking activation function \cite{fang2022resnet_sew}''.}
-
-\todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §SE-Block --- remove the duplicate \texttt{se\_block\_diagram.pdf} figure (now in Figure~\ref{fig:se_block_bg}) and strip the Squeeze/Excitation mechanism explanation (see Section~\ref{subsec:bg_se}). Retain only the Stage 3 / $22\times40\times256$ application context and the ``Objectness'' framing, with a back-reference to Section~\ref{subsec:bg_se}.}
-
-\todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §FRR --- strip the network silencing/over-saturation motivation and the squared-error equation (both now in Section~\ref{subsec:bg_frr}). Retain only the project-specific $\lambda=5.0$, $\text{Target}=20\%$, and cite, with a back-reference to Section~\ref{subsec:bg_frr}.}
 
 \todo[inline]{\texttt{3\_7\_sections/temporal\_evidence.tex} §Hypothesis: Bounding Box Sharpening --- strip the Thorpe rapid categorisation paragraphs (transferred to Section~\ref{subsec:bg_temporal}). Reduce to one sentence establishing the sharpening hypothesis, then proceed directly to the experimental methodology.}

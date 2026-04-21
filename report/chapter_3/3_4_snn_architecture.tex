@@ -12,7 +12,7 @@ Consequently, the network ingests a massive, high-dimensional spatiotemporal ten
 
 Given the high spatial dimensionality and the iterative nature of spiking neurons, native Python loop execution over the time dimension proved computationally restrictive. 
 To overcome this bottleneck, the entire architecture was refactored to utilize the SpikingJelly framework's optimized Multi-Step (\texttt{step\_mode='m'}) execution paradigm \cite{fang2023spikingjelly};
-instead of iterating through the 10 time bins sequentially, the entire spatiotemporal tensor is passed directly into custom-compiled CUDA kernels.
+instead of iterating through the 10 time bins sequentially, the entire spatiotemporal tensor is passed directly into custom-compiled \gls{cuda} kernels.
 This low-level optimization enables high-speed, parallelized execution of the temporal dynamics, making the extensive benchmarking of this HD dataset feasible on local GPU hardware, and reducing overall training time from approximately 16 hours to just 7.
 
 \subsection{Neuron Dynamics: \gls{lif}}
