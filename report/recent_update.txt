@@ -1,0 +1,43 @@
+=== LIF Dynamics & Surrogate Gradient Deduplication (§2.3 / §3.4.2) ===
+
+Goal: eliminate near-verbatim duplication of LIF equations, Heaviside spike
+rule, and ATan surrogate gradient between Background §2.3.1/§2.3.2 and
+Methodology §3.4.2. Per the rubric, mechanistic SNN foundations belong in
+Background; Methodology should cover only project-specific parameter
+choices.
+
+Files touched:
+  - report/chapter_2/2_3_snn.tex
+  - report/chapter_3/3_4_snn_architecture.tex
+
+Edits applied:
+
+1. chapter_2/2_3_snn.tex
+   - Added \label{eq:lif_membrane} to the H[t] membrane potential equation.
+   - Added \label{eq:lif_spike} to the Heaviside spike equation.
+   - Added \label{eq:atan_surrogate} to the ATan surrogate gradient equation.
+   - Deleted two obsolete \todo lines (the ones that described this very
+     refactor plan). The Thorpe rapid-categorisation \todo remains.
+
+2. chapter_3/3_4_snn_architecture.tex
+   - Replaced the entirety of §3.4.2 "Neuron Dynamics: LIF" (previously
+     lines 18-48) with a stripped-down version that:
+       * Opens with a back-reference to §2.3.1 (\ref{subsec:bg_lif}).
+       * Removes the duplicated H[t], S[t], and ATan equations.
+       * Lists the project-specific parameters V_th=0.2, V_reset=0.0, tau=4.0
+         in an align* block.
+       * Justifies each parameter choice in prose (lowered V_th to avoid
+         silencing; tau=4.0 for ~4-5 timestep memory without over-saturation).
+       * Adds a new paragraph on the hard-reset strategy and its role in
+         temporal sparsity and zero-centred surrogate gradient baselines,
+         cited to \cite{fang2022resnet_sew}.
+       * Backward Pass subsection back-references \ref{subsec:bg_surrogate}
+         and Equation~\ref{eq:atan_surrogate}, and specifies the project's
+         alpha=2.0 choice.
+
+Net outcome:
+  - LIF membrane equation, Heaviside spike equation, and ATan surrogate
+    equation each now appear exactly once in the report (all in Chapter 2).
+  - §3.4.2 is now purely methodology (parameter choices + justifications),
+    no textbook mechanistic prose.
+  - Two stale \todo lines retired.

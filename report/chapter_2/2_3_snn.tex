@@ -15,10 +15,12 @@ The dynamics of the \gls{lif} neuron at a given spatial position and timestep $t
 The hidden membrane potential $H[t]$ prior to spiking is mathematically defined as:
 \begin{equation}
     H[t] = V[t-1] + \frac{1}{\tau} \left(X[t] - (V[t-1] - V_{reset})\right)
+    \label{eq:lif_membrane}
 \end{equation}
 When $H[t]$ exceeds a predefined threshold $V_{th}$, the neuron emits a binary spike $S[t] \in \{0, 1\}$ to the subsequent layer, governed by the Heaviside step function $\Theta(x)$:
 \begin{equation}
     S[t] = \Theta(H[t] - V_{th})
+    \label{eq:lif_spike}
 \end{equation}
 Following a spike ($S[t]=1$), the neuron undergoes a hard reset, instantly dropping its potential $V[t]$ to $V_{reset}$, mimicking the refractory period of biological neurons, preventing infinite spiking and overstimulation \cite{sarpeshkar1992refractory}.
 If no spike is emitted ($S[t]=0$), the potential naturally decays, ensuring that subsequent layers only perform computations upon receiving active events \cite{sengupta2019goingdeeperspikingneural}.
@@ -36,6 +38,7 @@ While the forward pass remains strictly binary, the backward pass approximates t
 A common choice is the \gls{atan} function:
 \begin{equation}
     \frac{\partial S}{\partial H} \approx \frac{\alpha}{2\left(1 + \left(\frac{\pi}{2} \alpha (H - V_{th})\right)^2\right)}
+    \label{eq:atan_surrogate}
 \end{equation}
 where $\alpha$ is a hyperparameter controlling the steepness of the surrogate curve.
 This mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution, with gradients propagated through the temporal dimension via \acrfull{bptt}.
@@ -54,9 +57,5 @@ While \textcite{thorpe1996speed} address categorical recognition rather than coo
 
 Rate coding over a fixed window of $T$ timesteps carries an inherent representational limit known as the "quantisation error"; the precision of the encoded signal is bounded by a $1/T$ quantisation floor, since information is encoded as spike counts that can take only $T+1$ discrete values \cite{THORPE2001715}.
 Alternative temporal coding schemes have been proposed to overcome this ceiling, including \acrfull{ttfs} encoding, where information is represented by the arrival time of the first spike rather than the firing frequency, and \acrfull{roc}, which represents signal intensities via relative firing orders and sub-millisecond arrival times \cite{THORPE2001715}.
-
-\todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §Neuron Dynamics: LIF --- strip all equations and mechanistic explanation. Retain only project-specific parameters ($V_{th}=0.2$, hard reset, $\tau$) and add a back-reference: ``the \gls{lif} model, as defined in Section~\ref{subsec:bg_lif}, governs the temporal dynamics of the network''.}
-
-\todo[inline]{\texttt{3\_4\_snn\_architecture.tex} §Backward Pass --- strip the opening ``dead neuron'' motivation paragraph (covered in Sections~\ref{sec:background_ann} and~\ref{subsec:bg_surrogate}). Retain only the \gls{atan} equation and the project-specific $\alpha$ hyperparameter value, with a back-reference to Section~\ref{subsec:bg_surrogate}.}
 
 \todo[inline]{\texttt{3\_7\_sections/temporal\_evidence.tex} §Hypothesis: Bounding Box Sharpening --- strip the Thorpe rapid categorisation paragraphs (transferred to Section~\ref{subsec:bg_temporal}). Reduce to one sentence establishing the sharpening hypothesis, then proceed directly to the experimental methodology.}

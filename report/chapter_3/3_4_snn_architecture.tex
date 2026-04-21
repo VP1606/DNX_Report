@@ -17,35 +17,27 @@ This low-level optimization enables high-speed, parallelized execution of the te
 
 \subsection{Neuron Dynamics: \gls{lif}}
 \label{subsec:snn_lif}
-At the foundation of the architecture lies the \gls{lif} neuron model, which governs the temporal dynamics and binary spike generation of the network. 
-Unlike traditional \glspl{ann} that utilize continuous activation functions such as \acrshort{relu}, the \gls{lif} node maintains an internal state: the membrane potential $V[t]$, which updates iteratively across discrete time steps $t \in [1, T]$.
+At the foundation of the architecture lies the \gls{lif} neuron model as defined in Section~\ref{subsec:bg_lif}, which governs the temporal dynamics and binary spike generation of the network.
 
 \subsubsection{The Forward Pass (Spike Generation)}
-The dynamics of the \gls{lif} neuron at a given spatial position and time step $t$ are governed by the integration of incoming pre-synaptic spatial features $X[t]$ and an inherent leak factor $\tau$. 
-The hidden membrane potential $H[t]$ prior to spiking is mathematically defined as:
-\begin{equation}
-    H[t] = V[t-1] + \frac{1}{\tau} \left(X[t] - (V[t-1] - V_{reset})\right)
-\end{equation}
-When $H[t]$ exceeds a predefined threshold $V_{th}$, the neuron emits a binary spike $S[t] \in \{0, 1\}$ to the subsequent layer, governed by the Heaviside step function $\Theta(x)$:
-\begin{equation}
-    S[t] = \Theta(H[t] - V_{th})
-\end{equation}
-Following a spike ($S[t]=1$), the neuron undergoes a hard reset, instantly dropping its potential $V[t]$ to $V_{reset}$. 
-If no spike is emitted ($S[t]=0$), the potential naturally decays, ensuring that subsequent layers only perform computations (Synaptic Operations) upon receiving active events \cite{sengupta2019goingdeeperspikingneural}. 
-This ``activation sparsity'' is the primary driver of the \glspl{snn} exceptional energy efficiency  \cite{Roy2019SpikeBasedMI}.
+Both the membrane potential dynamics from Equation~\ref{eq:lif_membrane} and Heaviside spike function from Equation~\ref{eq:lif_spike} are configured with the following project-specific parameters:
+\begin{align*}
+    V_{th} &= 0.2 \\
+    V_{reset} &= 0.0 \\
+    \tau &= 4.0
+\end{align*}
+
+The voltage threshold $V_{th}$ was lowered to 0.2 to enable more information flow through the network; in earlier revisions, this was set to 0.3, which caused the network to become silent, whereas decreasing it further would result in too much noise.
+The time constant $\tau = 4.0$ creates a leaky effect, where the neuron remembers information for roughly four to five timesteps.
+In deep spiking networks, a lower $\tau$ value can cause the signal to die before it reaches the regression head, since the neuron forgets the input too quickly; in this implementation, $\tau = 4.0$ was determined to be the optimal value where the input was not forgotten, whilst preventing over-saturation.
+Following the generation of a discrete spike, the \gls{lif} neurons utilise a ``hard reset'' strategy, where the membrane potential ($V$) is returned to a resting state of $V_{reset} = 0.0$.
+This mechanism ensures temporal sparsity by requiring the neuron to integrate new spatiotemporal evidence before subsequent activation, thereby maintaining the low metabolic profile of the backbone while providing a stable, zero-centred baseline for surrogate gradient descent \cite{fang2022resnet_sew}.
 
 \subsubsection{The Backward Pass (Surrogate Gradients)}
-Training deep \glspl{snn} via backpropagation presents a fundamental mathematical challenge, since the Heaviside step function governing spike generation (Equation 2) is non-differentiable. 
-Its derivative is zero everywhere except at the threshold $V_{th}$, where it is infinite. 
-Using conventional backpropagation here would immediately result in zeroed gradients, halting the learning process - this is a phenomenon known as the ``dead neuron'' problem.
-
-To resolve this, the network employs a Surrogate Gradient during the backward pass \cite{nfetci2019_surrogate}. 
-While the forward pass remains strictly binary, the backward pass approximates the step function using a smooth, differentiable curve. This specific architecture uses the \gls{atan} function:
-\begin{equation}
-    \frac{\partial S}{\partial H} \approx \frac{\alpha}{2\left(1 + \left(\frac{\pi}{2} \alpha (H - V_{th})\right)^2\right)}
-\end{equation}
-Where $\alpha$ is a hyperparameter controlling the steepness of the surrogate curve. 
-This mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution.
+As described in Section~\ref{subsec:bg_surrogate}, the Heaviside function's non-differentiable property poses a challenge in spiking neural networks.
+To get around the zeroed gradients and the consequent ``dead neuron'' problem, the \gls{snn} model employs the \gls{atan} function described in Section~\ref{subsec:bg_surrogate}, where the backward pass approximates the step function using Equation~\ref{eq:atan_surrogate};
+this mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution.
+In this implementation, SpikingJelly's default value of $\alpha = 2.0$ was used, which is the standard value used for high-performance \gls{snn} training.
 
 \subsection{Backbone: SEW-ResNet \& Attention}
 \label{subsec:snn_backbone}
