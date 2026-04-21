@@ -1,8 +1,7 @@
 \section{Motivation}
 \label{sec:intro_motivation}
 
-The primary motivation for this research is rooted in the severe thermal and power consumption trade-offs inherent to deploying continuous-valued \acrfullpl{cnn} in autonomous edge environments. 
-As established by Lin et al.\ \cite{lin_adas_cnn_issues}, the deployment of deep learning models on resource-constrained \gls{adas} platforms exposes a critical sustainability issue: the static, frame-based nature of \glspl{cnn} mandates that they execute billions of dense \gls{mac} operations continuously, generating immense metabolic load and thermal throttling even when processing visually redundant or static environments.
+Beyond the generic scaling pressure noted in Section~\ref{sec:intro_overview}, \acrfullpl{cnn} suffer a paradigm-specific weakness. Their static, frame-based nature mandates billions of dense \gls{mac} operations per frame regardless of scene content, generating metabolic load and thermal throttling even on visually redundant or static scenes \cite{lin_adas_cnn_issues}.
 
 To resolve these computational and thermal constraints, this research looks toward the most power-efficient perception engine known: the biological brain. Unlike traditional cameras that capture absolute frames at a fixed frequency, biological retinas and neuromorphic event sensors only transmit asynchronous changes in luminance.
 Consequently, biological neural networks consume metabolic energy only when processing new, relevant information \cite{pfeiffer_snn_opportunities}.
