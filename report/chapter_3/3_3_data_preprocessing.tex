@@ -1,11 +1,8 @@
 \section{Data Preprocessing: The REPLICA Pipeline}
 \label{sec:data_preprocessing}
 
-Raw neuromorphic event data is fundamentally different from standard frame-based video: instead of capturing absolute intensity at a fixed frame rate, an event camera asynchronously records per-pixel changes in log-intensity,
-outputting a continuous stream of events in the form $e = (x, y, t, p)$, where $(x, y)$ are the spatial coordinates, $t$ is the microsecond timestep, and $p \in {-1, 1}$ is the polarity of the event (indicating an increase or decrease in brightness).
-
-While this asynchronous nature offers high temporal resolution and high dynamic range, raw event streams are inherently sparse, noisy and incompatible with conventional deep learning frameworks that expect dense, structured tensors.
-To bridge this gap, the raw \gls{etram} data ($1280 \times 720$ spatial resolution) was passed through a preprocessing pipeline before network ingestion.
+As established in Section~\ref{sec:background_eventcamera}, an event camera outputs a sparse, asynchronous stream of events $e = (x, y, t, p)$, where $(x, y)$ are the spatial coordinates, $t$ is the microsecond timestep, and $p \in \{-1, 1\}$ is the polarity indicating an increase or decrease in brightness.
+The \texttt{REPLICA} preprocessing pipeline takes the raw \gls{etram} data at $1280 \times 720$ spatial resolution and converts it into the dense, structured tensor format required by the \gls{snn} and \gls{cnn} backbones.
 
 \subsection{Raw Event Ingestion \& Windowing}
 
@@ -159,36 +156,21 @@ This provides a Scale-Independent Signal, ensuring the regression head can learn
 \subsection{Chunking for High-Throughput I/O}
 \label{subsec:chunking}
 
-To optimize throughput on the \gls{hpc} cluster, the precomputed dataset was encapsulated into a High-Throughput Chunking architecture. 
-Without this optimization, a 150-epoch training run on the high-definition event data would likely take days due to severe I/O bottlenecks. 
+Training the model for 150 epochs is only feasible if the \texttt{REPLICA} pipeline is executed once rather than on every epoch.
+A naive dataloader would stream the raw h5 and npy files in whatever segment fits in memory and re-run the full pipeline (signal conditioning, voxelisation, downsampling, label alignment) on each pass, multiplying the preprocessing cost 150-fold and starving the \gls{gpu} while the CPU works through every voxelisation and denoising call.
 
-\subsubsection{The Chunking Mechanism}
-Rather than saving 10,000 individual files representing every single frame, the pipeline bundles the data into large, contiguous blocks, or ``chunks'' (e.g., 250 or 500 samples per file), where the chunk size is defined by the memory constraints of the environment used for training. 
-Each chunk is saved as a single, compressed PyTorch (\texttt{.pt}) file containing two massive tensors: the spatiotemporal voxels and their corresponding aligned targets.
-To manage this structure, a global \texttt{manifest.json} file acts as a map, recording exactly which sample index resides in which chunk and specifying its byte-offset.
+The chunking strategy moves the preprocessing out of the training loop entirely.
+The \texttt{REPLICA} pipeline is executed once, offline, and the resulting spatiotemporal voxels and aligned label tensors are serialised to disk as contiguous 250-sample chunks (compressed \texttt{.pt}), indexed by a global \texttt{manifest.json} byte-offset map.
+During training, the dataloader reads these precomputed chunks directly into VRAM, so the 150 epochs execute against structured tensors rather than raw events.
 
-\subsubsection{Mitigating HPC Bottlenecks}
-This chunking strategy was an absolute necessity for efficient execution on the cluster, addressing three primary hardware constraints:
+\subsubsection{LRU Caching in \texttt{VoxelDiskDataset}}
 
-\begin{itemize}
-    \item \textbf{Solving the ``Small File Problem'' (Metadata Latency):} 
-    \gls{hpc} systems typically utilize a Network Attached Storage (NAS/NFS) architecture. 
-    Opening a file on a network drive incurs high \textit{Metadata Latency}. If the GPU were forced to open 10,000 independent files per epoch, it would spend the vast majority of its time idling while waiting for the network to locate the next file. 
-    By encapsulating the data into chunks, the HPC only needs to open a fraction of the files (e.g., 40 files for 10,000 samples). This allows the system to perform massive \textit{Sequential I/O} reads, which are orders of magnitude faster than random access reads on networked drives.
-    
-    \item \textbf{Bypassing CPU Precomputation Bottlenecks:} 
-    In deep learning pipelines, the CPU often acts as the data loader for the GPU. 
-    Preprocessing $1280 \times 720$ event data into voxel grids on-the-fly is highly computationally expensive.;
-    by enforcing strict \textit{Precomputation} and chunking everything prior to training, the training script can simply copy the structured tensors from disk directly into VRAM.
-    This ensures the CPU is no longer a bottleneck, maintaining \textit{Maximum GPU Utilization} and enabling iteration speeds as low as 160ms/it.
-    
-    \item \textbf{Efficient Memory Caching (LRU):} 
-    The chunked architecture enabled the implementation of a custom \texttt{VoxelDiskDataset} featuring a \gls{lru} memory cache. 
-    Because the data is bundled, the HPC can load entire blocks of 250 samples directly into its extensive RAM (e.g., 120GB). 
-    Consequently, during subsequent epochs, the model frequently bypasses disk I/O entirely, pulling chunks directly from RAM and making data loading nearly instantaneous.
-\end{itemize}
+To further amortise disk I/O, the custom \texttt{VoxelDiskDataset} wraps the chunk layout with a \gls{lru} memory cache sized to hold the full 40-chunk dataset in the node's 120\,GB RAM.
+During Epoch~1, chunks are read from NFS into memory as the dataloader encounters them, populating the cache in full.
+Every subsequent epoch is then served entirely from RAM, so the training loop never touches disk after Epoch~1.
+The \gls{lru} eviction policy is a safety net for cache-smaller-than-dataset configurations: the least-recently-used chunk is evicted to make room for the next load, ensuring the hot data is always ready for the \gls{gpu}.
 
-By utilizing chunk-based sequential I/O and a memory-mapped caching layer, the \textit{REPLICA} pipeline successfully bypassed the CPU-loading bottleneck, ensuring maximum GPU utilization and reducing the total 150-epoch training time from a projected several days to approximately six/ seven hours.
+The combined effect of offline precomputation, chunked serialisation, and in-memory caching reduces the 150-epoch wall time from a projected multi-day run to approximately six hours at $\sim$160\,ms/iter.
 
 \subsection{REPLICA Pipeline: Visualized}
 
