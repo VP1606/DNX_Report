@@ -93,7 +93,7 @@ In this \texttt{SNN\_MAX\_REPLICA\_SE} architecture, the bottleneck exists at th
 
   \begin{enumerate}
       \item \textbf{A Spatial Constraint (Resolution Limit):} 
-      At this stage, the original $180 \times 320$ spatiotemporal input has been downsampled by a factor of 8x via the strided convolutions in the stem and early residual block, resulting in a highly compressed$22 \times 40$ feature map.
+      At this stage, the original $640 \times 360$ spatiotemporal input has been downsampled by a factor of 16x via the strided convolutions in the stem and early residual block, resulting in a highly compressed $22 \times 40$ feature map.
       This spatial bottleneck is critical because each remaining "pixel" must now represent a large $8 \times 8$ receptive field of the original HD sensor data, forcing the network to discard fine-grained geometric redundancy while retaining the
       core structural boundaries of multiple detected objects.
 
