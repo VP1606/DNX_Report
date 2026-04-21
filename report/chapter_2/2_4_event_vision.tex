@@ -66,7 +66,3 @@ This directly mirrors the camera's temporal output structure, preserving and exp
 
 On neuromorphic hardware such as Intel Loihi \cite{davies2018loihi} or IBM TrueNorth \cite{merolla2014million}, this alignment extends to the physical level.
 An event camera connected directly to a neuromorphic chip can route events to spiking neurons without any voxelization or dense tensor conversion, since the raw events can be routed directly to spiking neurons without any intermediate tensor representation, enabling a fully asynchronous end-to-end inference pipeline and eliminating the preprocessing bottleneck entirely.
-
-\todo[inline]{\texttt{3\_3\_data\_preprocessing.tex} intro paragraphs 1--2: the event format definition transfers to Section~\ref{subsec:bg_event_camera}. Reduce §3.3 intro to: ``Raw event data takes the form $e = (x, y, t, p)$, as defined in Section~\ref{subsec:bg_event_camera}. The raw \gls{etram} data was provided as pre-recorded \texttt{.h5} event files at $1280 \times 720$ spatial resolution.''}
-
-\todo[inline]{\texttt{3\_3\_data\_preprocessing.tex} §Spatiotemporal Voxelization: the three-bullet conceptual description of temporal binning, polarity splitting, and event accumulation transfers to Section~\ref{subsec:bg_voxelization}. Retain only the \texttt{REPLICA}-specific parameters ($T=10$, resulting tensor shape \texttt{[10, 2, 720, 1280]}) with a back-reference to Section~\ref{subsec:bg_voxelization} for the mechanism.}

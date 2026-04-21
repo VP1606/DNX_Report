@@ -1,11 +1,10 @@
 \section{Data Preprocessing: The REPLICA Pipeline}
 \label{sec:data_preprocessing}
 
-Raw neuromorphic event data is fundamentally different from standard frame-based video: instead of capturing absolute intensity at a fixed frame rate, an event camera asynchronously records per-pixel changes in log-intensity,
-outputting a continuous stream of events in the form $e = (x, y, t, p)$, where $(x, y)$ are the spatial coordinates, $t$ is the microsecond timestep, and $p \in {-1, 1}$ is the polarity of the event (indicating an increase or decrease in brightness).
-
-While this asynchronous nature offers high temporal resolution and high dynamic range, raw event streams are inherently sparse, noisy and incompatible with conventional deep learning frameworks that expect dense, structured tensors.
-To bridge this gap, the raw \gls{etram} data ($1280 \times 720$ spatial resolution) was passed through a preprocessing pipeline before network ingestion.
+The raw event data from the \gls{etram} dataset takes the form $e = (x, y, t, p)$, as defined in Section~\ref{subsec:bg_event_camera},
+which was provided as pre-recorded \texttt{.h5} event files at $1280 \times 720$ spatial resolution.
+However, raw event streams are inherently sparse, noisy and incompatible with conventional deep learning frameworks that expect dense, structured tensors.
+To bridge this gap, the raw \gls{etram} data was passed through a preprocessing pipeline before network ingestion.
 
 \subsection{Raw Event Ingestion \& Windowing}
 
@@ -89,15 +88,9 @@ The Signal Conditioning segment of the \texttt{REPLICA} pipeline was lifted dire
 
 \subsection{Spatiotemporal Voxelization}
 
-To make the asynchronous event data compatible with neural network layers, a Voxelization process is performed to transform the continuous stream into a structured tensor. This process consists of three core operations:
-
-\begin{itemize}
-    \item \textbf{Temporal Binning:} The total duration of an event sample (e.g., a 100ms window) is divided into 10 discrete time bins ($T=10$).
-    \item \textbf{Polarity Splitting:} Events are separated into two distinct channels based on their polarity ($C=2$), representing positive and negative brightness changes.
-    \item \textbf{Event Accumulation (Histogramming):} Within each discrete temporal bin and polarity channel, the individual asynchronous events are aggregated at their respective spatial coordinates $(x,y)$. Specifically, the value of each ``pixel'' in the resulting spatial grid becomes the total count of events (of that specific polarity) that occurred at that exact location during that fraction of time. This process effectively converts the sparse, continuous point-cloud of events into a sequence of dense 2D frames---or event histograms---which standard convolutional and spiking layers can natively process.
-\end{itemize}
-
-This accumulation process preserves the temporal distribution of the events while generating a dense 4D spatiotemporal tensor of shape $[10, 2, 720, 1280]$ (representing Time $\times$ Channels $\times$ Height $\times$ Width).
+To make the asynchronous event data compatible with neural network layers, the Voxelization process introduced in Section \ref{subsec:bg_voxelization} is performed to transform the continuous stream into a structured tensor.
+In this pipeline, voxelization was implemented using $T=10$ discrete time bins, encompassing a total window duration of $\Delta T = 100 \text{ms}$, ensuring that the data is frequent enough to be able to track moving cars without significant gaps in their motion history.
+The result of the voxelization process is a dense 4D spatiotemporal tensor of shape $[10, 2, 720, 1280]$ (representing Time $\times$ Channels $\times$ Height $\times$ Width).
 
 \subsection{Downsampling \& Normalization}
 Following spatiotemporal voxelization, the voxelized data undergoes a dual-phase refinement consisting of spatial downsampling and amplitude normalization. 
