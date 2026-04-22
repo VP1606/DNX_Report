@@ -2,8 +2,8 @@
 \label{sec:results_evaluation}
 
 Having established a rigorous, multi-faceted benchmarking methodology in Section \ref{sec:experimental_setup},
-this final section presents the empirical evaluation of the \texttt{ULTRA} generation of the \texttt{DetectorNX} architecture against its \gls{cnn} counterpart.
-The following results were conducted on the pre-processed \texttt{PRECOMPUTED\_REPLICA\_10K\_V2}, using a validation split to ensure strict comparative integrity.
+this final section presents the empirical evaluation of the G3 generation of the \texttt{DetectorNX} architecture against its \gls{cnn} counterpart.
+The following results were conducted on the pre-processed \texttt{BOLT-10K-v2} dataset snapshot, using a validation split to ensure strict comparative integrity.
 
 Rather than relying on a singular metric of spatial accuracy, the following analysis systematically deconstructs the performance-efficiency frontier of the neuromorphic paradigm:
 By sequentially examining global detection parity, energy consumption, quantization-induced scaling errors, and predictive calibration, 
@@ -15,11 +15,11 @@ event-driven spiking dynamics for high-definition automotive perception.
 The following experiments were collected using the following model and data configuration:
 
 \begin{itemize}
-    \item \textbf{Model:} The \texttt{ULTRA} generation of the \texttt{DetectorNX} model architecture was used for both \gls{snn} and \gls{cnn} experiments, as described in Section \ref{sec:architectural_evolution}.
+    \item \textbf{Model:} The G3 generation of the \texttt{DetectorNX} model architecture was used for both \gls{snn} and \gls{cnn} experiments, as described in Section \ref{sec:architectural_evolution}.
     \item \textbf{Dataset:} A stratified-sampling approach was used to sample the full \gls{etram} dataset, in order to ensure that all scenes (day and night) were represented using the same proportions. For training and validation, $10,000$ samples were selected.
-    \item \textbf{Precomputing:} The \texttt{PRECOMPUTED\_REPLICA\_10K\_V2} dataset was formed by applying the \texttt{REPLICA} (Section \ref{sec:data_preprocessing}) pipeline to the sampled $10,000$-sample dataset.
-    \item \textbf{Training:} The \texttt{DetectorNX} model was trained on the \texttt{PRECOMPUTED\_REPLICA\_10K\_V2} dataset using an $80\%$ training data split.
-    \item \textbf{Evaluation:} The results of the following experiments were collected using a 200-sample subset from the validation split of the \texttt{PRECOMPUTED\_REPLICA\_10K\_V2} dataset, using the pre-trained \texttt{DetectorNX} model.
+    \item \textbf{Precomputing:} The \texttt{BOLT-10K-v2} dataset snapshot was formed by applying the \gls{bolt} (Section \ref{sec:data_preprocessing}) pipeline to the sampled $10,000$-sample dataset.
+    \item \textbf{Training:} The \texttt{DetectorNX} model was trained on the \texttt{BOLT-10K-v2} dataset using an $80\%$ training data split.
+    \item \textbf{Evaluation:} The results of the following experiments were collected using a 200-sample subset from the validation split of the \texttt{BOLT-10K-v2} dataset, using the pre-trained \texttt{DetectorNX} model.
     \item \textbf{Compute:} The University of Manchester's \gls{hpc} was used for pre-processing, training and evaluation. The environment was set up using 12 \gls{cpu} cores, 120 GB RAM, and one NVIDIA A100 (80 GB) \gls{gpu}.
 \end{itemize}
 

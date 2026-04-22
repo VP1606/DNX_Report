@@ -5,15 +5,12 @@ In the following chapters, we cover the following:
 
 \paragraph{Background:}
 
-\noindent Chapter~\ref{cha:background} provides the theoretical and empirical context required to situate the \texttt{DetectorNX} project.
-It surveys the development of \glspl{cnn} for object detection, introduces the biological principles underlying \glspl{snn} and the \gls{lif} neuron model, reviews the event-camera sensing paradigm and the \gls{etram} dataset, characterises the energy economics of neuromorphic hardware, and synthesises related work comparing spiking and continuous architectures on detection tasks.
-
-\todo[inline]{Re-write this once background is complete.}
+\noindent Chapter~\ref{cha:background} provides the theoretical context for the \texttt{DetectorNX} project. It surveys \glspl{cnn} for object detection, introduces \glspl{snn} via the \gls{lif} neuron and surrogate gradients, and reviews event-based vision alongside the \gls{etram} dataset. It then characterises neuromorphic energy economics, concluding with a synthesis of related work that identifies the critical gap in high-definition spiking object detection.
 
 \paragraph{Methodology:}
 
 \noindent Chapter~\ref{cha:methodology} presents the full technical implementation.
-It details the system requirements, the shared multi-box detection head architecture, the data preprocessing pipeline, the design of \texttt{DetectorNX ULTRA} and \texttt{CNN\_MAX\_REPLICA\_SE}, the architectural evolution that led to the final configurations, and the complete experimental setup including training hyperparameters, hardware environment, and evaluation protocol.
+It details the system requirements, the shared multi-box detection head architecture, the data preprocessing pipeline, the design of \texttt{DetectorNX-G3-SNN} and \texttt{DetectorNX-G3-CNN}, the architectural evolution that led to the final configurations, and the complete experimental setup including training hyperparameters, hardware environment, and evaluation protocol.
 Results and their analysis are presented within this chapter as an integrated discussion of methodology and outcome.
 
 \paragraph{Conclusions:}

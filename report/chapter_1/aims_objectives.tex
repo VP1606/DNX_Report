@@ -5,10 +5,10 @@ This project pursues a single, well-defined research question: can a \gls{snn}, 
 
 \begin{enumerate}
     \item \textbf{Develop a high-definition \gls{snn} for multi-object detection:} 
-    Design and train \texttt{DetectorNX ULTRA}, a spiking architecture capable of performing bounding box regression on the \gls{hd} \gls{etram} event-camera dataset.
+    Design and train \texttt{DetectorNX-G3-SNN}, a spiking architecture capable of performing bounding box regression on the \gls{hd} \gls{etram} event-camera dataset.
 
     \item \textbf{Develop a structurally equivalent \gls{cnn} baseline:} 
-    Construct \texttt{CNN\_MAX\_REPLICA\_SE}, a continuous-valued counterpart that mirrors the \gls{snn} architecture layer-for-layer with an identical parameter budget, isolating the spiking mechanism as the sole independent variable in all subsequent experiments and evaluations.
+    Construct \texttt{DetectorNX-G3-CNN}, a continuous-valued counterpart that mirrors the \gls{snn} architecture layer-for-layer with an identical parameter budget, isolating the spiking mechanism as the sole independent variable in all subsequent experiments and evaluations.
 
     \item \textbf{Train and evaluate both models under identical conditions:} 
     Apply the same pre-processed dataset, loss function, optimiser, and training duration to both models, ensuring that any observed performance differences are attributable solely to the computational paradigm.

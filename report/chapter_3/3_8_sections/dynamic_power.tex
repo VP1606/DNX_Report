@@ -22,7 +22,7 @@ These layer-wise activation values quantify the metabolic sparsity of the networ
 \texttt{block4.lif2} & 1.32\% \\
 \hline
 \end{tabular}
-\caption[Layer-Wise Spike Activation Rates]{Mean spike activation rates ($\zeta$) per layer for the \texttt{ULTRA} backbone over the 200-sample experimental set.}
+\caption[Layer-Wise Spike Activation Rates]{Mean spike activation rates ($\zeta$) per layer for the \texttt{DetectorNX-G3-SNN} backbone over the 200-sample experimental set.}
 \label{tab:spike_activation}
 \end{table}
 
@@ -33,13 +33,13 @@ By substituting the empirical layer-wise firing rates ($\zeta$) recorded in Tabl
 
 Table \ref{tab:energy_statistics} outlines the energy consumption statistics per frame across the 200-sample validation set.
 The continuous \gls{cnn} baseline, processing the input uniformly regardless of scene complexity, consumed a massive, static $42,429.21\ \mu J$ per frame with zero variance. 
-In contrast, the \texttt{ULTRA} \gls{snn} architecture consumed a mean of only $2,404.98\ \mu J$ per frame, and dipped as low as $2,287.54\ \mu J$ on highly sparse scenes.
+In contrast, the \texttt{DetectorNX-G3-SNN} architecture consumed a mean of only $2,404.98\ \mu J$ per frame, and dipped as low as $2,287.54\ \mu J$ on highly sparse scenes.
 
 \begin{table}[htbp]
 \centering
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Metric} & \textbf{SNN (\texttt{ULTRA})} & \textbf{CNN Baseline} \\
+\textbf{Metric} & \textbf{\texttt{DetectorNX-G3-SNN}} & \textbf{\texttt{DetectorNX-G3-CNN}} \\
 \hline
 Maximum & 2508.22 & 42429.21 \\
 Mean & 2404.98 & 42429.21 \\

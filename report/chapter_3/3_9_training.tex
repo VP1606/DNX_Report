@@ -1,7 +1,7 @@
 \section{Training Structure}
 \label{sec:training_structure}
 
-This section specifies how the \texttt{SNN\_MAX\_REPLICA\_SE} architecture established in Section~\ref{sec:snn_architecture} is trained on the precomputed voxel chunks produced by the \texttt{REPLICA} pipeline (Section~\ref{sec:data_preprocessing}).
+This section specifies how the \texttt{DetectorNX-G3-SNN} architecture established in Section~\ref{sec:snn_architecture} is trained on the precomputed voxel chunks produced by the \gls{bolt} pipeline (Section~\ref{sec:data_preprocessing}).
 Each hyperparameter choice addresses a specific failure mode encountered during architectural evolution (Section~\ref{sec:architectural_evolution}), and the configuration summarised here is the one used to train the model benchmarked in Section~\ref{sec:experimental_setup}.
 
 \subsection{Objective Function}
@@ -51,7 +51,7 @@ Table~\ref{tab:model_hyperparameters} consolidates the trained configuration, in
 
 \begin{table}[htbp]
 \centering
-\caption[Training configuration for \texttt{SNN\_MAX\_REPLICA\_SE}.]{Training configuration for the \texttt{SNN\_MAX\_REPLICA\_SE} (``Ultra'') production run.}
+\caption[Training configuration for \texttt{DetectorNX-G3-SNN}.]{Training configuration for the \texttt{DetectorNX-G3-SNN} production run.}
 \label{tab:model_hyperparameters}
 \small
 \begin{tabular}{|l|l|l|}

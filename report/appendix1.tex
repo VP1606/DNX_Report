@@ -1,0 +1,115 @@
+\chapter{Appendix}
+\section{Model Hyperparameters}
+\subsection{DetectorNX-G3-SNN}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Category} & \textbf{Hyperparameter} & \textbf{Value} \\
+\hline
+Architecture     & Temporal bins ($T$)                  & 10 \\
+                 & Input channels ($C$)                 & 2 (polarity) \\
+                 & Input resolution                     & $180 \times 320$ \\
+                 & Backbone blocks                      & 4 (SEWResBlock) \\
+                 & Channel progression                  & $64 \to 128 \to 256 \to 512 \to 512$ \\
+                 & Stride pattern                       & $2, 2, 2, 1, 1$ (stem, B1, B2, B3, B4) \\
+                 & SE reduction ratio                   & 16 \\
+                 & Head projection channels             & 128 \\
+                 & Adaptive pool size                   & $8 \times 8$ \\
+                 & Pool strategy                        & Avg $+$ Max (element-wise) \\
+                 & Detection slots                      & 5 ($\times$ 4 coords $+$ 1 conf) \\
+\hline
+Neuron Dynamics  & Neuron model                         & LIF (Leaky Integrate-and-Fire) \\
+                 & Membrane time constant ($\tau$)      & 4.0 \\
+                 & Firing threshold ($V_{th}$)          & 0.3 \\
+                 & Surrogate gradient                   & ATan \\
+                 & Step mode                            & Multi-step (\texttt{step\_mode='m'}) \\
+                 & Temporal aggregation                 & Sum over $T$ (pre-head) \\
+\hline
+Training         & Optimiser                            & Adam \\
+                 & Learning rate                        & $2 \times 10^{-4}$ \\
+                 & Weight decay                         & $1 \times 10^{-4}$ \\
+                 & Epochs                               & 150 \\
+                 & Batch size                           & 8 \\
+                 & Precision                            & AMP (mixed FP16/FP32) \\
+                 & Gradient clipping (max norm)         & 1.0 \\
+\hline
+Loss             & Coordinate loss                      & SmoothL1 \\
+                 & Box loss                             & GIoU ($\lambda_{\text{GIoU}} = 2.0$) \\
+                 & Confidence loss                      & BCEWithLogitsLoss \\
+                 & Matching strategy                    & Greedy (max IoU per GT) \\
+\hline
+Regularisation   & Firing rate target                   & 20\% \\
+                 & FRR penalty ($\lambda_{\text{FRR}}$) & 5.0 \\
+                 & FRR form                             & $\lambda \cdot (\text{target} - \text{rate})^{2}$ \\
+                 & Head dropout                         & 0.0 \\
+\hline
+LR Schedule      & Scheduler                            & ReduceLROnPlateau \\
+                 & Mode / metric                        & max (EMA IoU) \\
+                 & Reduction factor                     & 0.5 \\
+                 & Patience                             & 15 epochs \\
+                 & EMA smoothing ($\beta$)              & 0.9 \\
+                 & IoU gate (scheduler activation)      & 0.10 \\
+\hline
+\end{tabular}
+\caption[\texttt{DetectorNX-G3-SNN} hyperparameters.]{\texttt{DetectorNX-G3-SNN} hyperparameters (11.72M parameters).}
+\label{tab_app:g3_snn_params}
+\end{table}
+
+\clearpage
+
+\subsection{DetectorNX-G3-CNN}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Category} & \textbf{Hyperparameter} & \textbf{Value} \\
+\hline
+Architecture     & Temporal bins ($T$)                  & 10 \\
+                 & Input channels ($C$)                 & 2 (polarity) \\
+                 & Effective input channels             & $T \times C = 20$ (flattened) \\
+                 & Input resolution                     & $180 \times 320$ \\
+                 & Backbone blocks                      & 4 (ResBlockCNN) \\
+                 & Channel progression                  & $64 \to 128 \to 256 \to 512 \to 512$ \\
+                 & Stride pattern                       & $2, 2, 2, 1, 1$ (stem, B1, B2, B3, B4) \\
+                 & SE reduction ratio                   & 16 \\
+                 & Head projection channels             & 128 \\
+                 & Adaptive pool size                   & $8 \times 8$ \\
+                 & Pool strategy                        & Avg $+$ Max (element-wise) \\
+                 & Activation function                  & ReLU \\
+                 & Detection slots                      & 5 ($\times$ 4 coords $+$ 1 conf) \\
+                 & Temporal handling                    & Flattened into channel dim (single pass) \\
+\hline
+Training         & Optimiser                            & Adam \\
+                 & Learning rate                        & $2 \times 10^{-4}$ \\
+                 & Weight decay                         & $1 \times 10^{-4}$ \\
+                 & Epochs                               & 150 \\
+                 & Batch size                           & 8 \\
+                 & Precision                            & AMP (mixed FP16/FP32) \\
+                 & Gradient clipping (max norm)         & 1.0 \\
+\hline
+Loss             & Coordinate loss                      & SmoothL1 \\
+                 & Box loss                             & GIoU ($\lambda_{\text{GIoU}} = 2.0$) \\
+                 & Confidence loss                      & BCEWithLogitsLoss \\
+                 & Matching strategy                    & Greedy (max IoU per GT) \\
+\hline
+Regularisation   & Firing rate regularisation           & N/A (no spiking neurons) \\
+                 & Head dropout                         & 0.0 \\
+\hline
+LR Schedule      & Scheduler                            & ReduceLROnPlateau \\
+                 & Mode / metric                        & max (EMA IoU) \\
+                 & Reduction factor                     & 0.5 \\
+                 & Patience                             & 15 epochs \\
+                 & EMA smoothing ($\beta$)              & 0.9 \\
+                 & IoU gate (scheduler activation)      & 0.10 \\
+\hline
+\end{tabular}
+\caption[\texttt{DetectorNX-G3-CNN} hyperparameters.]{\texttt{DetectorNX-G3-CNN} hyperparameters (11.73M parameters).}
+\label{tab_app:g3_cnn_params}
+\end{table}
+
+\clearpage

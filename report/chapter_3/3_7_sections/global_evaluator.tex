@@ -4,7 +4,7 @@
 The Global Performance Evaluator serves as the primary comparative evaluation between the \gls{snn} and \gls{cnn} architectures,
 aggregating performance across the full 200-sample validation set.
 Unlike the preceding targeted experiments, this benchmark establishes the \textit{Performance-Efficiency Frontier}:
-quantifying the accuracy penalty incurred by transitioning to discrete spiking dynamics, whilst validating whether the multi-box refinements and others in the \texttt{ULTRA} revision of \texttt{DetectorNX}
+quantifying the accuracy penalty incurred by transitioning to discrete spiking dynamics, whilst validating whether the multi-box refinements and others in the G3 revision of \texttt{DetectorNX}
 mentioned in Section \ref{sec:architectural_evolution} are sufficient to resolve scene-level detection ambiguity.
 
 \subsubsection{Metrics}
@@ -21,7 +21,6 @@ In this experiment, four complementary metrics are evaluated:
     \item \textbf{\gls{adp}:} 
     quantifies detector selectivity relative to the ground truth mean of 2.02 objects per frame;
     significant positive deviation indicates spurious ``ghost'' detections arising from background noise misclassification.
-    \todo[inline]{Cite and reference 2.02 value to table, and update other mention of 2.0 to 2.02}
 
     \item{\textbf{Mean Prediction Confidence}:}
     captures network self-certainty by averaging sigmoid-activated confidence scores across all

@@ -6,16 +6,16 @@ To satisfy the success criteria established in Section~\ref{sec:intro_success_cr
 \begin{figure}[htbp]
     \centering
     \includegraphics[trim=0 0 0 0, clip, width=0.95\textwidth]{chapter_3/figures/high-level-architecture.pdf}
-    \caption[High-level system architecture pipeline.]{The high-level system architecture pipeline, illustrating the flow from raw ETraM high-definition event data, through the fixed REPLICA preprocessing stages, into the interchangeable neural backbone (SNN or CNN), and concluding with the multi-box regression head and the comprehensive evaluation suite.}
+    \caption[High-level system architecture pipeline.]{The high-level system architecture pipeline, illustrating the flow from raw ETraM high-definition event data, through the fixed \gls{bolt} preprocessing stages, into the interchangeable neural backbone (SNN or CNN), and concluding with the multi-box regression head and the comprehensive evaluation suite.}
     \label{fig:system_architecture_block}
 \end{figure}
 
 As illustrated, the architecture is divided into four primary sequential stages, where the central neural backbone acts as an interchangeable module:
 
 \begin{enumerate}
-    \item \textbf{Data Ingestion \& The REPLICA Pipeline (Fixed):} 
-    Raw, asynchronous event data at a high spatial resolution of $1280 \times 720$ is ingested from the ETraM dataset. 
-    Due to the conventionally sparse and noisy nature of neuromorphic hardware outputs, the data enters the \textit{REPLICA} preprocessing pipeline, which is heavily adapted from the methodology proposed in the original ETraM study \cite{Verma_2024_CVPR}.
+    \item \textbf{Data Ingestion \& The \gls{bolt} Pipeline (Fixed):}
+    Raw, asynchronous event data at a high spatial resolution of $1280 \times 720$ is ingested from the ETraM dataset.
+    Due to the conventionally sparse and noisy nature of neuromorphic hardware outputs, the data enters the \gls{bolt} preprocessing pipeline, which is heavily adapted from the methodology proposed in the original ETraM study \cite{Verma_2024_CVPR}.
     While the core spatiotemporal noise filtering and bilinear temporal interpolation (to $T=10$ bins) remain faithful to the original study, this project included an additional spatial downsampling stage ($ds=4: 1280 \times 720 \rightarrow 320 \times 180$).
     This modification was strategically implemented to ensure training feasibility on local accelerator hardware and reduce input sparsity, thereby improving the stability of neuronal feature extraction.
     This stage is detailed thoroughly in Section \ref{sec:data_preprocessing}.
@@ -23,8 +23,8 @@ As illustrated, the architecture is divided into four primary sequential stages,
     \begin{sloppypar}
     \item \textbf{The Neural Backbone (Interchangeable):}
     The preprocessed voxel tensor serves as the input to the primary feature extraction engine.
-    This stage houses either the spiking architecture \texttt{SNN\_MAX\_REPLICA\_SE} or its parameter-matched continuous counterpart \texttt{CNN\_MAX\_REPLICA\_SE}.
-    Both backbones comprise four residual blocks --- \texttt{SEWResBlock} units in the SNN variant, Standard ResBlocks in the CNN baseline --- with Squeeze-and-Excitation attention at the Stage~3 bottleneck, and together perform an aggressive $16\times$ total spatial downsampling.
+    This stage houses either the spiking architecture \texttt{DetectorNX-G3-SNN} or its parameter-matched continuous counterpart \texttt{DetectorNX-G3-CNN}.
+    Both backbones comprise four residual blocks --- \texttt{SEWResBlock} units in the SNN variant, Standard ResBlocks in the CNN baseline --- with Squeeze-and-Excitation attention at the Stage~3 bottleneck, and together perform an aggressive $8\times$ total spatial downsampling.
     The evolution and formal design of these backbones are detailed in Sections~\ref{sec:snn_architecture} and~\ref{sec:cnn_baseline}.
     \end{sloppypar}
 
@@ -53,7 +53,7 @@ SC2 & Measurable theoretical energy savings & Binary spike encoding, \gls{frr} m
 \hline
 SC3 & Real-time viability ($\geq 30$ \gls{fps}) & Fused CUDA kernels (\texttt{step\_mode='m'}), \gls{amp} 16-bit tensor cores & Real-Time Latency (Section~\ref{subsec:exp_latency_setup}) \\
 \hline
-SC4 & Architectural parity (within $1\%$ parameters) & 1:1 block-for-block backbone matching, shared regression head, shared \texttt{REPLICA} input & Parameter-count audit (Table~\ref{tab:model_hyperparameters}) \\
+SC4 & Architectural parity (within $1\%$ parameters) & 1:1 block-for-block backbone matching, shared regression head, shared \gls{bolt} input & Parameter-count audit (Table~\ref{tab:model_hyperparameters}) \\
 \hline
 SC5 & Detection completeness ($100\%$ recall @ \gls{iou}$>0.5$) & Vectorised Multi-Box Loss with greedy assignment matching & Global Evaluator (Section~\ref{subsec:global_evaluator}) \\
 \hline

@@ -1,14 +1,14 @@
 \section{Architectural Evolution}
 \label{sec:architectural_evolution}
 
-The final \texttt{\textbf{ULTRA}} revision of the \texttt{MAX\_REPLICA\_SE} architecture was not the result of a single design phase,
+The final \texttt{G3} revision of the \texttt{DetectorNX} architecture was not the result of a single design phase,
 but rather the culmination of an iterative engineering process across four distinct generations.
 According to the project's success criteria, the model required both high temporal precision and robust spatial localization.
 This section documents the empirical obstacles encountered during development, and the actionable insights that led to the final optimized configuration.
 
 \subsection{Phase 0: The Spatial Cropping Pitfall (Early Prototyping)}
 
-Prior to the implementation of downsampling in the \texttt{REPLICA} pipeline, early prototyping explored the use of aggressive spatial cropping to bypass the computational costs of high-definition event processing.
+Prior to the implementation of downsampling in the \gls{bolt} pipeline, early prototyping explored the use of aggressive spatial cropping to bypass the computational costs of high-definition event processing.
 
 \subsubsection{Architectural Intent \& Technical Logic}
 The primary objective of this phase was to establish a high-resolution localized baseline by cropping the raw $1280 \times 720$ \gls{etram} sensor data into a $224 \times 224$ patch,
@@ -56,9 +56,9 @@ Critically, this collapse was invisible to the \gls{iou} metric; the validation 
 \end{figure}
 
 \subsubsection{Actionable Insight}
-This phase provided a critical methodological lesson: for a spiking architecture to learn robust spatial localization and objectness, it must be exposed to targets moving dynamically relative to the sensor boundaries within a full-frame (or semi-full-frame) field of view. This insight led to the total abandonment of centered cropping in favor of the global $4\times$ spatial downsampling strategy utilized in the final \textit{REPLICA} pipeline, ensuring that the model learned to correlate visual spike patterns with absolute spatial coordinates.
+This phase provided a critical methodological lesson: for a spiking architecture to learn robust spatial localization and objectness, it must be exposed to targets moving dynamically relative to the sensor boundaries within a full-frame (or semi-full-frame) field of view. This insight led to the total abandonment of centered cropping in favor of the global $4\times$ spatial downsampling strategy utilized in the final \gls{bolt} pipeline, ensuring that the model learned to correlate visual spike patterns with absolute spatial coordinates.
 
-\subsection{Generation 1: The Multi-Box Paradigm Shift}
+\subsection{Generation 1 (G1): The Multi-Box Paradigm Shift}
 
 Following the resolution of the spatial cropping bias, the architecture progressed to full-frame processing. 
 However, this transition immediately exposed fundamental limitations in the network's predictive capabilities regarding multi-object scenes.
@@ -88,11 +88,11 @@ The actionable insight was the development of a Vectorized Multi-Box Loss. This 
 
 Crucially, all unmatched predicted boxes are assigned a target confidence of $0.0$, acting as a metabolic penalty for false positives. This forces the model to learn that predicting a vehicle where none exists carries a heavy mathematical penalty, effectively cleaning up the \gls{snn}'s vision and reducing the Ghost Detections prevalent in early iterations. 
 
-By transitioning to a multi-box architecture, we moved the \gls{snn} from a simplistic regression model to a sophisticated scene-aware detector, and introduced the Multi Box Label Alignment step shown in figure \ref{fig:preprocessing_pipeline} into the \texttt{REPLICA} pre-processing pipeline. 
+By transitioning to a multi-box architecture, we moved the \gls{snn} from a simplistic regression model to a sophisticated scene-aware detector, and introduced the Multi Box Label Alignment step shown in figure \ref{fig:preprocessing_pipeline} into the \gls{bolt} pre-processing pipeline. 
 This shift allowed the network to resolve the spatial ambiguity of multi-vehicle traffic, transforming the contradictory Label Noise of previous versions into a structured multi-target learning signal. 
 This evolution was essential for achieving stable convergence on the high-definition, high-density event streams of the \gls{etram} dataset.
 
-\subsection{Generation 2: The Expanded Spatial Head (7.00M Parameter \texttt{MAX} Generation)}
+\subsection{Generation 2 (G2): The Expanded Spatial Head (7.00M Parameters)}
 
 While Generation 1 successfully established the multi-box logic, empirical validation revealed a persistent failure mode characterized by ghost Detections and overlapping predictions.
 
@@ -112,7 +112,7 @@ This resulted in dramatic Confidence Polarization: max confidence scores for rea
 
 Consequently, the average detections per frame dropped to 2.06, nearly perfectly matching the ground truth. However, while the model's selectivity improved drastically, the Mean \gls{iou} plateaued at 41\%. This confirmed that while the regression head now possessed sufficient capacity, the backbone's heavily downsampled resolution remained the fundamental bottleneck preventing higher geometric precision.
 
-\subsection{Generation 3: The High-Resolution Backbone (11.7M Parameter \texttt{ULTRA} Generation)}
+\subsection{Generation 3 (G3): The High-Resolution Backbone (11.7M Parameters)}
 
 Following the expansion of the spatial head in Generation 2, the model demonstrated excellent selectivity but remained computationally constrained by its geometric precision.
 
@@ -121,12 +121,12 @@ The primary objective of this final phase was to break the Precision Ceiling est
 
 The fundamental obstacle was the severe spatial compression occurring within the backbone. By the final layer, the feature map had been downsampled to an $11 \times 20$ resolution. 
 At this scale, a single pixel in the final feature map represented a massive $16 \times 16$ area of the original HD sensor. 
-Consequently, if a vehicle's bounding box edge shifted by several pixels in the real world, the network was entirely blind to the change; the \texttt{MAX} generation simply lacked the geometric detail required to draw tight, pixel-perfect bounding boxes.
+Consequently, if a vehicle's bounding box edge shifted by several pixels in the real world, the network was entirely blind to the change; the G2 generation simply lacked the geometric detail required to draw tight, pixel-perfect bounding boxes.
 
 Furthermore, an analysis of the network's information flow revealed that the Generation 2 backbone was suffering from neural silencing, exhibiting an average firing rate of $< 1.5\%$. This extreme sparsity starved the regression head of the necessary temporal evidence required for high-confidence predictions.
 
 \subsubsection{Actionable Insight: Semantic Expansion \& Metabolic Awakening}
-To overcome this precision ceiling, a multi-faceted architectural overhaul was implemented to create the final \texttt{ULTRA} configuration:
+To overcome this precision ceiling, a multi-faceted architectural overhaul was implemented to create the final G3 configuration:
 
 \begin{itemize}
     \item \textbf{Resolution Boost \& Semantic Depth:} To provide the necessary geometric detail, the convolution stride in Block 3 was reduced to $s=1$. This effectively halted the downsampling earlier in the network, doubling the final feature map resolution to $22 \times 40$ (quadrupling the available spatial cells to 880). To handle the increased complexity and high-frequency sensor artifacts exposed by this higher resolution, the backbone's semantic was expanded via the addition of a 4th \texttt{SEWResBlock} (512 channels). 
@@ -141,10 +141,10 @@ To overcome this precision ceiling, a multi-faceted architectural overhaul was i
     \item \textbf{Hardware Optimization:} 
     Expanding the parameter count to 11.7M and quadrupling the spatial resolution exponentially increased the computational load. 
     To prevent catastrophic latency penalties, the architecture was refactored to utilize SpikingJelly's \texttt{step\_mode='m'} (\textit{Fused-Kernel Optimization}) \cite{fang2023spikingjelly}, which bypassed the Python interpreter to execute the temporal dimension ($T=10$) directly on the GPU. 
-    This was coupled with \gls{amp} utilizing 16-bit tensor cores, yielding a $\sim 1.8\times$ training speedup and making the \texttt{ULTRA} configuration computationally viable.
+    This was coupled with \gls{amp} utilizing 16-bit tensor cores, yielding a $\sim 1.8\times$ training speedup and making the G3 configuration computationally viable.
 \end{itemize}
 
-Generation 3 successfully orchestrated the transition from basic structural detection to high-fidelity geometric precision. By halting the spatial degradation and enforcing strict metabolic regularization, the \texttt{ULTRA} model demonstrated that \glspl{snn} can achieve precise localization on HD event data without the severe latency penalties typically associated with deep spiking architectures.
+Generation 3 successfully orchestrated the transition from basic structural detection to high-fidelity geometric precision. By halting the spatial degradation and enforcing strict metabolic regularization, the G3 model demonstrated that \glspl{snn} can achieve precise localization on HD event data without the severe latency penalties typically associated with deep spiking architectures.
 
 \subsection{Generations: Summarized}
 
@@ -156,29 +156,27 @@ To summarize, Table \ref{tab:generational_evolution} shows the evolution of the 
 \hline
 \textbf{Generation} & \textbf{Primary Architectural Shift} & \textbf{Params} & \textbf{Main Strength} & \textbf{Final Limitation} \\
 \hline
-Gen 1: Base & 
-Multi-Box Head $[B, 5, 5]$ & 
-5.43M & 
-Handled multi-vehicle scenes simultaneously & 
+G1 &
+Multi-Box Head $[B, 5, 5]$ &
+5.43M &
+Handled multi-vehicle scenes simultaneously &
 High false positives in low-density regions (``Ghosting'') \\
 \hline
-Gen 2: Expanded & 
-8$\times$8 Spatial Pooling Head & 
-7.00M & 
-Solved object-noise ambiguity through improved spatial aggregation & 
+G2 &
+8$\times$8 Spatial Pooling Head &
+7.00M &
+Solved object-noise ambiguity through improved spatial aggregation &
 41\% \gls{iou} ceiling due to insufficient spatial resolution \\
 \hline
-Gen 3: Ultra & 
-22$\times$40 Resolution with additional SEWResBlock (Stage 4) & 
-11.72M & 
-High-fidelity edge precision through full-resolution backbone processing & 
+G3 &
+22$\times$40 Resolution with additional SEWResBlock (Stage 4) &
+11.72M &
+High-fidelity edge precision through full-resolution backbone processing &
 Higher computational metabolic cost in \glspl{sop} \\
 \hline
 \end{tabularx}
 \caption{Generational evolution of the \texttt{DetectorNX} architecture.}
 \label{tab:generational_evolution}
 \end{table}
-
-\todo[inline]{Global: Rename ULTRA MAX naming conventions to more scientifically-appropriate alternatives.}
 
 \clearpage

@@ -1,7 +1,7 @@
 \section{Spiking Neural Network (SNN) Architecture}
 \label{sec:snn_architecture}
 
-The core focus, effort and innovation of this project is the development and optimization of the \texttt{SNN\_MAX\_REPLICA\_SE} architecture. 
+The core focus, effort and innovation of this project is the development and optimization of the \texttt{DetectorNX-G3-SNN} architecture. 
 This model is explicitly designed to process high-definition neuromorphic event data while adhering to the computational paradigms of \gls{snn}s. 
 By prioritizing event-driven, binary communication, the architecture aims to drastically reduce both the dynamic power consumption and the computational complexity compared to traditional deep learning models, making it superior for power and time constrained environments.
 
@@ -60,7 +60,7 @@ To extract high-level semantic features and manage the computational complexity 
 \hline
 \end{tabular}%
 }
-\caption[Network Architecture Stages]{Detailed breakdown of the five sequential stages in the \texttt{SNN\_MAX\_REPLICA\_SE} backbone.}
+\caption[Network Architecture Stages]{Detailed breakdown of the five sequential stages in the \texttt{DetectorNX-G3-SNN} backbone.}
 \label{tab:snn_staged_architecture}
 \end{table}
 
@@ -81,7 +81,7 @@ However, if we follow this standard and add two binary spike trains, the result 
     \label{fig:sewresblock}
 \end{figure}
 
-To overcome this, the \texttt{SNN\_MAX\_REPLICA\_SE} architecture adopts the \gls{sew} residual paradigm \cite{fang2022resnet_sew}, instantiated as \texttt{SEWResBlock} units throughout the backbone. 
+To overcome this, the \texttt{DetectorNX-G3-SNN} architecture adopts the \gls{sew} residual paradigm \cite{fang2022resnet_sew}, instantiated as \texttt{SEWResBlock} units throughout the backbone. 
 Unlike standard Spiking ResNets, SEW ResBlocks apply the element-wise residual operation \textit{after} the spiking activation function, guaranteeing that the output remains strictly binary. 
 \textcite{fang2022resnet_sew} prove that this reordering is both necessary and sufficient to achieve identity mapping in a purely spike-based network, resolving the degradation problem without sacrificing neuromorphic compatibility. 
 In this architecture, this property is exploited to stack 4 SEWResBlocks across the backbone stages (Stages 2 and 4 in Table \ref{tab:snn_staged_architecture}), enabling representational depth that would otherwise cause spike degradation under a standard residual formulation.
@@ -90,7 +90,7 @@ In this architecture, this property is exploited to stack 4 SEWResBlocks across 
 \label{subsec:snn_se_block}
 
 In deep learning, a bottleneck refers to a point in the neural network where the information flow is forced through its most compressed and abstract representation. 
-In this \texttt{SNN\_MAX\_REPLICA\_SE} architecture, the bottleneck exists at the transition point between stages 2 and 3 of the backbone, and represents two things:
+In this \texttt{DetectorNX-G3-SNN} architecture, the bottleneck exists at the transition point between stages 2 and 3 of the backbone, and represents two things:
 
   \begin{enumerate}
       \item \textbf{A Spatial Constraint (Resolution Limit):} 
@@ -114,7 +114,7 @@ By applying this recalibration, the \gls{se} block ensures that only the most re
     \centering
     \includegraphics[width=0.9\textwidth]{chapter_3/figures/se_block_diagram.pdf}
     \caption{The Squeeze-and-Excitation (SE) block \cite{hu2019_se_block} as 
-    applied in Stage 3 of the \texttt{SNN\_MAX\_REPLICA\_SE} backbone 
+    applied in Stage 3 of the \texttt{DetectorNX-G3-SNN} backbone 
     (22$\times$40$\times$256).}
     \label{fig:se_block}
 \end{figure}
@@ -149,9 +149,8 @@ This formulation allows the network to predict multiple vehicles simultaneously,
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.72\textwidth]{chapter_3/figures/snn_architecture_diagram.pdf}
-    \caption[End-to-end \texttt{SNN\_MAX\_REPLICA\_SE} architecture.]{End-to-end data flow through the \texttt{SNN\_MAX\_REPLICA\_SE} architecture. The spiking backbone (Stages~1--4) processes the full spatiotemporal tensor in parallel across $T = 10$ timesteps, after which Temporal Fusion collapses the time dimension prior to the multi-box regression head.}
+    \caption[End-to-end \texttt{DetectorNX-G3-SNN} architecture.]{End-to-end data flow through the \texttt{DetectorNX-G3-SNN} architecture. The spiking backbone (Stages~1--4) processes the full spatiotemporal tensor in parallel across $T = 10$ timesteps, after which Temporal Fusion collapses the time dimension prior to the multi-box regression head. A full list of architectural and training hyperparameters is provided in Table~\ref{tab_app:g3_snn_params} of the appendix.}
     \label{fig:snn_architecture}
 \end{figure}
-\todo[inline,backgroundcolor=myblue,textcolor=white]{Check \& Add model hyperparameter table.}
 
 \clearpage
