@@ -7,8 +7,8 @@ By prioritizing event-driven, binary communication, the architecture aims to dra
 
 \subsection{Spatiotemporal Input \& Multi-Step Execution}
 \label{subsec:snn_input}
-The raw \gls{etram} event data is initially preprocessed to a spatial resolution of $640 \times 360$ with $T=10$ discrete temporal bins. 
-Consequently, the network ingests a massive, high-dimensional spatiotemporal tensor of shape $[B, 10, 2, 360, 640]$ (Batch, Time, Polarity, Height, Width). 
+The raw \gls{etram} event data is initially preprocessed to a spatial resolution of $320 \times 180$ with $T=10$ discrete temporal bins.
+Consequently, the network ingests a massive, high-dimensional spatiotemporal tensor of shape $[B, 10, 2, 180, 320]$ (Batch, Time, Polarity, Height, Width). 
 
 Given the high spatial dimensionality and the iterative nature of spiking neurons, native Python loop execution over the time dimension proved computationally restrictive. 
 To overcome this bottleneck, the entire architecture was refactored to utilize the SpikingJelly framework's optimized Multi-Step (\texttt{step\_mode='m'}) execution paradigm \cite{fang2023spikingjelly};
@@ -65,7 +65,7 @@ To extract high-level semantic features and manage the computational complexity 
 \end{table}
 
 \subsubsection{Spatial Downsampling}
-As illustrated, the architecture implements an aggressive $16\times$ total spatial downsampling strategy to compress the initial $640 \times 360$ input. 
+As illustrated, the architecture implements an aggressive $8\times$ total spatial downsampling strategy to compress the initial $320 \times 180$ input.
 This is achieved through strided convolutions applied within the Initial Stem and Backbone Alpha, progressively reducing the spatial dimensions to a highly compressed $22 \times 40$ grid while expanding the channel width up to 512.
 
 \subsubsection{Spike-Element-Wise (SEW) Residual Blocks}
@@ -94,7 +94,7 @@ In this \texttt{SNN\_MAX\_REPLICA\_SE} architecture, the bottleneck exists at th
 
   \begin{enumerate}
       \item \textbf{A Spatial Constraint (Resolution Limit):} 
-      At this stage, the original $640 \times 360$ spatiotemporal input has been downsampled by a factor of 16x via the strided convolutions in the stem and early residual block, resulting in a highly compressed $22 \times 40$ feature map.
+      At this stage, the original $320 \times 180$ spatiotemporal input has been downsampled by a factor of 8x via the strided convolutions in the stem and early residual blocks, resulting in a highly compressed $22 \times 40$ feature map.
       This spatial bottleneck is critical because each remaining "pixel" must now represent a large $8 \times 8$ receptive field of the original HD sensor data, forcing the network to discard fine-grained geometric redundancy while retaining the
       core structural boundaries of multiple detected objects.
 
@@ -135,14 +135,23 @@ Adding this penalty to the model's loss ensures high information flow while stri
 
 \subsection{Multi-Box Regression Head}
 \label{subsec:snn_head}
-Following the final backbone stage, the abstract spatiotemporal feature maps are fed into a unified detection head. 
-To process the spatial information effectively and mitigate spatial ambiguities observed during the iterative design process (detailed in Section \ref{sec:architectural_evolution}), the head utilizes an $8 \times 8$ Adaptive Average Pooling mechanism. 
+Following the final backbone stage, the fused spatiotemporal feature map is routed into a unified detection head structured as a three-stage pipeline: a channel projection, a dual adaptive pool, and a final regression mapping.
 
-This pooling operation aggregates the features into 64 distinct spatial receptive blocks. 
-The pooled features are then mapped via final convolutional and linear layers to an output tensor of shape $[B, 5, 5]$, where $B$ represents the batch size.
-The final two dimensions encode the top 5 predicted bounding boxes globally per image, with each box defined by a feature tuple $\mathcal{F} = \{x, y, w, h, c\}$. 
-Here, $(x, y, w, h)$ represent the normalized spatial coordinates and dimensions of the bounding box, and $c$ denotes the object confidence logit. 
+A $1 \times 1$ convolution first projects the 512-channel fused tensor down to 128 channels, compressing feature dimensionality ahead of the spatial reduction and lowering the parameter count of the downstream head.
+
+The projected map is then passed through two parallel $8 \times 8$ adaptive pools, an Adaptive Average Pool and an Adaptive Max Pool, whose outputs are summed element-wise. Average pooling captures the global scene statistics but tends to smooth out sparse, informative responses; max pooling preserves the strongest localized activations but discards distributional context. Summing the two retains both signals, mitigating the spatial ambiguities observed during the iterative design process (detailed in Section \ref{sec:architectural_evolution}).
+
+The resulting $[B, 128, 8, 8]$ tensor is then mapped via final convolutional and linear layers to an output tensor of shape $[B, 5, 5]$, where $B$ represents the batch size.
+The final two dimensions encode the top 5 predicted bounding boxes globally per image, with each box defined by a feature tuple $\mathcal{F} = \{x, y, w, h, c\}$.
+Here, $(x, y, w, h)$ represent the normalized spatial coordinates and dimensions of the bounding box, and $c$ denotes the object confidence logit.
 This formulation allows the network to predict multiple vehicles simultaneously, which are subsequently evaluated using a vectorized Multi-Box Loss function.
 
-\todo[inline,backgroundcolor=myblue,textcolor=white]{Add model architecture diagram.}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.72\textwidth]{chapter_3/figures/snn_architecture_diagram.pdf}
+    \caption[End-to-end \texttt{SNN\_MAX\_REPLICA\_SE} architecture.]{End-to-end data flow through the \texttt{SNN\_MAX\_REPLICA\_SE} architecture. The spiking backbone (Stages~1--4) processes the full spatiotemporal tensor in parallel across $T = 10$ timesteps, after which Temporal Fusion collapses the time dimension prior to the multi-box regression head.}
+    \label{fig:snn_architecture}
+\end{figure}
 \todo[inline,backgroundcolor=myblue,textcolor=white]{Check \& Add model hyperparameter table.}
+
+\clearpage

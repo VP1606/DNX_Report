@@ -93,5 +93,10 @@ If the corresponding SNN achieves 43\% \gls{iou}, the 5\% gap explicitly represe
 Adhering to this methodology ensures that the evaluation of the neuromorphic paradigm is both fair and scientifically sound.
 
 
-\todo[inline,backgroundcolor=myblue,textcolor=white]{Add model architecture diagram.}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.72\textwidth]{chapter_3/figures/cnn_architecture_diagram.pdf}
+    \caption[End-to-end \texttt{CNN\_MAX\_REPLICA\_SE} architecture.]{End-to-end data flow through the \texttt{CNN\_MAX\_REPLICA\_SE} baseline. The four backbone stages mirror those of the \gls{snn} (Figure~\ref{fig:snn_architecture}) 1:1, differing only in activation (\gls{relu} instead of \gls{lif}), residual formulation (Standard ResBlock instead of \texttt{SEWResBlock}), and temporal handling: the $T = 10$ bins are channel-stacked into a 20-channel input and processed in a single spatial pass, removing the need for a Temporal Fusion stage.}
+    \label{fig:cnn_architecture}
+\end{figure}
 \todo[inline,backgroundcolor=myblue,textcolor=white]{Check \& Add model hyperparameter table.}
