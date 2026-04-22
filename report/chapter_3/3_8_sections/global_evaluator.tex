@@ -13,6 +13,7 @@ Table \ref{tab:global_benchmark} summarizes the headline results for the G3 gene
 \textbf{Performance Metric} & \textbf{\texttt{DetectorNX-G3-SNN}} & \textbf{\texttt{DetectorNX-G3-CNN}} \\
 \hline
 Mean IoU & 0.4613 & 0.4861 \\
+\gls{map_50} & 0.5977 & 0.6550 \\
 Recall (Detections $>$ 0.5) & 100.0\% & 100.0\% \\
 \hline
 Avg.\ Detections per Frame (GT) & 2.02 & 2.02 \\
@@ -103,7 +104,7 @@ A qualitative audit was also conducted to visualize the models' spatial reasonin
 
 \subsubsection*{Critical Analysis}
 
-The results from Table \ref{tab:global_benchmark} demonstrate a remarkable degree of parity between the spiking and continuous paradigms. Achieving a mean \gls{iou} of $0.4613$, which corresponds to $94.9\%$ of the \gls{cnn} baseline, proves that the G3 backbone is robust enough to sustain high-resolution spatial reasoning despite the loss of precision inherent in $1$-bit quantization. This parity indicates that the architectural refinements detailed in Section \ref{sec:architectural_evolution}---specifically the integration of \gls{se} blocks and \gls{sew} residual connections---have successfully compensated for the discrete nature of spiking activations.
+The results from Table \ref{tab:global_benchmark} demonstrate a remarkable degree of parity between the spiking and continuous paradigms. Achieving a mean \gls{iou} of $0.4613$, which corresponds to $94.9\%$ of the \gls{cnn} baseline, proves that the G3 backbone is robust enough to sustain high-resolution spatial reasoning despite the loss of precision inherent in $1$-bit quantization. This geometric-precision parity is further corroborated by the detection-quality metric: the \gls{snn} achieves an \gls{map_50} of $0.5977$ against the \gls{cnn}'s $0.6550$, a $91.3\%$ parity under the stricter COCO-convention protocol that confirms the parity finding is not an artefact of the \gls{iou}-only evaluation. This parity indicates that the architectural refinements detailed in Section \ref{sec:architectural_evolution}---specifically the integration of \gls{se} blocks and \gls{sew} residual connections---have successfully compensated for the discrete nature of spiking activations.
 
 This convergence in predictive capacity is further reflected in the detection metrics. Both models achieve a perfect recall of $100.0\%$ for objects with an IoU $> 0.5$, demonstrating that the transition to spiking dynamics has not induced any catastrophic forgetting of vehicle features. Furthermore, both models exhibit a similar detection profile compared to the ground truth ($1.73$ and $1.75$ predicted vs.\ $2.02$ ground truth average detections), which is typical for object detection on noisy, asynchronous event data. The negligible gap between the spiking and continuous variants confirms that the \gls{snn} has not compromised its feature extraction or proposal capacity.
 

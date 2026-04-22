@@ -10,6 +10,7 @@ METRICS
 ----------
 Mean IoU: 0.4613
 Median IoU: 0.4903
+mAP@0.5: 0.5977
 Avg Objects per Frame (GT): 2.02
 Avg Objects per Frame (Pred): 1.73
 Recall (Detections > 0.5): 100.0%

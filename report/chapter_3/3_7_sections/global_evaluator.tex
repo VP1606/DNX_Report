@@ -13,7 +13,9 @@ In this experiment, four complementary metrics are evaluated:
 
 \begin{itemize}
     \item \textbf{\gls{miou}:} measures geometric precision between predicted and ground truth bounding boxes.
-    
+
+    \item \textbf{\gls{map_50}:} the COCO-convention detection-quality metric, measuring average precision at a fixed 0.5 \gls{iou} threshold; enables external comparison against published detectors and validates that \gls{miou} parity is not an artefact of the overlap-only evaluation.
+
     \item \textbf{Recall:}
     measures the proportion of ground truth objects successfully localised at a confidence threshold of 50\%, penalising architectures that fail to respond to
     sparse event regions.

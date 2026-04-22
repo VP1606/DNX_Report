@@ -4,9 +4,9 @@
 This chapter consolidates the empirical outcomes of the \texttt{DetectorNX-G3-SNN} evaluation against the project's success criteria, validating the neuromorphic paradigm for safety-critical edge deployment.
 
 \subsection{Global Precision Parity}
-The primary outcome of the spatial evaluation was the achievement of a \gls{miou} of $0.4613$ for the spiking model, representing $94.9\%$ of the \gls{cnn} baseline ($0.4861$). 
-Furthermore, both architectures achieved a perfect recall of $100.0\%$ for objects with an \gls{iou} $> 0.5$. 
-These results prove that the architectural refinements introduced in this work---specifically the multi-box architecture, \gls{se} and \gls{sew} residual blocks---successfully mitigated the precision loss inherent in $1$-bit quantization and discrete temporal resolution.
+The primary outcome of the spatial evaluation was the achievement of a \gls{miou} of $0.4613$ for the spiking model, representing $94.9\%$ of the \gls{cnn} baseline ($0.4861$), and an \gls{map_50} of $0.5977$ against the \gls{cnn}'s $0.6550$ --- a $91.3\%$ parity under the stricter COCO-convention detection-quality metric.
+Furthermore, both architectures achieved a perfect recall of $100.0\%$ for objects with an \gls{iou} $> 0.5$.
+These results prove that the architectural refinements introduced in this work, specifically the multi-box architecture, \gls{se} and \gls{sew} residual blocks, successfully mitigated the precision loss inherent in $1$-bit quantization and discrete temporal resolution.
 
 \subsection{Decisive Efficiency Gains}
 The transition from dense \gls{cnn} convolutions to event-driven spiking dynamics yielded an average power saving of $94.33\%$ across the validation subset, 
