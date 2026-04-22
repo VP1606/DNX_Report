@@ -1,0 +1,90 @@
+\section{Training Structure}
+\label{sec:training_structure}
+
+This section specifies how the \texttt{SNN\_MAX\_REPLICA\_SE} architecture established in Section~\ref{sec:snn_architecture} is trained on the precomputed voxel chunks produced by the \texttt{REPLICA} pipeline (Section~\ref{sec:data_preprocessing}).
+Each hyperparameter choice addresses a specific failure mode encountered during architectural evolution (Section~\ref{sec:architectural_evolution}), and the configuration summarised here is the one used to train the model benchmarked in Section~\ref{sec:experimental_setup}.
+
+\subsection{Objective Function}
+\label{subsec:training_objective}
+
+The total training loss combines a vectorised multi-box loss with the firing rate regularisation introduced in Section~\ref{subsec:snn_frr}:
+\begin{equation}
+    L_{total} = L_{coord} + L_{conf} + L_{frr}
+    \label{eq:total_loss}
+\end{equation}
+
+The multi-box loss operates on the $[B, 5, 5]$ head output. A broadcast \gls{iou} matrix of shape $[B, K, M]$ is computed between the $K = 5$ predicted boxes and the $M = 5$ padded ground-truth slots, and each ground-truth slot is independently paired with its highest-\gls{iou} prediction via \texttt{ious.argmax(dim=1)}. Each matched pair contributes a combined coordinate term
+\begin{equation}
+    L_{coord} = \text{SmoothL1}(\hat{\mathbf{b}}, \mathbf{b}) + \lambda_{giou} \cdot (1 - GIOU(\hat{\mathbf{b}}, \mathbf{b}))
+    \label{eq:coord_loss}
+\end{equation}
+with $\lambda_{giou} = 2.0$. SmoothL1 supplies the per-coordinate gradient; the \gls{giou} term contributes the geometric signal on disjoint boxes (Section~\ref{subsec:bg_giou}). The confidence term applies \texttt{BCEWithLogitsLoss} to the raw logits, targeting $1.0$ for the slot matched to each real object and $0.0$ elsewhere. The fused sigmoid/BCE formulation is numerically stable under the float16 autocast described in Section~\ref{subsec:training_optimisation}.
+
+The \gls{frr} term is a symmetric squared penalty across all nine spike tensors emitted by the backbone (the stem \gls{lif} output plus two per \texttt{SEWResBlock}):
+\begin{equation}
+    L_{frr} = \frac{\lambda_{frr}}{N} \sum_{i=1}^{N} (r_i - r^*)^2
+    \label{eq:frr_loss}
+\end{equation}
+with target rate $r^* = 0.20$ and $\lambda_{frr} = 5.0$. The spike tensors remain in the autograd graph, so \gls{frr} gradients propagate backward through the \gls{atan} surrogate gradient and adjust backbone convolution weights directly, making regularisation an active training signal rather than a post-hoc diagnostic.
+
+\subsection{Optimisation}
+\label{subsec:training_optimisation}
+
+Parameters are updated with Adam~\cite{kingma2017adam} at $\eta = 2 \times 10^{-4}$ and weight decay $10^{-4}$. The learning rate is controlled by \texttt{ReduceLROnPlateau} (factor $0.5$, patience $15$ epochs) operating on an exponentially smoothed validation \gls{iou}:
+\begin{equation}
+    \text{EMA}_t = \beta \cdot \text{EMA}_{t-1} + (1 - \beta) \cdot \text{IoU}_t, \qquad \beta = 0.9
+    \label{eq:ema_iou}
+\end{equation}
+Scheduler steps are gated by $\text{EMA} \geq 0.10$, which prevents premature decay while the model is still below baseline localisation competence.
+
+Training runs under \texttt{torch.amp.autocast('cuda')} with a \texttt{GradScaler}, yielding a $\sim 1.8 \times$ throughput gain and halved activation memory on the NVIDIA A100 tensor cores. After loss scaling but before the optimiser step, gradients are unscaled and clipped to $\ell_2$ norm $1.0$ to contain the heavy gradient tail produced by the eight-deep surrogate path through the four \texttt{SEWResBlock} pairs.
+
+\subsection{Validation and Checkpointing}
+\label{subsec:training_validation}
+
+After each training epoch the model is evaluated across the full validation split. Predictions are sigmoid-activated, real objects are identified by $\text{mask} > 0.5$, and a detection is counted as active when its confidence logit clears the same threshold. The per-epoch metric is the mean of the best IoU achieved against each real object across the active predictions. A best-model checkpoint is written whenever this raw IoU surpasses the current maximum; a final-epoch checkpoint is preserved unconditionally for ablation.
+
+\subsection{Hyperparameter Summary}
+\label{subsec:training_hyperparameters}
+
+Table~\ref{tab:model_hyperparameters} consolidates the trained configuration, including the values forward-referenced by the success-criteria traceability table (Table~\ref{tab:sc_traceability}).
+
+\begin{table}[htbp]
+\centering
+\caption[Training configuration for \texttt{SNN\_MAX\_REPLICA\_SE}.]{Training configuration for the \texttt{SNN\_MAX\_REPLICA\_SE} (``Ultra'') production run.}
+\label{tab:model_hyperparameters}
+\small
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Group} & \textbf{Parameter} & \textbf{Value} \\
+\hline
+Input         & $T$ (timesteps)          & 10 \\
+              & Batch size               & 8 \\
+\hline
+Neuron (LIF)  & $\tau$                   & 4.0 \\
+              & $V_{th}$                 & 0.2 \\
+              & Surrogate                & ATan \\
+\hline
+Head          & Adaptive pool            & $8 \times 8$ \\
+              & Head channels            & 128 \\
+\hline
+Loss          & $\lambda_{giou}$         & 2.0 \\
+              & $\lambda_{frr}$          & 5.0 \\
+              & $r^*$ (target rate)      & 0.20 \\
+\hline
+Optimiser     & Adam $\eta$              & $2 \times 10^{-4}$ \\
+              & Weight decay             & $10^{-4}$ \\
+              & LR factor                & 0.5 \\
+              & LR patience (epochs)     & 15 \\
+              & EMA $\beta$              & 0.9 \\
+              & IoU gate                 & 0.10 \\
+\hline
+Stability     & Grad clip $\|g\|_2$      & 1.0 \\
+              & AMP                      & CUDA float16 \\
+\hline
+Training      & Epochs                   & 150 \\
+\hline
+\end{tabular}
+\end{table}
+
+\clearpage

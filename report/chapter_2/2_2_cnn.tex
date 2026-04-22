@@ -32,6 +32,7 @@ Each predicted box is evaluated against the ground-truth annotations using an \a
 The multi-box regression paradigm, including the $(x, y, w, h, c)$ output format and the use of \gls{iou} as the evaluation criterion, forms the direct foundation of the detection head employed in this project, as detailed in Section~\ref{subsec:snn_head}.
 
 \subsection{GIoU Loss}
+\label{subsec:bg_giou}
 
 Whilst standard \gls{iou} is an effective evaluation metric, it presents a fundamental problem when used directly as a training loss: when a predicted box and its ground-truth target do not overlap at all, the \gls{iou} score is zero regardless of how far apart the two boxes are.
 Consequently, the gradient of a standard \gls{iou} loss is also zero in this case, providing no optimisation signal to guide the network towards the correct region and stalling training in the early stages when predictions are furthest from the ground truth.

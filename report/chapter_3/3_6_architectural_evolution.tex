@@ -102,7 +102,7 @@ Generation 1 architecture utilized an Adaptive Average Pooling layer of $4 \time
 
 This severe spatial bottleneck meant that when vehicles were in close proximity, or situated near clusters of sensor artifacts, their respective spiking features were averaged into an identical $4 \times 4$ block. 
 The regression head lacked the spatial memory required to distinguish valid target spikes from background noise. 
-Consequently, the model frequently outputted overlapping bounding boxes for a single vehicle or failed to suppress high-confidence noise, resulting in an inflated average of 2.50 detections per frame - significantly higher than the ground truth average of 2.0.
+Consequently, the model frequently outputted overlapping bounding boxes for a single vehicle or failed to suppress high-confidence noise, resulting in an inflated average of 2.50 detections per frame - significantly higher than the ground truth average of 2.02.
 
 \subsubsection{Actionable Insight: Quadrupling Spatial Memory}
 To resolve this congestion, the Adaptive Pooling resolution was expanded from $4 \times 4$ to an $8 \times 8$ grid, quadrupling the available spatial memory to 64 distinct blocks, providing the linear regression head with a substantially finer structural map of the backbone's activations. 
