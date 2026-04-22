@@ -24,7 +24,7 @@ When $H[t]$ exceeds a predefined threshold $V_{th}$, the neuron emits a binary s
 \end{equation}
 Following a spike ($S[t]=1$), the neuron undergoes a hard reset, instantly dropping its potential $V[t]$ to $V_{reset}$, mimicking the refractory period of biological neurons, preventing infinite spiking and overstimulation \cite{sarpeshkar1992refractory}.
 If no spike is emitted ($S[t]=0$), the potential naturally decays, ensuring that subsequent layers only perform computations upon receiving active events \cite{sengupta2019goingdeeperspikingneural}.
-This \textit{activation sparsity}: the property that computation is only triggered by genuine signal, not by silence, which is the primary driver of the \gls{snn}'s exceptional energy efficiency \cite{Roy2019SpikeBasedMI} --- where a \gls{cnn} triggers computation regardless of the input stimuli, an \gls{snn} only triggers synaptic operations in response to discrete spikes, effectively idling during periods of silence.
+This \textit{activation sparsity}, the property that computation is triggered only by genuine signal, not by silence, is the primary driver of the \gls{snn}'s exceptional energy efficiency \cite{Roy2019SpikeBasedMI}.
 
 \subsection{Surrogate Gradients}
 \label{subsec:bg_surrogate}
@@ -48,7 +48,6 @@ This mathematical substitution allows the network to learn complex spatiotempora
 
 A defining property of \glspl{snn} is their natural ability for spatiotemporal integration, combining timing and location when processing information.
 By processing an event stream iteratively across $T$ discrete timesteps, an \gls{snn} is capable of producing meaningful predictions before the full observation window has elapsed \cite{pfeiffer_snn_opportunities}.
-This property is absent in a standard \gls{cnn}, which performs a single spatial pass over the fully integrated input and can only produce an output once all temporal evidence has been collected.
 
 This progressive refinement is analogous in spirit to the \textit{rapid categorisation} phenomenon documented in the human visual system, where early feedforward spikes drive coarse semantic decisions that sharpen as further neural evidence accumulates \cite{thorpe1996speed}.
 While \textcite{thorpe1996speed} address categorical recognition rather than coordinate regression, the underlying principle that sparse early spike activity produces meaningful but imprecise representations which sharpen over time is directly consistent with the anticipated behaviour of a spiking detection backbone.

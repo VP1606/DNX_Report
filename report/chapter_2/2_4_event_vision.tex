@@ -28,6 +28,7 @@ Both systems are fundamentally event-driven: both remain silent in the absence o
 
 A \gls{cnn} must first collapse the event stream into a single dense synchronous tensor before it can be processed, discarding all temporal structure.
 In contrast, an \gls{snn} processes the preprocessed spatiotemporal tensor iteratively across $T$ timesteps through its \gls{lif} dynamics, preserving the event-driven dynamics \cite{gallego2020event, pfeiffer_snn_opportunities}.
+An \gls{snn} can therefore perform early-exit inference, emitting predictions before the full $T$-step window has elapsed, whereas a \gls{cnn} must wait for its complete aggregated tensor.
 
 \subsubsection*{Implications for Neuromorphic Deployment}
 
