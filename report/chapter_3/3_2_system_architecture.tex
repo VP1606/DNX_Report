@@ -1,7 +1,7 @@
 \section{System Architecture Overview}
 \label{sec:system_architecture}
 
-To satisfy the stringent requirements established in Section \ref{sec:requirements}, the overall system was designed as an end-to-end, highly modular pipeline. The modularity of this pipeline was a deliberate methodological choice to facilitate systematic design exploration. By decoupling the preprocessing, neural backbone, and regression stages, we enabled the isolation and empirical study of individual architectural modifications, ensuring that comparative findings between the spiking and continuous paradigms remained robust and controlled. The high-level data flow and structural components of the system are formalized in the block diagram presented in Figure \ref{fig:system_architecture_block}.
+To satisfy the success criteria established in Section~\ref{sec:intro_success_criteria} and the functional requirements in Section~\ref{sec:requirements}, the overall system was designed as an end-to-end, highly modular pipeline. Decoupling the preprocessing, neural backbone, and regression stages enabled the isolation and empirical study of individual architectural modifications, ensuring that any performance gap between the spiking and continuous paradigms is attributable to the paradigm swap itself rather than to differences in preprocessing or head design. The high-level data flow is formalized in Figure~\ref{fig:system_architecture_block}.
 
 \begin{figure}[htbp]
     \centering
@@ -22,10 +22,10 @@ As illustrated, the architecture is divided into four primary sequential stages,
 
     \begin{sloppypar}
     \item \textbf{The Neural Backbone (Interchangeable):}
-    The preprocessed output of the \textit{REPLICA} pipeline serves as the input to the primary feature extraction engine.
-    This stage houses either the spiking architecture \texttt{SNN\_MAX\_REPLICA\_SE} or its exact continuous counterpart, \texttt{CNN\_MAX\_REPLICA\_SE}.
-    Both backbones utilize four functional blocks incorporating Squeeze-and-Excitation (SE) mechanisms and Residual connections (\texttt{SEWResBlock}) to extract deep semantic features while performing an aggressive $16\times$ total spatial downsampling. 
-    The evolution and formal design of these backbones are detailed in Section \ref{sec:snn_architecture}.
+    The preprocessed voxel tensor serves as the input to the primary feature extraction engine.
+    This stage houses either the spiking architecture \texttt{SNN\_MAX\_REPLICA\_SE} or its parameter-matched continuous counterpart \texttt{CNN\_MAX\_REPLICA\_SE}.
+    Both backbones comprise four residual blocks --- \texttt{SEWResBlock} units in the SNN variant, Standard ResBlocks in the CNN baseline --- with Squeeze-and-Excitation attention at the Stage~3 bottleneck, and together perform an aggressive $16\times$ total spatial downsampling.
+    The evolution and formal design of these backbones are detailed in Sections~\ref{sec:snn_architecture} and~\ref{sec:cnn_baseline}.
     \end{sloppypar}
 
     \item \textbf{Multi-Box Regression Head (Fixed):} 
@@ -36,12 +36,33 @@ As illustrated, the architecture is divided into four primary sequential stages,
     The regression output is evaluated via a fully vectorized Multi-Box Loss function during training.
 
     \item \textbf{Evaluation \& Benchmarking Suite (Fixed):}
-    The predictions and internal neuronal activity from the models are passed into a specialized benchmarking suite. 
-    This stage is responsible for the rigorous empirical comparison of the two architectures across five distinct dimensions: real-time dynamic power consumption, accuracy variations relative to object size (addressing the inherent ``quantization error'' in SNNs \cite{cordone2022objectdetectionspikingneural}), model confidence calibration, temporal evidence accumulation, and latency observed on local hardware. 
-    These metrics were specifically selected to satisfy the project's success criteria and provide a comprehensive evaluation of the neuromorphic paradigm. This standardized evaluation framework ensures that the findings are scientifically robust and reproducible. This benchmarking suite is detailed thoroughly in Section \ref{sec:experimental_setup}.
-
-    \todo[inline,backgroundcolor=myblue,textcolor=white]{Re-write this section, and link it to the Success Criteria from Introduction.}
+    The predictions and internal neuronal activity from both backbones are passed into a dedicated benchmarking suite that pairs each of the six success criteria with a matched experiment, as summarised in Table~\ref{tab:sc_traceability}. Diagnostic analyses of quantisation error (Section~\ref{subsec:quantization_error}) \cite{cordone2022objectdetectionspikingneural} and temporal evidence accumulation (Section~\ref{subsec:temporal_evidence}) complement the primary accuracy result by explaining \textit{how} the \gls{snn}'s rate-coded regression converges, rather than validating a distinct criterion. The full benchmarking suite is detailed in Section~\ref{sec:experimental_setup}.
 
 \end{enumerate}
 
-Using the modular pipeline guarantees that the SNN and CNN variants are evaluated identically, receiving the exact same preprocessed event volumes and outputting predictions through an identical regression and benchmarking framework.
+\begin{table}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|c|p{4.5cm}|p{5cm}|p{4.5cm}|}
+\hline
+\textbf{SC} & \textbf{Success Criterion} & \textbf{Architectural Mechanism} & \textbf{Validating Experiment} \\
+\hline
+SC1 & Detection accuracy parity ($\geq 90\%$ \gls{miou}) & Multi-Box regression head, \texttt{SEWResBlock} backbone, SE attention at Stage~3 bottleneck & Global Evaluator (Section~\ref{subsec:global_evaluator}) \\
+\hline
+SC2 & Measurable theoretical energy savings & Binary spike encoding, \gls{frr} metabolic penalty & Dynamic Power (Section~\ref{subsec:dynamic_power}) \& Theoretical Energy (Section~\ref{subsec:energy_consumption}) \\
+\hline
+SC3 & Real-time viability ($\geq 30$ \gls{fps}) & Fused CUDA kernels (\texttt{step\_mode='m'}), \gls{amp} 16-bit tensor cores & Real-Time Latency (Section~\ref{subsec:exp_latency_setup}) \\
+\hline
+SC4 & Architectural parity (within $1\%$ parameters) & 1:1 block-for-block backbone matching, shared regression head, shared \texttt{REPLICA} input & Parameter-count audit (Table~\ref{tab:model_hyperparameters}) \\
+\hline
+SC5 & Detection completeness ($100\%$ recall @ \gls{iou}$>0.5$) & Vectorised Multi-Box Loss with greedy assignment matching & Global Evaluator (Section~\ref{subsec:global_evaluator}) \\
+\hline
+SC6 & Confidence calibration equivalence & Objectness logits $+$ \texttt{BCEWithLogitsLoss} on unmatched boxes & Confidence Calibration (Section~\ref{subsec:confidence_calibration}) \\
+\hline
+\end{tabular}%
+}
+\caption[Success criteria traceability matrix.]{Mapping of each success criterion (Section~\ref{sec:intro_success_criteria}) to the architectural mechanism that addresses it and the dedicated experiment that validates it in Chapter~\ref{cha:summary_conclusions}.}
+\label{tab:sc_traceability}
+\end{table}
+
+This Fixed/Interchangeable partition is the mechanism by which SC4 (Architectural Parity) is enforced: all paradigm-level variance between the two evaluated models is confined to Stage~2, so any discrepancy observed in Chapter~\ref{cha:summary_conclusions} is attributable to the spike-vs-continuous swap alone.

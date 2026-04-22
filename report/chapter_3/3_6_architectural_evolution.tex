@@ -27,7 +27,33 @@ Because the pipeline utilized deterministic centroid-anchored cropping, the targ
 Consequently, the \gls{snn} succumbed to \textit{Constant Target Bias}---a severe form of spatial overfitting where the regression head ignores the visual event stream and instead learns to output a constant coordinate vector of approximately $[0.5, 0.5, w, h]$. 
 This eliminated the localization signal entirely; the model stopped ``searching'' for the vehicle and simply memorized the center coordinates. Such a model is fundamentally useless for real-world traffic monitoring where vehicle positions are stochastically distributed across the full field of view, and are not pre-known to use spatial cropping before inference..
 
-\todo[inline,backgroundcolor=myblue,textcolor=white]{Insert images of the constant target bias.}
+Critically, this collapse was invisible to the \gls{iou} metric; the validation split inherited the same centroid-anchored cropping as the training set, so the score was computed against a distribution that still rewarded the shortcut and reported no drop in accuracy. The bias only became apparent later in development, when inference was run on raw, full-frame input that bypassed the centroid crop --- as shown in Figure~\ref{fig:constant_target_bias}, the predicted bounding box sits near the image centre regardless of where the vehicle actually lies.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[trim=15 63 16 62, clip, width=\textwidth]{chapter_3/dnx_results/constant_target_bias/sample_021.png}
+        \caption{Train sample, \gls{iou}$=0.000$.}
+        \label{fig:ctb_a}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[trim=15 63 16 62, clip, width=\textwidth]{chapter_3/dnx_results/constant_target_bias/sample_033.png}
+        \caption{Train sample, \gls{iou}$=0.015$.}
+        \label{fig:ctb_b}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[trim=15 63 16 62, clip, width=\textwidth]{chapter_3/dnx_results/constant_target_bias/sample_072.png}
+        \caption{Test sample, \gls{iou}$=0.214$.}
+        \label{fig:ctb_c}
+    \end{subfigure}
+    \caption[Constant Target Bias failure mode]{Qualitative evidence of \textit{Constant Target Bias} during Phase 0. Across three raw full-frame samples drawn from the training and test splits, the \gls{snn} regression head (red) emits a near-identical large central bounding box while the ground-truth vehicle (green) varies in position and scale between scenes. The marginally higher overlap in (\subref{fig:ctb_c}) arises only because the target vehicle incidentally sits near the image centre where the predicted box anchors, confirming the model has learned a constant coordinate shortcut rather than extracting vehicle features from the event stream.}
+    \label{fig:constant_target_bias}
+\end{figure}
 
 \subsubsection{Actionable Insight}
 This phase provided a critical methodological lesson: for a spiking architecture to learn robust spatial localization and objectness, it must be exposed to targets moving dynamically relative to the sensor boundaries within a full-frame (or semi-full-frame) field of view. This insight led to the total abandonment of centered cropping in favor of the global $4\times$ spatial downsampling strategy utilized in the final \textit{REPLICA} pipeline, ensuring that the model learned to correlate visual spike patterns with absolute spatial coordinates.
@@ -152,3 +178,7 @@ Higher computational metabolic cost in \glspl{sop} \\
 \caption{Generational evolution of the \texttt{DetectorNX} architecture.}
 \label{tab:generational_evolution}
 \end{table}
+
+\todo[inline]{Global: Rename ULTRA MAX naming conventions to more scientifically-appropriate alternatives.}
+
+\clearpage

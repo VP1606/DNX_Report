@@ -1,6 +1,7 @@
 \subsection{Real-Time Latency Benchmark}
+\label{subsec:exp_latency_setup}
 
-This experiment quantifies the forward-pass inference speed of both architectures 
+This experiment quantifies the forward-pass inference speed of both architectures
 on conventional \gls{gpu} hardware at batch size $B=1$, simulating a live 
 single-stream event camera deployment. Latency ($\text{ms/f}$) and throughput 
 ($\text{FPS} = 1000 / \text{ms/f}$) are measured using \texttt{torch.cuda.Event} 
