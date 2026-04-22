@@ -27,11 +27,12 @@ Both the membrane potential dynamics from Equation~\ref{eq:lif_membrane} and Hea
     \tau &= 4.0
 \end{align*}
 
-The voltage threshold $V_{th}$ was lowered to 0.2 to enable more information flow through the network; in earlier revisions, this was set to 0.3, which caused the network to become silent, whereas decreasing it further would result in too much noise.
-The time constant $\tau = 4.0$ creates a leaky effect, where the neuron remembers information for roughly four to five timesteps.
-In deep spiking networks, a lower $\tau$ value can cause the signal to die before it reaches the regression head, since the neuron forgets the input too quickly; in this implementation, $\tau = 4.0$ was determined to be the optimal value where the input was not forgotten, whilst preventing over-saturation.
-Following the generation of a discrete spike, the \gls{lif} neurons utilise a ``hard reset'' strategy, where the membrane potential ($V$) is returned to a resting state of $V_{reset} = 0.0$.
-This mechanism ensures temporal sparsity by requiring the neuron to integrate new spatiotemporal evidence before subsequent activation, thereby maintaining the low metabolic profile of the backbone while providing a stable, zero-centred baseline for surrogate gradient descent \cite{fang2022resnet_sew}.
+The voltage threshold $V_{th} = 0.2$ was tuned to balance information flow against noise. Earlier revisions used $V_{th} = 0.3$, which silenced the network, whereas decreasing $V_{th}$ further submitted erroneous background noise as spikes.
+
+The time constant $\tau = 4.0$ creates a leaky effect, allowing the neuron to retain input evidence across roughly four to five timesteps -- low enough to prevent over-saturation, but high enough for the signal to be remembered until the regression head before decay.
+
+Following each spike, the neurons apply a hard reset to $V_{reset} = 0.0$, enforcing temporal sparsity by requiring the neuron to integrate new spatiotemporal information before re-activating,
+and providing the zero-centred baseline required for stable surrogate gradient descent \cite{fang2022resnet_sew}. 
 
 \subsubsection{The Backward Pass (Surrogate Gradients)}
 As described in Section~\ref{subsec:bg_surrogate}, the Heaviside function's non-differentiable property poses a challenge in spiking neural networks.
