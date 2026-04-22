@@ -12,7 +12,6 @@ This design introduces several well-documented limitations: motion blur at high 
 An event camera fundamentally departs from this paradigm;
 rather than reading out all pixels simultaneously, each pixel operates independently, firing an event the moment its log-intensity changes beyond a threshold.
 The result is a continuous, asynchronous stream of discrete events rather than a sequence of synchronous frames, registering only what has changed between scenes instead of the full scenes themselves.
-In other words, if the scene was completely dormant with no changes occurring, an event-driven camera would capture this as a blank image versus a frame-based camera capturing the empty scene.
 
 \subsubsection*{Advantages and the Compatibility Problem}
 
@@ -25,12 +24,10 @@ Correcting this to adapt to deep learning approaches requires a preprocessing st
 
 \subsubsection*{An Event-Driven Architecture for an Event-Driven Sensor}
 
-Both systems are fundamentally event-driven: an event camera outputs discrete binary events triggered by scene changes, whilst an \gls{snn} processes discrete binary events in the form of spikes triggered by membrane threshold crossings.
-In both cases, silence is the default operating state, and meaningful activity is generated only in response to genuine stimuli.
+Both systems are fundamentally event-driven: both remain silent in the absence of stimuli and emit discrete binary events only in response to genuine activity.
 
-A \gls{cnn} must collapse the sparse, asynchronous event stream into a dense synchronous tensor before it can process it, discarding the temporal structure encoded in the event timestamps in the process.
-An \gls{snn}, by contrast, processes the preprocessed spatiotemporal tensor iteratively across $T$ timesteps via its \gls{lif} dynamics, where each timestep exposes the network to a temporal slice of the event stream, which the \gls{lif} neurons integrate progressively into their membrane potentials.
-This directly mirrors the camera's temporal output structure, preserving and exploiting the event-driven dynamics rather than collapsing them into a single static representation \cite{gallego2020event, pfeiffer_snn_opportunities}.
+A \gls{cnn} must first collapse the event stream into a single dense synchronous tensor before it can be processed, discarding all temporal structure.
+In contrast, an \gls{snn} processes the preprocessed spatiotemporal tensor iteratively across $T$ timesteps through its \gls{lif} dynamics, preserving the event-driven dynamics \cite{gallego2020event, pfeiffer_snn_opportunities}.
 
 \subsubsection*{Implications for Neuromorphic Deployment}
 

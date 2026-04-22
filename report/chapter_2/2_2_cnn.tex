@@ -5,10 +5,7 @@
 
 A \acrfull{cnn} extends the standard \gls{ann} architecture by replacing dense linear layers with convolutional operations, in which a bank of learned filters is applied across the spatial extent of an input.
 Each filter performs a localised weighted sum at every spatial position, producing a feature map that encodes the presence and magnitude of a particular learned pattern at each location.
-Convolutional layers can also be stacked to build a hierarchy of representations: early layers detect low-level geometric patterns such as edges and motion boundaries, whilst deeper layers synthesise these into semantically meaningful object features \cite{lecun2015deep}.
-
-
-Throughout a stacked network, the spatial resolution is progressively reduced using \textit{strided convolutions} or pooling operations, compressing the input into increasingly compact, dense high-level representations.
+Stacking these layers yields a representational hierarchy, with early layers capturing low-level edges and motion boundaries and deeper layers composing them into object-level features \cite{lecun2015deep}.
 
 \subsection{Residual Learning}
 
@@ -26,8 +23,8 @@ This mechanism forms the backbone of the \gls{cnn} baseline employed in this pro
 Object detection requires a network to simultaneously localise and identify one or more targets within a scene, and determine what its coordinates and size in the space are.
 In the bounding box regression paradigm popularised by Redmon et al.~\cite{redmon2016yolo}, this is framed as a direct regression problem: the network predicts a set of candidate boxes, each parameterised by a feature tuple $\mathcal{F} = \{x, y, w, h, c\}$, where $(x, y)$ and $(w, h)$ are the normalised centre coordinates and dimensions of the box, and $c$ is an objectness confidence score reflecting the probability that a genuine target is present within that region.
 
-By predicting multiple candidate boxes simultaneously in a single forward pass, this multi-box formulation enables real-time detection across the full spatial extent of the input;
-in a real-world application, an autonomous vision system must be able to handle detecting multiple vehicles and artifacts simultaneously, making this multi-box paradigm even more prevalent.
+By predicting multiple candidate boxes simultaneously in a single forward pass, this multi-box formulation enables real-time detection across the full spatial extent of the input --
+a necessity for automotive perception, where multiple vehicles and artifacts may coexist in the same scene.
 Each predicted box is evaluated against the ground-truth annotations using an \acrfull{iou} metric, which quantifies the ratio of the intersection to the union of the two boxes, providing a scale-invariant, directly interpretable measure of spatial overlap.
 The multi-box regression paradigm, including the $(x, y, w, h, c)$ output format and the use of \gls{iou} as the evaluation criterion, forms the direct foundation of the detection head employed in this project, as detailed in Section~\ref{subsec:snn_head}.
 
