@@ -8,7 +8,7 @@ Using the \gls{flop} and \gls{sop} count recorded in Table \ref{tab:layer_ops} w
 \centering
 \begin{tabular}{|l|c|c|}
 \hline
-\textbf{Hardware Platform} & \textbf{Energy Per Frame (mJ)} & \textbf{Energy Savings (\%)} \\
+\textbf{Hardware Platform} & \textbf{Energy Per Frame ($mJ$)} & \textbf{Energy Savings (\%)} \\
 \hline
 NVIDIA A100 (\gls{cnn} Baseline) & 180.8576 & --- \\
 Intel Loihi (\gls{snn}) & 63.0766 & 65.12\% \\
@@ -25,7 +25,7 @@ Despite the relatively high per-operation routing overhead inherent to early-gen
 
 The fundamental driver of this efficiency is the massive reduction in computational workload: the \gls{snn} requires only $2.67$ G-\glspl{sop} per frame, compared to the $9.22$ G-\glspl{flop} required by the \gls{cnn} baseline --- $71.02\%$ reduction in total operations. 
 However, a critical observation emerges when comparing the workload reduction ($71.02\%$) to the projected energy savings ($65.12\%$).
-This discrepancy represents the "routing overhead" penalty of first-generation neuromoprhic silicon: inter-core spike communication is an extemely complex task on chips like Loihi, and as such causes
+This discrepancy represents the "routing overhead" penalty of first-generation neuromorphic silicon: inter-core spike communication is an extremely complex task on chips like Loihi, and as such causes
 a single \gls{sop} to cost significantly more energy ($20.4\%$ more) than a \gls{flop} on a highly optimised \gls{gpu} such as the NVIDIA A100 \cite{su2023coreinterfaceoptimizationmulticore}.
 The \gls{snn} therefore achieves its dominant efficiency purely through extreme activation sparsity, rather than hardware-level architectural optimisations.
 

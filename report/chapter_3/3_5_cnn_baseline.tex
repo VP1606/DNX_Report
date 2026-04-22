@@ -49,7 +49,7 @@ The core mathematical difference between the two architectures lies in their sum
 \begin{itemize}
     \item \textbf{Standard ResBlock (CNN):} 
     Performs an accumulative floating-point addition ($y = f(x) + x$). 
-    The continuous intensity of the residual path is directly added to the identity path before the final ReLU activation. 
+    The continuous intensity of the residual path is directly added to the identity path before the final \gls{relu} activation. 
     Here, the shortcut carries the \textit{raw input features} forward. 
     This mechanism allows the model to learn the ``difference'' (the residual) needed to improve the representation, focusing on information preservation \cite{he2015deep}.
     
@@ -87,9 +87,9 @@ while the Standard ResBlock accumulates continuous values that effectively blur 
 The \gls{cnn} encounters the same bottleneck as its \gls{snn} counterpart (Section~\ref{subsec:snn_se_block}) and adopts the same \gls{se} mechanism \cite{hu2019_se_block}, differing only in that the squeeze operates over continuous activations via standard global average pooling and the excitation produces a float-valued per-channel scale rather than modulating spike rates. The block confers no hardware-level sparsity benefit in this context; it is retained purely to preserve Architectural Parity with the \gls{snn} baseline (Section~\ref{subsec:req_functional}).
 
 \subsection{The ``Gold Standard'' Upper Bound}
-By constructing this custom \gls{cnn} mirror, the baseline serves as the upper theoretical bound of this specific architecture's capability on the ETraM dataset. 
+By constructing this custom \gls{cnn} mirror, the baseline serves as the upper theoretical bound of this specific architecture's capability on the \gls{etram} dataset. 
 For example, if the \gls{cnn} baseline achieves a Mean \gls{iou} of 48\%, this represents the maximum performance extractable by this parameter configuration. 
-If the corresponding SNN achieves 43\% IoU, the 5\% gap explicitly represents the ``quantization cost'' of switching from 32-bit continuous floats to 1-bit binary spikes \cite{cordone2022objectdetectionspikingneural}. 
+If the corresponding SNN achieves 43\% \gls{iou}, the 5\% gap explicitly represents the ``quantization cost'' of switching from 32-bit continuous floats to 1-bit binary spikes \cite{cordone2022objectdetectionspikingneural}. 
 Adhering to this methodology ensures that the evaluation of the neuromorphic paradigm is both fair and scientifically sound.
 
 

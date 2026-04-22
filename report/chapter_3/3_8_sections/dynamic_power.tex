@@ -65,7 +65,7 @@ Figure \ref{fig:dynamic_power} illustrates this relationship: the linear regress
 \end{equation}
 The model demonstrated a strong positive correlation ($R = 0.8668, R^2 = 0.7514$), confirming the highly reactive nature of the spiking backbone. 
 
-Critically, the parameters of this equation map directly to the biological behavior of the network:
+Critically, the parameters of this equation map directly to the biological behaviour of the network:
 \begin{itemize}
     \item \textbf{The Metabolic Resting State ($y$-intercept):} The constant $2294.80\ \mu J$ represents the architectural overhead---the baseline energy required to simply maintain the membrane potentials across the 11.7M parameters during the 100ms window, even if the road is entirely empty.
     \item \textbf{The Cost of Information (Slope):} The gradient $0.001757\ \mu J$ represents the exact, marginal energy cost of processing a single new event (e.g., a pixel of a car moving). 

@@ -1,2 +1,14 @@
 Premakantha
 Varun
+DetectorNX
+neuromorphic
+Loihi
+TrueNorth
+SEWResBlocks
+ResBlocks
+SEWResBlock
+ArcTangent
+Backpropgation
+Neuromorphic
+ResBlock
+Spatiotemporal

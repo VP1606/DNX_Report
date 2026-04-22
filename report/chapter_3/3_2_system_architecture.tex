@@ -36,7 +36,7 @@ As illustrated, the architecture is divided into four primary sequential stages,
     The regression output is evaluated via a fully vectorized Multi-Box Loss function during training.
 
     \item \textbf{Evaluation \& Benchmarking Suite (Fixed):}
-    The predictions and internal neuronal activity from both backbones are passed into a dedicated benchmarking suite that pairs each of the six success criteria with a matched experiment, as summarised in Table~\ref{tab:sc_traceability}. Diagnostic analyses of quantisation error (Section~\ref{subsec:quantization_error}) \cite{cordone2022objectdetectionspikingneural} and temporal evidence accumulation (Section~\ref{subsec:temporal_evidence}) complement the primary accuracy result by explaining \textit{how} the \gls{snn}'s rate-coded regression converges, rather than validating a distinct criterion. The full benchmarking suite is detailed in Section~\ref{sec:experimental_setup}.
+    The predictions and internal neuronal activity from both backbones are passed into a dedicated benchmarking suite that pairs each of the six success criteria with a matched experiment, as summarised in Table~\ref{tab:sc_traceability}. Diagnostic analyses of quantisation error (Section~\ref{subsec:quantization_error_setup}) \cite{cordone2022objectdetectionspikingneural} and temporal evidence accumulation (Section~\ref{subsec:temporal_evidence}) complement the primary accuracy result by explaining \textit{how} the \gls{snn}'s rate-coded regression converges, rather than validating a distinct criterion. The full benchmarking suite is detailed in Section~\ref{sec:experimental_setup}.
 
 \end{enumerate}
 

@@ -42,7 +42,7 @@ Training runs under \texttt{torch.amp.autocast('cuda')} with a \texttt{GradScale
 \subsection{Validation and Checkpointing}
 \label{subsec:training_validation}
 
-After each training epoch the model is evaluated across the full validation split. Predictions are sigmoid-activated, real objects are identified by $\text{mask} > 0.5$, and a detection is counted as active when its confidence logit clears the same threshold. The per-epoch metric is the mean of the best IoU achieved against each real object across the active predictions. A best-model checkpoint is written whenever this raw IoU surpasses the current maximum; a final-epoch checkpoint is preserved unconditionally for ablation.
+After each training epoch the model is evaluated across the full validation split. Predictions are sigmoid-activated, real objects are identified by $\text{mask} > 0.5$, and a detection is counted as active when its confidence logit clears the same threshold. The per-epoch metric is the mean of the best \gls{iou} achieved against each real object across the active predictions. A best-model checkpoint is written whenever this raw \gls{iou} surpasses the current maximum; a final-epoch checkpoint is preserved unconditionally for ablation.
 
 \subsection{Hyperparameter Summary}
 \label{subsec:training_hyperparameters}
