@@ -14,7 +14,10 @@ which was driven by a $3.45\times$ reduction in the total operations required to
 a property that positions neuromorphic perception as inherently
 suited to the intermittent, sparse event streams characteristic
 of real-world automotive environments.
-Benchmarked against the contemporary published landscape of \gls{snn} object detectors (Table~\ref{tab:efficiency_landscape}), \texttt{DetectorNX-G3-SNN} achieves the highest \gls{map_50}/mJ ratio in the surveyed cohort, leading the next-best entry by approximately $8\times$. The dataset asymmetry caveat applies, but the magnitude of the lead is robust to conservative multi-class adjustment.
+
+Furthermore, Table ~\ref{tab:efficiency_landscape} shows \texttt{DetectorNX-G3-SNN} sitting in a noticeably low-energy region amongst similar published \gls{snn} detectors at $2.4$\,mJ per frame.
+Dataset and task differences rule out a direct ranking, but the observation hints that a sparsity-first approach might carry over to multi-class detection, and improve $mAP/mJ$ efficiency. 
+As mentioned in Section \ref{subsec:efficiency_landscape} this is left as a question to be answered in future work.
 
 \subsection{Temporal Reliability and Sharpening}
 Beyond global averages, the spiking paradigm demonstrated a unique ``Bounding Box Sharpening'' effect. As temporal evidence accumulated across $T=10$ timesteps, the \gls{snn} was observed to produce more stable and spatially accurate regressions in high-traffic scenes compared to the single-pass \gls{cnn}. 
