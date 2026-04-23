@@ -18,5 +18,7 @@ Furthermore, no prior work has systematically compared a spiking and a non-spiki
 
 \subsection{The Gap This Project Addresses}
 
-As shown by \textcite{lin_adas_cnn_issues}, the thermal and power cost of deploying continuous \glspl{cnn} in \gls{adas} contexts is unsustainable. Despite this, as \textcite{pfeiffer_snn_opportunities} and the event-vision survey of \textcite{gallego2020event} collectively establish, the neuromorphic alternative has not been rigorously validated at the spatial resolution and domain complexity of real-world automotive perception.
+\textcite{lin_adas_cnn_issues} established that CPU-based \gls{cnn} inference had exceeded the thermal and power constraints of early \gls{adas} systems, motivating the industry's shift to \gls{gpu}-class accelerators.
+Since 2018, legislative pressure has driven further growth in perception complexity, placing dense \gls{ann} inference on \glspl{gpu} on a similar trajectory to become unsustainable.
+Despite this, as \textcite{pfeiffer_snn_opportunities} and the event-vision survey of \textcite{gallego2020event} collectively establish, the neuromorphic alternative has not been rigorously validated at the spatial resolution and domain complexity of real-world automotive perception.
 The \texttt{DetectorNX} project directly addresses this gap: by enforcing strict architectural parity between an \gls{snn} and a \gls{cnn} baseline on the \gls{hd} \gls{etram} dataset, it provides the first controlled empirical quantification of the precision--efficiency trade-off at the spatial resolution demanded by \gls{adas} systems.
