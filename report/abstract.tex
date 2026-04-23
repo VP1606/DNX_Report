@@ -1,0 +1,22 @@
+Legislation is pushing automotive manufacturers to adopt increasingly complex autonomous driving systems,
+on a trajectory that will ultimately require full, real-time spatial understanding of the surrounding environment.
+As a result, detection pipelines have grown substantially in complexity and compute demand,
+while vehicles remain subject to tight on-board power and thermal budgets.
+These trends suggest that scaling conventional dense DNNs on GPU-class accelerators is increasingly unsustainable,
+motivating ultra-efficient architectures such as spiking neural networks for tasks in resource-constrained environments.
+
+We investigate the viability of spiking networks for automotive-grade perception, and measure the cost of the spiking paradigm against a continuous equivalent.
+We propose DetectorNX: a directly-trained spiking detector (DetectorNX-G3-SNN) designed around activation sparsity to minimise energy consumption while preserving detection accuracy, 
+paired with a structurally equivalent continuous baseline (DetectorNX-G3-CNN) at identical parameter count,
+trained on the ETraM event-camera dataset to isolate the spiking mechanism as the sole variable.
+To the best of our knowledge, this is the first directly-trained SNN developed and evaluated on ETraM.
+
+DetectorNX-G3-SNN achieves $94.9\%$ mIoU parity and $91.3\%$ $mAP_{50}$ parity against the continuous baseline,
+with $100\%$ recall at IoU $> 0.5$.
+Per-frame theoretical energy consumption drops by $94.33\%$, scaling linearly with scene activity ($R^2 = 0.7514$).
+The SNN maintains $259.80$ FPS on GPU hardware ($8.6\times$ the automotive real-time threshold) with superior confidence calibration at low-confidence regions.
+
+This project establishes directly-trained SNNs as a viable route to energy-efficient automotive-grade vehicle detection, at a cost of only $\sim5\%$ \gls{miou} precision under identical-model \gls{snn}--\gls{cnn} parity. 
+The $1$-bit quantisation penalty underlying this gap acts as a scale-independent global ceiling, invalidating the initial scale-dependent hypothesis. 
+Superior low-confidence calibration further positions the SNN as an implicit uncertainty sensor, safety-relevant for autonomous driving. 
+DetectorNX thereby serves as an ETraM baseline, and proposes areas for future work to close the gap with published broader-class spiking detectors.

@@ -99,3 +99,5 @@ Adhering to this methodology ensures that the evaluation of the neuromorphic par
     \caption[End-to-end \texttt{DetectorNX-G3-CNN} architecture.]{End-to-end data flow through the \texttt{DetectorNX-G3-CNN} baseline. The four backbone stages mirror those of the \gls{snn} (Figure~\ref{fig:snn_architecture}) 1:1, differing only in activation (\gls{relu} instead of \gls{lif}), residual formulation (Standard ResBlock instead of \texttt{SEWResBlock}), and temporal handling: the $T = 10$ bins are channel-stacked into a 20-channel input and processed in a single spatial pass, removing the need for a Temporal Fusion stage. A full list of architectural and training hyperparameters is provided in Table~\ref{tab_app:g3_cnn_params} of the appendix.}
     \label{fig:cnn_architecture}
 \end{figure}
+
+\clearpage
