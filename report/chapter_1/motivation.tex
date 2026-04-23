@@ -1,18 +1,18 @@
 \section{Motivation}
 \label{sec:intro_motivation}
 
-Beyond the generic scaling pressure noted in Section~\ref{sec:intro_overview}, \acrfullpl{cnn} suffer a paradigm-specific weakness. Their static, frame-based nature mandates billions of dense \gls{mac} operations per frame regardless of scene content, generating metabolic load and thermal throttling even on visually redundant or static scenes \cite{lin_adas_cnn_issues}.
+Legislation is pushing automotive manufacturers to adopt increasingly complex autonomous driving systems, on a trajectory that will ultimately require full, real-time spatial understanding of the surrounding environment. 
+Beyond this scaling pressure, the dense \acrfullpl{ann} currently powering automotive vision suffer a paradigm-specific weakness: their static, frame-based nature results in billions of dense \gls{mac} operations per frame regardless of scene content, generating substantial thermal, latency and power pressure even on visually redundant scenes.
 
-To resolve these computational and thermal constraints, this research looks toward the most power-efficient perception engine known: the biological brain. Unlike traditional cameras that capture absolute frames at a fixed frequency, biological retinas and neuromorphic event sensors only transmit asynchronous changes in luminance.
-Consequently, biological neural networks consume metabolic energy only when processing new, relevant information \cite{pfeiffer_snn_opportunities}.
+To resolve these constraints, this research looks toward the most power-efficient perception engine known: the biological brain. 
+Unlike frame-based cameras, biological retinas and neuromorphic event sensors transmit only asynchronous luminance changes, allowing biological neural networks to consume metabolic energy only when processing new information \cite{pfeiffer_snn_opportunities}.
 
-\acrfullpl{snn} are the computational embodiment of this biological sparsity. 
-By replacing continuous, energy-heavy \gls{mac} operations with discrete, event-driven \acrfull{ac} additions, \glspl{snn} offer a theoretical pathway to sub-milliwatt, real-time object detection at the edge. 
-Since spiking neurons remain dormant until triggered by an input event and respond to a stimulus, they naturally bypass the thermal throttling and battery drain issues that plague continuous \glspl{cnn} \cite{lin_adas_cnn_issues}.
+\acrfullpl{snn} are built around this same principle of activation sparsity. 
+By replacing continuous \gls{mac} operations with discrete, event-driven \acrfull{ac} additions, they offer a theoretical pathway to sub-milliwatt, real-time object detection at the edge. 
+Since spiking neurons remain dormant until triggered, they naturally sidestep the thermal and power pressure that dense \gls{cnn} inference places on resource-constrained automotive hardware \cite{lin_adas_cnn_issues}.
 
-However, a significant gap exists in the current literature regarding the deployment of \glspl{snn} for high-definition automotive perception: 
-the transition from 32-bit floating-point \gls{cnn} activations to 1-bit discrete spikes introduces quantization errors and temporal precision limits. 
-Historically, this has restricted \glspl{snn} to low-resolution classification tasks, as they struggle to resolve the fine-grained spatial coordinates required for multi-object bounding box regression in complex traffic scenes.
+However, the transition from 32-bit floating-point activations to 1-bit discrete spikes introduces quantization errors and temporal precision limits. 
+Historically, this has restricted \glspl{snn} to low-resolution classification tasks, leaving a significant gap in their deployment for high-definition automotive perception.
 
-The \texttt{DetectorNX} project is motivated by the critical need to both rigorously quantify and mitigate these trade-offs on modern, high-definition event datasets. 
-By establishing strict architectural parity between an \gls{snn} and a \gls{cnn} baseline, this project seeks to definitively prove whether the immense thermal and power savings of the neuromorphic paradigm can be achieved without fatally compromising the spatial precision required for autonomous vehicle safety.
+The \texttt{DetectorNX} project is motivated by the need to measure and mitigate these trade-offs on modern, high-definition event datasets. 
+By establishing strict architectural parity between an \gls{snn} and a \gls{cnn} baseline, this project determines whether the neuromorphic paradigm's thermal and power savings can be achieved without fatally compromising the spatial precision required for autonomous vehicle safety.
