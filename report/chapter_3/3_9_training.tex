@@ -18,7 +18,7 @@ The multi-box loss operates on the $[B, 5, 5]$ head output. A broadcast \gls{iou
     L_{coord} = \text{SmoothL1}(\hat{\mathbf{b}}, \mathbf{b}) + \lambda_{giou} \cdot (1 - GIOU(\hat{\mathbf{b}}, \mathbf{b}))
     \label{eq:coord_loss}
 \end{equation}
-with $\lambda_{giou} = 2.0$. SmoothL1 supplies the per-coordinate gradient; the \gls{giou} term contributes the geometric signal on disjoint boxes (Section~\ref{subsec:bg_giou}). The confidence term applies \texttt{BCEWithLogitsLoss} to the raw logits, targeting $1.0$ for the slot matched to each real object and $0.0$ elsewhere. The fused sigmoid/BCE formulation is numerically stable under the float16 autocast described in Section~\ref{subsec:training_optimisation}.
+with $\lambda_{giou} = 2.0$. SmoothL1 supplies the per-coordinate gradient; the \gls{giou} term contributes a scale-invariant geometric signal that remains non-zero on disjoint boxes, avoiding the vanishing-gradient problem of raw \gls{iou} \cite{rezatofighi2019giou}. The confidence term applies \texttt{BCEWithLogitsLoss} to the raw logits, targeting $1.0$ for the slot matched to each real object and $0.0$ elsewhere. The fused sigmoid/BCE formulation is numerically stable under the float16 autocast described in Section~\ref{subsec:training_optimisation}.
 
 The \gls{frr} term is a symmetric squared penalty across all nine spike tensors emitted by the backbone (the stem \gls{lif} output plus two per \texttt{SEWResBlock}):
 \begin{equation}

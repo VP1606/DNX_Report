@@ -27,16 +27,3 @@ By predicting multiple candidate boxes simultaneously in a single forward pass, 
 a necessity for automotive perception, where multiple vehicles and artifacts may coexist in the same scene.
 Each predicted box is evaluated against the ground-truth annotations using an \acrfull{iou} metric, which quantifies the ratio of the intersection to the union of the two boxes, providing a scale-invariant, directly interpretable measure of spatial overlap.
 The multi-box regression paradigm, including the $(x, y, w, h, c)$ output format and the use of \gls{iou} as the evaluation criterion, forms the direct foundation of the detection head employed in this project, as detailed in Section~\ref{subsec:snn_head}.
-
-\subsection{GIoU Loss}
-\label{subsec:bg_giou}
-
-Whilst standard \gls{iou} is an effective evaluation metric, it presents a fundamental problem when used directly as a training loss: when a predicted box and its ground-truth target do not overlap at all, the \gls{iou} score is zero regardless of how far apart the two boxes are.
-Consequently, the gradient of a standard \gls{iou} loss is also zero in this case, providing no optimisation signal to guide the network towards the correct region and stalling training in the early stages when predictions are furthest from the ground truth.
-Rezatofighi et al.~\cite{rezatofighi2019giou} resolved this by proposing \acrfull{giou}, which augments the standard overlap term with a penalty derived from the area of the smallest enclosing convex hull $\mathcal{C}$ that contains both boxes:
-\begin{equation}
-    \text{GIoU} = \text{IoU} - \frac{|\mathcal{C} \setminus (A \cup B)|}{|\mathcal{C}|}
-\end{equation}
-\noindent This penalty is non-zero even when the boxes are entirely disjoint, ensuring a meaningful gradient signal is always available.
-As the predicted box converges towards the ground truth, the \gls{giou} penalty vanishes and the loss reduces to standard \gls{iou}, making it a strict generalisation of the original metric.
-\gls{giou} is employed as the training loss throughout this project, with standard \gls{iou} being reserved for evaluation, where interpretability and comparability with published results take precedence over gradient behaviour.
