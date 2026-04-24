@@ -24,9 +24,8 @@
 
 % ---------------------
 \setlength{\marginparwidth}{2cm} % Remove once todo's are complete
-\usepackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
+\usepackage[colorinlistoftodos,prependcaption,textsize=small, disable]{todonotes}
 \usepackage{xcolor}          % allows defining colors
-\usepackage[colorinlistoftodos]{todonotes}
 % Define a custom color
 \definecolor{myblue}{RGB}{100,150,255}
 % ---------------------
@@ -36,7 +35,7 @@
 \usepackage[style=numeric]{biblatex}
 \addbibresource{references.bib}
 
-\usepackage[acronym]{glossaries}
+\usepackage[acronym, nonumberlist]{glossaries}
 \makeglossaries
 \input{abbreviations}
 

@@ -42,14 +42,14 @@ Training runs under \texttt{torch.amp.autocast('cuda')} with a \texttt{GradScale
 \subsection{Validation and Checkpointing}
 \label{subsec:training_validation}
 
-After each training epoch the model is evaluated across the full validation split. Predictions are sigmoid-activated, real objects are identified by $\text{mask} > 0.5$, and a detection is counted as active when its confidence logit clears the same threshold. The per-epoch metric is the mean of the best \gls{iou} achieved against each real object across the active predictions. A best-model checkpoint is written whenever this raw \gls{iou} surpasses the current maximum; a final-epoch checkpoint is preserved unconditionally for ablation.
+After each training epoch the model is evaluated across the full validation split. Predictions are sigmoid-activated, real objects are identified by $\text{mask} > 0.5$, and a detection is counted as active when its confidence logit clears the same threshold. The per-epoch metric is the mean of the best \gls{iou} achieved against each real object across the active predictions. A best-model checkpoint is written whenever this raw \gls{iou} surpasses the current maximum.
 
 \subsection{Hyperparameter Summary}
 \label{subsec:training_hyperparameters}
 
 Table~\ref{tab:model_hyperparameters} consolidates the trained configuration, including the values forward-referenced by the success-criteria traceability table (Table~\ref{tab:sc_traceability}).
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption[Training configuration for \texttt{DetectorNX-G3-SNN}.]{Training configuration for the \texttt{DetectorNX-G3-SNN} production run.}
 \label{tab:model_hyperparameters}
@@ -86,5 +86,3 @@ Training      & Epochs                   & 150 \\
 \hline
 \end{tabular}
 \end{table}
-
-\clearpage
