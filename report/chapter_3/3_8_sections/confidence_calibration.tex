@@ -12,8 +12,8 @@ This experiment evaluates the predictive reliability of the architectures by map
 
 \subsubsection*{Comparative Analysis: Overconfidence vs.\ Calibration}
 
-The results demonstrate a clear divergence in predictive behavior. 
-The \gls{cnn} baseline (Figure \ref{fig:confidence_calibration}, right) exhibits a pronounced \textit{overconfidence bias}: a significant density of validation samples occupy the postive-confidence region ($x > 0.5$) while maintaining an actual \gls{iou} of zero, and never predicts an $IOU=0.0$ event to have a confidence of zero. 
+The results demonstrate a clear divergence in predictive behaviour. 
+The \gls{cnn} baseline (Figure \ref{fig:confidence_calibration}, right) exhibits a pronounced \textit{overconfidence bias}: a significant amount of validation samples occupy the positive-confidence region ($x > 0.5$) while maintaining an actual \gls{iou} of zero, and never predicts an $IoU=0.0$ event to have a confidence of zero. 
 This indicates that the \gls{cnn} frequently hallucinates vehicle targets in background noise with near-maximum certainty, a failure mode that is critically dangerous for autonomous perception systems. 
 The empirical trend line for the \gls{cnn} remains consistently below the identity line, particularly in the high-confidence domain.
 
@@ -23,9 +23,9 @@ The empirical trend line for the \gls{snn} follows a qualitatively similar traje
 
 \subsubsection*{Hypothesis Validation: The Spiking Uncertainty Sensor}
 
-These findings validate the hypothesis formulated in Section \ref{subsec:confidence_calibration}. By utilizing discrete spike-accumulation rather than continuous floating-point intensities, the \gls{snn} acts as an implicit uncertainty sensor. Low-information features and stochastic sensor noise fail to generate a sufficient firing rate to overcome the $V_{th}=0.2$ threshold, naturally depressing the membrane potential in the regression head and resulting in lower confidence logits. 
+These findings validate the hypothesis formulated in Section \ref{subsec:confidence_calibration}. By utilising discrete spike-accumulation rather than continuous floating-point intensities, the \gls{snn} acts as an implicit uncertainty sensor. Low-information features and stochastic sensor noise fail to generate a sufficient firing rate to overcome the $V_{th}=0.2$ threshold, naturally depressing the membrane potential in the regression head and resulting in lower confidence logits. 
 
-Conversely, the \gls{cnn} utilizes exact coordinate gradients which, while providing a slight global precision advantage (as seen in Section \ref{subsec:quantization_error}), tend to overfit the confidence head to noise patterns. We can conclude that while the \gls{cnn} is more precise on average, the \gls{snn} is a fundamentally safer model, as its confidence scores are more representative of the true evidentiary strength of the input event stream.
+Conversely, the \gls{cnn} utilises exact coordinate gradients which, while providing a slight global precision advantage (as seen in Section \ref{subsec:quantization_error}), tend to overfit the confidence head to noise patterns. We can conclude that while the \gls{cnn} is more precise on average, the \gls{snn} is a fundamentally safer model, as its confidence scores are more representative of the true evidentiary strength of the input event stream.
 
 Furthermore, both models suffer from a similar overconfidence pattern throughout the dataset due to their shared multi-box detection head, causing both to follow a similar trend trajectory as \gls{iou} increases.
 This finding also exposes a direction for future work. 

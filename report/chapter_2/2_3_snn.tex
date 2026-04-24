@@ -49,7 +49,7 @@ This mathematical substitution allows the network to learn complex spatiotempora
 A defining property of \glspl{snn} is their natural ability for spatiotemporal integration, combining timing and location when processing information.
 By processing an event stream iteratively across $T$ discrete timesteps, an \gls{snn} is capable of producing meaningful predictions before the full observation window has elapsed \cite{pfeiffer_snn_opportunities}.
 
-This progressive refinement is analogous in spirit to the \textit{rapid categorisation} phenomenon documented in the human visual system, where early feedforward spikes drive coarse semantic decisions that sharpen as further neural evidence accumulates \cite{thorpe1996speed}.
+This progressive refinement reflects the \textit{rapid categorisation} phenomenon documented in the human visual system, where early feedforward spikes drive coarse semantic decisions that sharpen as further neural evidence accumulates \cite{thorpe1996speed}.
 While \textcite{thorpe1996speed} address categorical recognition rather than coordinate regression, the underlying principle that sparse early spike activity produces meaningful but imprecise representations which sharpen over time is directly consistent with the anticipated behaviour of a spiking detection backbone.
 
-Rate coding over a fixed window of $T$ timesteps carries an inherent representational limit known as the "quantisation error"; the precision of the encoded signal is bounded by a $1/T$ quantisation floor, since information is encoded as spike counts that can take only $T+1$ discrete values \cite{THORPE2001715}.
+Rate coding over a fixed window of $T$ timesteps carries an inherent representational limit known as the ``quantisation error''; the precision of the encoded signal is bounded by a $1/T$ quantisation floor, since information is encoded as spike counts that can take only $T+1$ discrete values \cite{THORPE2001715}.

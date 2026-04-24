@@ -3,7 +3,7 @@
 
 The \gls{cnn} architecture \texttt{DetectorNX-G3-CNN} was engineered as the primary baseline to evaluate the \gls{snn} against.
 It is a 11.73M parameter \gls{cnn} specifically designed to mirror the \gls{snn} architecture, satisfying the ``Architectural Parity`` functional requirement specified in \ref{subsec:req_functional}. 
-This ensures that the only variable being tested in this comparative study is the neural activation mechanism (event-driven binary spikes versus continuous-valued floats), making the comparison immune to common criticisms regarding unmatched or unoptimized baselines.
+This ensures that the only variable being tested in this comparative study is the neural activation mechanism (event-driven binary spikes versus continuous-valued floats), making the comparison immune to common criticisms regarding unmatched or unoptimised baselines.
 
 \subsection{Structural Configuration \& Layer-Wise Mapping}
 The \gls{cnn} mirrors the \gls{snn}'s configuration strictly 1:1, replacing every temporal and spiking component with a standard continuous equivalent. Table \ref{tab:snn_cnn_mapping} outlines this direct mapping.
@@ -33,7 +33,7 @@ Synaptic Operations (SOPs) & Floating Point Ops (FLOPs) & The metric used to qua
 \end{table}
 
 \subsection{Input Strategy: Channel-Wise Temporal Integration}
-Unlike the \gls{snn}, which processes event data sequentially over discrete time steps $T$, the \gls{cnn} baseline utilizes a flattened temporal input strategy. 
+Unlike the \gls{snn}, which processes event data sequentially over discrete time steps $T$, the \gls{cnn} baseline utilises a flattened temporal input strategy. 
 Instead of processing 10 timesteps sequentially, it concatenates the $T=10$ bins (each containing 2 polarity channels) into a single input tensor of 20 channels, changing the input shape from $[B, 10, 2, H, W]$ to $[B, 20, H, W]$. 
 
 This approach allows the \gls{cnn} to correlate events across the entire 100ms window in a single spatial pass. This channel-wise stacking of event bins is a standard and effective methodology for feeding asynchronous event-camera data into traditional, non-spiking \gls{cnn} architectures \cite{gehrig2019}.
@@ -41,7 +41,7 @@ This approach allows the \gls{cnn} to correlate events across the entire 100ms w
 \subsection{Backbone: Identity Mapping \& Residual Connections}
 \label{subsec:cnn_backbone}
 
-The \gls{cnn} backbone employs deep residual learning (Section~\ref{sec:background_cnn}), utilizing four Standard Residual Blocks that expand to 512 channels in the final stage. To satisfy Architectural Parity, the \texttt{SEWResBlock}s of the \gls{snn} were replaced with Standard Residual Blocks of the structure $\text{Conv} \rightarrow \text{BN} \rightarrow \text{ReLU} \rightarrow \text{Conv} \rightarrow \text{BN} + \text{Shortcut} \rightarrow \text{ReLU}$; these shortcut paths mitigate vanishing gradients and enable stable training at this depth \cite{he2015deep}.
+The \gls{cnn} backbone employs deep residual learning (Section~\ref{sec:background_cnn}), utilising four Standard Residual Blocks that expand to 512 channels in the final stage. To satisfy Architectural Parity, the \texttt{SEWResBlock}s of the \gls{snn} were replaced with Standard Residual Blocks of the structure $\text{Conv} \rightarrow \text{BN} \rightarrow \text{ReLU} \rightarrow \text{Conv} \rightarrow \text{BN} + \text{Shortcut} \rightarrow \text{ReLU}$; these shortcut paths mitigate vanishing gradients and enable stable training at this depth \cite{he2015deep}.
 
 \subsection{SEWResBlock vs Standard ResBlock}
 The core mathematical difference between the two architectures lies in their summation logic and the resulting information flow across the shortcut connection:
@@ -56,7 +56,7 @@ The core mathematical difference between the two architectures lies in their sum
     \item \textbf{SEWResBlock (SNN):} 
     Performs a relational element-wise spiking operation \textit{after} the activation function. 
     Because adding two binary spikes (e.g., $1+1=2$) produces a non-binary value, the \gls{snn} uses a spike-merging function (such as ADD or AND) to preserve the discrete $\{0, 1\}$ state. 
-    Crucially, the \gls{snn} shortcut carries the \textit{membrane history} forward, prioritizing temporal integrity.
+    Crucially, the \gls{snn} shortcut carries the \textit{membrane history} forward, prioritising temporal integrity.
 
 \end{itemize}
 
@@ -84,12 +84,14 @@ This distinction is particularly relevant for high-speed neuromorphic data:
 while the Standard ResBlock accumulates continuous values that effectively blur fast movements into a single averaged float over the 100ms window, the \gls{snn} equivalent preserves exact spike timing, maintaining the temporal precision required for the regression head.
 
 \subsection{Attention Mechanism: SE-Block}
-The \gls{cnn} encounters the same bottleneck as its \gls{snn} counterpart (Section~\ref{subsec:snn_se_block}) and adopts the same \gls{se} mechanism \cite{hu2019_se_block}, differing only in that the squeeze operates over continuous activations via standard global average pooling and the excitation produces a float-valued per-channel scale rather than modulating spike rates. The block confers no hardware-level sparsity benefit in this context; it is retained purely to preserve Architectural Parity with the \gls{snn} baseline (Section~\ref{subsec:req_functional}).
+The \gls{cnn} encounters the same bottleneck as its \gls{snn} counterpart (Section~\ref{subsec:snn_se_block}) and adopts the same \gls{se} mechanism \cite{hu2019_se_block}.
+The two differ only at the signal level: the squeeze operates over continuous activations via standard global average pooling, and the excitation produces a float-valued per-channel scale rather than modulating spike rates.
+While this block offers no hardware-level sparsity advantages here, it is retained solely to maintain architectural parity with the \gls{snn} (Section~\ref{subsec:req_functional}).
 
 \subsection{The ``Gold Standard'' Upper Bound}
 By constructing this custom \gls{cnn} mirror, the baseline serves as the upper theoretical bound of this specific architecture's capability on the \gls{etram} dataset. 
 For example, if the \gls{cnn} baseline achieves a Mean \gls{iou} of 48\%, this represents the maximum performance extractable by this parameter configuration. 
-If the corresponding SNN achieves 43\% \gls{iou}, the 5\% gap explicitly represents the ``quantization cost'' of switching from 32-bit continuous floats to 1-bit binary spikes \cite{cordone2022objectdetectionspikingneural}. 
+If the corresponding SNN achieves 43\% \gls{iou}, the 5\% gap explicitly represents the ``quantisation cost'' of switching from 32-bit continuous floats to 1-bit binary spikes \cite{cordone2022objectdetectionspikingneural}. 
 Adhering to this methodology ensures that the evaluation of the neuromorphic paradigm is both fair and scientifically sound.
 
 

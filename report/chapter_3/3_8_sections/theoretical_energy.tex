@@ -25,7 +25,7 @@ Despite the relatively high per-operation routing overhead inherent to early-gen
 
 The fundamental driver of this efficiency is the massive reduction in computational workload: the \gls{snn} requires only $2.67$ G-\glspl{sop} per frame, compared to the $9.22$ G-\glspl{flop} required by the \gls{cnn} baseline --- $71.02\%$ reduction in total operations. 
 However, a critical observation emerges when comparing the workload reduction ($71.02\%$) to the projected energy savings ($65.12\%$).
-This discrepancy represents the "routing overhead" penalty of first-generation neuromorphic silicon: inter-core spike communication is an extremely complex task on chips like Loihi, and as such causes
+This discrepancy represents the ``routing overhead'' penalty of first-generation neuromorphic silicon: inter-core spike communication is an extremely complex task on chips like Loihi, and as such causes
 a single \gls{sop} to cost significantly more energy ($20.4\%$ more) than a \gls{flop} on a highly optimised \gls{gpu} such as the NVIDIA A100 \cite{su2023coreinterfaceoptimizationmulticore}.
 The \gls{snn} therefore achieves its dominant efficiency purely through extreme activation sparsity, rather than hardware-level architectural optimisations.
 
@@ -71,7 +71,7 @@ E-SpikeFormer \cite{espikeformer} & 58.8 & 38.7 & 127.0 & 119.5 & 0.49  \\
 \label{tab:efficiency_landscape}
 \end{table}
 
-Despite these asymmetries, one observation from Table~\ref{tab:efficiency_landscape} is hard to dismiss. At $2.4$\,mJ per frame, \texttt{DetectorNX-G3-SNN} is around an order of magnitude more energy-efficient than any other entry in the table, and it carries the smallest parameter budget at $11.7$\,M. 
+Despite these asymmetries, one observation from Table~\ref{tab:efficiency_landscape} is hard to dismiss. At $2.4$\,mJ per frame, \texttt{DetectorNX-G3-SNN} is approximately an order of magnitude more energy-efficient than any other entry in the table, and it carries the smallest parameter budget at $11.7$\,M. 
 Two architectural choices from the G3 iteration account for this. The \texttt{SEWResBlock} backbone carries binary spikes deep into the network without a spike explosion, and the \gls{frr} constraint holds per-layer firing rates below $20\%$; together, they keep the \gls{sop} count low no matter what task the output feeds into. 
 The multi-box detection head reinforces this by staying deliberately lightweight, avoiding the transformer-based and anchor-rich machinery used by E-SpikeFormer and SpikeDet-X \cite{espikeformer, fan2025spikedet}. 
 Neither choice is tied to \gls{etram} --- both would carry over if the model were ported elsewhere.

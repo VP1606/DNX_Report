@@ -10,7 +10,7 @@ In a perfectly calibrated system, these values align along the identity line ($C
 Clumping in the high-confidence, low-accuracy quadrant indicates an overconfidence bias, where the model fails to signal its own predictive errors.
 
 \subsubsection{Hypothesis: Spikes as Uncertainty Sensors}
-The \gls{cnn} baseline is hypothesized to exhibit significant miscalibration due to its continuous activation functions and exact gradient descent, which tend to overfit the confidence head. 
+The \gls{cnn} baseline is hypothesised to exhibit significant miscalibration due to its continuous activation functions and exact gradient descent, which tend to overfit the confidence head. 
 The \gls{snn} is expected to demonstrate a more linear, calibrated trend. 
-In the spiking domain, low-quality features generate fewer spikes, naturally leading to lower membrane potentials in the detection head. 
+In the spiking domain, low-quality features generate fewer spikes, leading to lower membrane potentials in the detection head. 
 This mechanism allows the \gls{snn} to function as an implicit uncertainty sensor, where discrete spike rates effectively gate the output confidence logit relative to the strength of the temporal evidence.

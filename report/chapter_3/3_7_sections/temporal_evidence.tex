@@ -14,8 +14,8 @@ this would lead to a 50\% reduction in detection time. In a time-sensitive domai
 
 \subsubsection{Methodology: Temporal Snapshots}
 To evaluate the evolution of predictions, we extract intermediate outputs at three specific checkpoints: $t=2$ (20ms), $t=5$ (50ms), and $t=10$ (100ms). 
-For each snapshot, the candidate bounding box coordinates and instantaneous confidence scores are recorded to observe the \textit{hunting behavior} of the regression head:
-the observable process where the networks' predicted bounding box moves, vibrates or searches for the object's true edges before finally settling into a stable, high-precision detection. 
+For each snapshot, the candidate bounding box coordinates and instantaneous confidence scores are recorded to observe the \textit{hunting behaviour} of the regression head:
+where the network's predicted bounding box moves, vibrates or searches for the object's true edges before finally settling into a stable, high-precision detection. 
 This process is driven by the discrete \gls{lif} dynamics:
 
 \begin{equation}

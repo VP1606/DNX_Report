@@ -3,8 +3,8 @@
 
 \subsection{Convolutional Feature Extraction}
 
-A \acrfull{cnn} extends the standard \gls{ann} architecture by replacing dense linear layers with convolutional operations, in which a bank of learned filters is applied across the spatial extent of an input.
-Each filter performs a localised weighted sum at every spatial position, producing a feature map that encodes the presence and magnitude of a particular learned pattern at each location.
+A \acrfull{cnn} extends the standard \gls{ann} architecture by replacing dense linear layers with convolutional operations, in which a bank of learnt filters is applied across the spatial extent of an input.
+Each filter performs a localised weighted sum at every spatial position, producing a feature map that encodes the presence and magnitude of a particular learnt pattern at each location.
 Stacking these layers yields a representational hierarchy, with early layers capturing low-level edges and motion boundaries and deeper layers composing them into object-level features \cite{lecun2015deep}.
 
 \subsection{Residual Learning}
@@ -14,16 +14,16 @@ He et al.~\cite{he2015deep} resolved this through the introduction of \textit{re
 \begin{equation}
     y = \mathcal{F}(x) + x
 \end{equation}
-The additive shortcut connection, otherwise known as a skip connection, bypasses one or more convolutional layers and adds the input directly to the output, providing an unobstructed gradient path back to the earliest layers, guaranteeing stable training regardless of network depth.
+The additive shortcut connection, otherwise known as a skip connection, bypasses one or more convolutional layers and adds the input directly to the output, providing an unobstructed gradient path back to the earliest layers.
 Within a Standard Residual Block, this shortcut carries the raw input features forward through the identity path, and the convolutional branch learns only the incremental refinement needed to improve the representation.
 This mechanism forms the backbone of the \gls{cnn} baseline employed in this project. In a spiking network, however, the standard residual formulation fails, since naively summing two binary spikes produces a non-binary value; a variant that preserves binary output therefore underpins the \texttt{DetectorNX-G3-SNN} architecture, as detailed in Section~\ref{subsec:snn_backbone}.
 
 \subsection{Object Detection \& Bounding Box Regression}
 
-Object detection requires a network to simultaneously localise and identify one or more targets within a scene, and determine what its coordinates and size in the space are.
+Object detection requires a network to simultaneously localise and identify one or more targets within a scene, and determine what their coordinates and size in the space are.
 In the bounding box regression paradigm popularised by Redmon et al.~\cite{redmon2016yolo}, this is framed as a direct regression problem: the network predicts a set of candidate boxes, each parameterised by a feature tuple $\mathcal{F} = \{x, y, w, h, c\}$, where $(x, y)$ and $(w, h)$ are the normalised centre coordinates and dimensions of the box, and $c$ is an objectness confidence score reflecting the probability that a genuine target is present within that region.
 
 By predicting multiple candidate boxes simultaneously in a single forward pass, this multi-box formulation enables real-time detection across the full spatial extent of the input --
-a necessity for automotive perception, where multiple vehicles and artifacts may coexist in the same scene.
+a necessity for automotive perception, where multiple vehicles and artefacts may coexist in the same scene.
 Each predicted box is evaluated against the ground-truth annotations using an \acrfull{iou} metric, which quantifies the ratio of the intersection to the union of the two boxes, providing a scale-invariant, directly interpretable measure of spatial overlap.
 The multi-box regression paradigm, including the $(x, y, w, h, c)$ output format and the use of \gls{iou} as the evaluation criterion, forms the direct foundation of the detection head employed in this project, as detailed in Section~\ref{subsec:snn_head}.

@@ -4,7 +4,7 @@
 The Theoretical Energy Consumption is very similar in nature to the Dynamic Power experiment discussed in Section \ref{subsec:dynamic_power}.
 It uses the same principles and formulae for \glspl{sop} and \glspl{flop},
 but differs in the final calculation:
-as supposed to calculating the dynamic power consumption per frame, this experiment aims to find the average power consumption per frame across the entire dataset, and extrapolates for multiple hardware platforms:
+as opposed to calculating the dynamic power consumption per frame, this experiment aims to find the average power consumption per frame across the entire dataset, and extrapolates for multiple hardware platforms:
 
 \begin{equation}
 \bar{E}_{SNN} = \sum_{l=1}^{L} (SOPs_l \times E_{chip})
@@ -45,7 +45,7 @@ NVIDIA DGX A100 (FP32) & FLOP & 19.6 pJ & \cite{a100_usage} \\
 \subsubsection{Hypothesis}
 \label{subsubsec:energy_hypothesis}
 
-We hypothesize that the \gls{snn} will demonstrate a metabolic advantage of at 
+We hypothesise that the \gls{snn} will demonstrate a metabolic advantage of at 
 least one order of magnitude ($>90\%$) over the \gls{cnn} baseline, predicated 
 on two complementary properties of the $\bar{E}_{SNN}$ formulation:
 

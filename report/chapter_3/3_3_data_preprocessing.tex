@@ -8,10 +8,11 @@ The \gls{bolt} preprocessing pipeline takes the raw \gls{etram} data at $1280 \t
 
 The \gls{bolt} pipeline begins by reading the raw h5 event files $(x, y, t, p)$ and the partnering npy files containing the bounding box annotations from the \gls{etram} dataset.
 Once both files have been parsed, the first step taken is to apply a $100 ms$ sliding window across the entire duration of the event file. 
-``Windowing`` is the process of slicing the continous event stream into chunks that represent a single instance of time for the model, thereby anchoring the asynchronous event stream into discrete, structured training instances. 
+``Windowing`` is the process of slicing the continuous event stream into chunks that represent a single instance of time for the model, thereby anchoring the asynchronous event stream into discrete, structured training instances. 
 
-To maximize training efficiency and ensure a high signal-to-noise ratio in the training distribution, the \gls{bolt} pipeline adopts a Box-Central sampling strategy rather than more conventional uniform temporal partitioning, where training windows were anchored deterministically around the centroids of
-existing ground truth annotations. This approach ensures that 100\% of the training voxels contain informative structural targets, mitigating the prevalence of 'empty-scene' noise and providing the SNN with consistent temporal evidence to drive membrane potential
+To maximise training efficiency and ensure a high signal-to-noise ratio in the training distribution, the \gls{bolt} pipeline adopts a Box-Central sampling strategy rather than more conventional uniform temporal partitioning;
+training windows are anchored deterministically around the centroids of existing ground truth annotations. 
+This approach ensures that 100\% of the training voxels contain informative structural targets, mitigating the prevalence of 'empty-scene' noise and providing the SNN with consistent temporal evidence to drive membrane potential
 accumulation prior to the target timestamp.
 
 In this project, the time window $\Delta T = 100\text{ms}$ was chosen to align with the temporal persistency of the human visual system of roughly $100\text{ms}$ \cite{deodato2024continuous};
@@ -25,21 +26,21 @@ Second, specific to the context of vehicle detection, it is short enough that a 
 only $3.3\text{m}$ within the window, ensuring that the bounding box annotation 
 assigned to the window remains spatially valid and does not introduce label noise through excessive object displacement.
 
-In combination with the Box-Central sampling approach, the pipeline applies a density filter prior to voxelization: for each $100\text{ms}$ window the raw event count is checked, and windows containing fewer than \texttt{min\_events} $= 500$ events are discarded. 
+In combination with the Box-Central sampling approach, the pipeline applies a density filter prior to voxelisation: for each $100\text{ms}$ window the raw event count is checked, and windows containing fewer than \texttt{min\_events} $= 500$ events are discarded. 
 This threshold is a structural necessity for \gls{snn} training stability. 
 Near-empty windows collapse the learning signal on two fronts: the forward pass produces few or no spikes, yielding a zero surrogate gradient \cite{neftci2019surrogate} which causes the optimiser to suppress firing globally \cite{eshraghian2021training}, while the \gls{frr} regulariser, which penalises deviation from a $20\%$ target firing rate \cite{deng2021comprehensive, yan2022backpropagation}, dominates the total loss because the target firing rate is unattainable when the input carries no events.
 A $500$-event floor also filters out the baseline Background Activity noise that \gls{hd} event cameras emit from transistor mismatch and thermal effects \cite{gallego2020event}, ensuring training attention is directed only at windows where meaningful scene change has occurred.
 
 \subsection{Signal Conditioning}
 
-The first step of the \gls{bolt} pipeline applies a series of signal-conditioning operations, lifted directly from the original \gls{etram} study since they were tuned to the characteristics of the dataset \cite{Verma_2024_CVPR}, and serving three complementary purposes.
+Following windowing, the \gls{bolt} pipeline applies a series of signal-conditioning operations, lifted from the original \gls{etram} study since they were tuned to the characteristics of the EVK4 sensor \cite{Verma_2024_CVPR}.
 Normalising the voxel tensor to $[0, 1]$ prevents \gls{lif} neuron saturation at the stem layer. Without it, high-magnitude or noisy voxel values drive every neuron to fire continuously and flood the network with uninformative spikes, whereas the constrained range ensures only neurons encoding genuine structural features (vehicle edges, motion boundaries) exceed threshold \cite{eshraghian2021training}. 
 The \gls{baf} denoising step then rejects the low-activity clusters that \gls{hd} event cameras emit from flickering illumination and sensor noise, freeing representational capacity for real vehicle geometry \cite{eshraghian2021training, Roy2019SpikeBasedMI}. 
 Finally, every background event suppressed at preprocessing removes a spike emission at inference, tying preprocessing quality directly to the \gls{sop} count on neuromorphic hardware \cite{Roy2019SpikeBasedMI}.
 
-\subsection{Spatiotemporal Voxelization}
+\subsection{Spatiotemporal voxelisation}
 
-To make the asynchronous event data compatible with neural network layers, a Voxelization process is performed to transform the continuous stream into a structured tensor. This process consists of three core operations:
+To make the asynchronous event data compatible with neural network layers, a voxelisation process is performed to transform the continuous stream into a structured tensor. This process consists of three core operations:
 
 \begin{itemize}
     \item \textbf{Temporal Binning:} The total duration of an event sample (e.g., a 100ms window) is divided into 10 discrete time bins ($T=10$).
@@ -49,8 +50,8 @@ To make the asynchronous event data compatible with neural network layers, a Vox
 
 This accumulation process preserves the temporal distribution of the events while generating a dense 4D spatiotemporal tensor of shape $[10, 2, 720, 1280]$ (representing Time $\times$ Channels $\times$ Height $\times$ Width).
 
-\subsection{Downsampling \& Normalization}
-Following spatiotemporal voxelization, the voxelized data undergoes a dual-phase refinement consisting of spatial downsampling and amplitude normalization. 
+\subsection{Downsampling \& Normalisation}
+Following spatiotemporal voxelisation, the voxelised data undergoes a dual-phase refinement consisting of spatial downsampling and amplitude normalisation. 
 This is the final polishing step of the pipeline, transforming the high-resolution event counts into a stabilized, low-memory format that the neural backbones can process efficiently.
 
 \subsubsection{Spatial Downsampling (16-fold Data Reduction)}
@@ -59,17 +60,17 @@ This 16-fold reduction in data volume is critical for managing the high-dimensio
 Because \glspl{snn} must store neuron membrane potentials across time, an HD model would require massive amounts of GPU memory. 
 By aggressively reducing the spatial dimensions, we ensure the backbone scalability, making it computationally feasible to train the deep 4-block architecture over extended epochs.
 
-Furthermore, utilizing Max-Pooling (as opposed to Average-Pooling) acts as a feature preserver: it retains the strongest event signal within each $4 \times 4$ area, helping the network maintain the crisp, high-contrast edges of the vehicles even at a lower resolution.
+Furthermore, utilising Max-Pooling (as opposed to Average-Pooling) acts as a feature preserver: it retains the strongest event signal within each $4 \times 4$ area, helping the network maintain the crisp, high-contrast edges of the vehicles even at a lower resolution.
 
-It should be noted that the downsampling factor $ds = 4$ was heavily influenced by the \gls{hpc} cluster's GPU memory constraints; without using $ds = 4$,
-the data would not fit into the GPU memory, or would require a batch size of 1, making training infeasible within the time constraints of this project.
+It should be noted that the downsampling factor $ds = 4$ was driven by the \gls{hpc} cluster's GPU memory constraints; without using $ds = 4$,
+the data would not fit into the GPU memory, or would require a batch size of $1$, making training infeasible within the time constraints of this project.
 
-\subsubsection{Max-Normalization (Input Calibration)}
+\subsubsection{Max-Normalisation (Input Calibration)}
 
-Subsequently, max-normalization is performed to scale the raw event accumulation counts into a continuous $[0, 1]$ interval,
+Subsequently, max-normalisation is performed to scale the raw event accumulation counts into a continuous $[0, 1]$ interval,
 by dividing every pixel in the temporal volume by the single highest event count found within that 10-bin voxel.
 
-This normalization serves as a fundamental safeguard against neural saturation. 
+This normalisation serves as a fundamental safeguard against neural saturation. 
 \gls{lif} nodes have fixed firing thresholds (in this architecture, $V_{th}=0.2$) - if a raw, unscaled event count of 50 were fed into the network, the first-layer neurons would fire instantaneously and repeatedly, effectively ``screaming'' and drowning out all other spatiotemporal information. 
 By enforcing input calibration, we ensure that the input magnitudes are calibrated relative to the \gls{lif} thresholds, facilitating stable surrogate gradient propagation during the 150-epoch training cycle.
 
@@ -92,18 +93,18 @@ If a frame contains no vehicles, 5 empty boxes are provided. This ensures every 
 The limit of 5 boxes was empirically selected based on an analysis of the \gls{etram} validation set, where the vast majority of frames contain 3 or fewer vehicles, making 5 a safe upper bound for this specific traffic monitoring environment.
 
 \subsubsection{Binary Masking}
-To enable the network to distinguish between genuine vehicle targets and zero-padded instances, the tensor utilizes a Binary Masking dimension. 
+To enable the network to distinguish between genuine vehicle targets and zero-padded instances, the tensor utilises a Binary Masking dimension. 
 For every box, the target tensor stores five values: $[Center_X, Center_Y, Width, Height, Mask]$.
 \begin{itemize}
     \item For a real object, the mask value is set to $1.0$.
     \item For a padded or empty box, the mask value is set to $0.0$.
 \end{itemize}
 This mask acts as the objectness confidence target. 
-It is utilized by the Multi-Box Loss function to selectively apply coordinate gradients only to valid targets, while simultaneously regularizing the model's confidence head to output $0.0$ for empty regions.
+It is utilised by the Multi-Box Loss function to selectively apply coordinate gradients only to valid targets, while simultaneously regularising the model's confidence head to output $0.0$ for empty regions.
 
-\subsubsection{Normalization to Sensor Space}
-Finally, all spatial parameters (center coordinates, width, and height) are originally provided in raw pixel values (e.g., $x=842$). 
-These are normalized by dividing by the raw sensor width ($1280$) and height ($720$), scaling all coordinates into the continuous range $[0.0, 1.0]$. 
+\subsubsection{Normalisation to Sensor Space}
+Finally, all spatial parameters (centre coordinates, width, and height) are originally provided in raw pixel values (e.g., $x=842$). 
+These are normalised by dividing by the raw sensor width ($1280$) and height ($720$), scaling all coordinates into the continuous range $[0.0, 1.0]$. 
 This provides a Scale-Independent Signal, ensuring the regression head can learn the underlying geometry robustly, regardless of the spatial downsampling factors applied earlier in the pipeline.
 
 \subsection{Chunking for High-Throughput I/O}
@@ -127,13 +128,13 @@ The combined effect of offline precomputation, chunked serialisation, and in-mem
 
 \subsection{\gls{bolt} Pipeline: Visualized}
 
-Figure \ref{fig:preprocessing_pipeline} details the order of which the aformentioned preprocessing steps are applied to the raw event data.
+Figure \ref{fig:preprocessing_pipeline} details the order of which the aforementioned preprocessing steps are applied to the raw event data.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{chapter_3/figures/preprocessing_pipeline.pdf}
     \caption{Overview of the spatiotemporal preprocessing pipeline applied to the ETraM dataset.
-    Raw events are voxelized into a 4D tensor, spatially downsampled, and aligned with
+    Raw events are voxelised into a 4D tensor, spatially downsampled, and aligned with
     multi-object ground truth labels to produce a final sample of shape \texttt{[10, 2, 180, 320]}
     with a corresponding label tensor of shape \texttt{[5, 5]}.}
     \label{fig:preprocessing_pipeline}

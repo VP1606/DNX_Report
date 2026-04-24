@@ -6,7 +6,7 @@ To provide a concrete evaluation framework, the following measurable success cri
 \begin{enumerate}
     \item \textbf{Detection accuracy parity:}
     On both \gls{miou} and \gls{map_50}, the \gls{snn} must score at least $90\%$ of the \gls{cnn} baseline on the \gls{etram} validation set.
-    Achieving this will validate that our architecture succeeds in mitigating the compromises expected by the 1-bit temporal quantisation error, across both the geometric-precision metric (\gls{miou}) and the stricter COCO-convention detection-quality metric (\gls{map_50}).
+    Achieving this will validate that our architecture succeeds in mitigating the compromises expected from the 1-bit temporal quantisation error, across both the geometric-precision metric (\gls{miou}) and the stricter COCO-convention detection-quality metric (\gls{map_50}).
 
     \item \textbf{Measurable theoretical energy savings:} 
     The \gls{snn} must demonstrate a reduction in theoretical energy consumption per inference relative to the \gls{cnn} baseline, computed from layer-wise \gls{sop} counts and published neuromorphic hardware constants.

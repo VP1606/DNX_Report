@@ -1,9 +1,9 @@
 \section{Spiking Neural Network (SNN) Architecture}
 \label{sec:snn_architecture}
 
-The core focus, effort and innovation of this project is the development and optimization of the \texttt{DetectorNX-G3-SNN} architecture. 
+The core focus, effort and innovation of this project is the development and optimisation of the \texttt{DetectorNX-G3-SNN} architecture. 
 This model is explicitly designed to process high-definition neuromorphic event data while adhering to the computational paradigms of \gls{snn}s. 
-By prioritizing event-driven, binary communication, the architecture aims to drastically reduce both the dynamic power consumption and the computational complexity compared to traditional deep learning models, making it superior for power and time constrained environments.
+By prioritising event-driven, binary communication, the architecture aims to drastically reduce both the dynamic power consumption and the computational complexity compared to traditional deep learning models, making it superior for power and time constrained environments.
 
 \subsection{Spatiotemporal Input \& Multi-Step Execution}
 \label{subsec:snn_input}
@@ -11,9 +11,9 @@ The raw \gls{etram} event data is initially preprocessed to a spatial resolution
 Consequently, the network ingests a massive, high-dimensional spatiotemporal tensor of shape $[B, 10, 2, 180, 320]$ (Batch, Time, Polarity, Height, Width). 
 
 Given the high spatial dimensionality and the iterative nature of spiking neurons, native Python loop execution over the time dimension proved computationally restrictive. 
-To overcome this bottleneck, the entire architecture was refactored to utilize the SpikingJelly framework's optimized Multi-Step (\texttt{step\_mode='m'}) execution paradigm \cite{fang2023spikingjelly};
+To overcome this bottleneck, the entire architecture was refactored to utilise the SpikingJelly framework's optimised Multi-Step (\texttt{step\_mode='m'}) execution paradigm \cite{fang2023spikingjelly};
 instead of iterating through the 10 time bins sequentially, the entire spatiotemporal tensor is passed directly into custom-compiled \gls{cuda} kernels.
-This low-level optimization enables high-speed, parallelized execution of the temporal dynamics, making the extensive benchmarking of this HD dataset feasible on local GPU hardware, and reducing overall training time from approximately 16 hours to just 7.
+This low-level optimisation enables high-speed, parallelised execution of the temporal dynamics, making the extensive benchmarking of this HD dataset feasible on local GPU hardware, and reducing overall training time from approximately 16 hours to 7.
 
 \subsection{Neuron Dynamics: \gls{lif}}
 \label{subsec:snn_lif}
@@ -43,7 +43,7 @@ In this implementation, SpikingJelly's default value of $\alpha = 2.0$ was used,
 \subsection{Backbone: SEW-ResNet \& Attention}
 \label{subsec:snn_backbone}
 
-To extract high-level semantic features and manage the computational complexity of the high-definition input, the architecture utilizes a deep residual backbone divided into five sequential stages, as outlined in Table \ref{tab:snn_staged_architecture}.
+To extract high-level semantic features and manage the computational complexity of the high-definition input, the architecture utilises a deep residual backbone divided into five sequential stages, as outlined in Table \ref{tab:snn_staged_architecture}.
 
 \begin{table}[htbp]
 \centering
@@ -95,20 +95,20 @@ In this \texttt{DetectorNX-G3-SNN} architecture, the bottleneck exists at the tr
   \begin{enumerate}
       \item \textbf{A Spatial Constraint (Resolution Limit):} 
       At this stage, the original $320 \times 180$ spatiotemporal input has been downsampled by a factor of 8x via the strided convolutions in the stem and early residual blocks, resulting in a highly compressed $22 \times 40$ feature map.
-      This spatial bottleneck is critical because each remaining "pixel" must now represent a large $8 \times 8$ receptive field of the original HD sensor data, forcing the network to discard fine-grained geometric redundancy while retaining the
+      This spatial bottleneck is critical because each remaining pixel must now represent a large $8 \times 8$ receptive field of the original HD sensor data, forcing the network to discard fine-grained geometric redundancy while retaining the
       core structural boundaries of multiple detected objects.
 
       \item \textbf{A Semantic Shift (High-Level Abstraction):} 
       This juncture marks the definitive pivot where the network transitions from extracting low-level geometric primitives, such as spike-edge orientation and motion direction, to synthesizing complex semantic concepts. 
-      Without an explicit selection mechanism, the network at this depth is susceptible to noise and artifacts from the HD event stream, which can blur the distinction between legitimate targets and background interference.
+      Without an explicit selection mechanism, the network at this depth is susceptible to noise and artefacts from the HD event stream, which can blur the distinction between legitimate targets and background interference.
   \end{enumerate}
 
 To both mitigate and solve these bottleneck constraints, a \gls{se} mechanism is introduced in Stage 3 of the backbone, sitting directly at the transition point \cite{hu2019_se_block}.
 The \gls{se} block operates by performing a global average pooling of the 256 feature channels (the ``Squeeze`` phase), followed by two fully connected layers that calculate a weighting factor for each channel (the ``Excitation`` phase).
 This effectively mitigates the spatial constraint by allowing the network to incorporate global context into its local representations, compensating for the loss of resolution.
 
-When applied in the context of an \gls{snn}, this acts as a dynamic firing modulator: the backbone's activations are re-calibrated by looking at the global context of the entire frame, magnifying the most informative channels whilst suppressing those containing artifacts.
-By applying this recalibration, the \gls{se} block ensures that only the most relevant ``Objectness`` (the probability that a specific region of an image contains a generic object of interest rather than background noise) features are passed into the final high-capacity blocks, effectively mitigating the semantic ambiguity before the final bounding box regression.
+When applied in the context of an \gls{snn}, this acts as a dynamic firing modulator: the backbone's activations are re-calibrated by looking at the global context of the entire frame, magnifying the most informative channels whilst suppressing those containing artefacts.
+By applying this recalibration, the \gls{se} block ensures that only the most relevant ``objectness``, where objectness is the probability that a specific region contains a genuine object of interest rather than background noise, are passed into the final high-capacity blocks, effectively mitigating the semantic ambiguity before the final bounding box regression.
 
 \begin{figure}[h]
     \centering
@@ -119,10 +119,10 @@ By applying this recalibration, the \gls{se} block ensures that only the most re
     \label{fig:se_block}
 \end{figure}
 
-\subsection{Firing Rate Regularization (FRR)}
+\subsection{Firing Rate Regularisation (FRR)}
 \label{subsec:snn_frr}
 A common failure mode in deep SNN training is network silencing (zero spikes emitted) or over-saturation (firing continuously at every timestep), both of which halt gradient flow and destroy energy efficiency. 
-To constrain the network, a custom Firing Rate Regularization (FRR) Metabolic Penalty was integrated into the training pipeline.
+To constrain the network, a custom Firing Rate Regularisation (FRR) Metabolic Penalty was integrated into the training pipeline.
 
 The FRR applies a squared error loss to the network's average firing rate:
 \begin{equation}
@@ -130,7 +130,7 @@ The FRR applies a squared error loss to the network's average firing rate:
 \end{equation}
 
 This biologically inspired metabolic constraint \cite{Roy2019SpikeBasedMI} forces the 11.7M parameter backbone to maintain a selective but informative firing rate (e.g., $Target = 20\%$) across its hidden layers. 
-Penalising derivation from a target firing rate is an established technique for preserving activation sparsity in directly trained \glspl{snn} \cite{deng2021comprehensive,yan2022backpropagation}.
+Penalising deviation from a target firing rate is an established technique for preserving activation sparsity in directly trained \glspl{snn} \cite{deng2021comprehensive,yan2022backpropagation}.
 Adding this penalty to the model's loss ensures high information flow while strictly preserving the activation sparsity required for efficient neuromorphic deployment.
 
 \subsection{Multi-Box Regression Head}
@@ -143,8 +143,8 @@ The projected map is then passed through two parallel $8 \times 8$ adaptive pool
 
 The resulting $[B, 128, 8, 8]$ tensor is then mapped via final convolutional and linear layers to an output tensor of shape $[B, 5, 5]$, where $B$ represents the batch size.
 The final two dimensions encode the top 5 predicted bounding boxes globally per image, with each box defined by a feature tuple $\mathcal{F} = \{x, y, w, h, c\}$.
-Here, $(x, y, w, h)$ represent the normalized spatial coordinates and dimensions of the bounding box, and $c$ denotes the object confidence logit.
-This formulation allows the network to predict multiple vehicles simultaneously, which are subsequently evaluated using a vectorized Multi-Box Loss function.
+Here, $(x, y, w, h)$ represent the normalised spatial coordinates and dimensions of the bounding box, and $c$ denotes the object confidence logit.
+This formulation allows the network to predict multiple vehicles simultaneously, which are subsequently evaluated using a vectorised Multi-Box Loss function.
 
 \begin{figure}[htbp]
     \centering

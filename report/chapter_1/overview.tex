@@ -8,12 +8,12 @@ Euro NCAP (Europe's vehicle safety rating programme) has published 2026 protocol
 It also introduces an all-new requirement for these more complex \gls{adas} to operate at speeds up to $130$\,km/h, which will require lower inference latencies \cite{EuroNCAP_SafeDriving_VehicleAssistance_2025}.
 
 Modern vehicles rely on dense \acrfullpl{ann} to process high-definition video streams in real-time,
-executing billions of dense, \acrfullpl{flop} every second.
+executing billions of \acrfullpl{flop} every second.
 As a result, scaling such systems to handle more complex scenarios has caused both energy and thermal demands to grow substantially.
 \textcite{lin_adas_cnn_issues} documented CPU-based \gls{cnn} inference exceeding the thermal and power constraints of \gls{adas} hardware, motivating the industry's shift to \gls{gpu}-class accelerators; 
 continued growth in perception complexity now places dense \gls{ann} workloads on \glspl{gpu} on a similar trajectory, motivating a paradigm shift towards fundamentally more efficient architectures.
 
-This project investigates utilizing a cutting-edge neuromorphic paradigm, \acrfullpl{snn}, and their feasibility in this domain.
+This project investigates utilising a cutting-edge neuromorphic paradigm, \acrfullpl{snn}, and their feasibility in this domain.
 To achieve this, the project develops \texttt{DetectorNX-G3-SNN}, a high-definition spiking architecture designed for multi-object automotive perception. 
 By rigorously benchmarking this system against a strictly equivalent continuous \gls{cnn} on the event-based \acrfull{etram} dataset \parencite{Verma_2024_CVPR}, 
 this research empirically deconstructs the performance-efficiency frontier---measuring the precise trade-offs between the energy savings of event-driven dynamics and the spatial precision constraints of 1-bit temporal quantisation.

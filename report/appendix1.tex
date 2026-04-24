@@ -2,13 +2,28 @@
 
 \section{DetectorNX-G3-SNN Hyperparameters}
 
-\begin{table}[H]
-\centering
-\small
-\begin{tabular}{|l|l|l|}
+{\small
+\begin{longtable}{|l|l|l|}
+\caption[\texttt{DetectorNX-G3-SNN} hyperparameters.]{\texttt{DetectorNX-G3-SNN} hyperparameters (11.72M parameters).} \label{tab_app:g3_snn_params} \\
 \hline
 \textbf{Category} & \textbf{Hyperparameter} & \textbf{Value} \\
 \hline
+\endfirsthead
+%
+\multicolumn{3}{c}{\tablename\ \thetable{} -- continued from previous page} \\
+\hline
+\textbf{Category} & \textbf{Hyperparameter} & \textbf{Value} \\
+\hline
+\endhead
+%
+\hline \multicolumn{3}{r}{\textit{continued on next page}} \\
+\endfoot
+%
+\hline
+\endlastfoot
+%
+Parameter Count  & Number of Parameters (M)             & 11.72 \\
+\hline   
 Architecture     & Temporal bins ($T$)                  & 10 \\
                  & Input channels ($C$)                 & 2 (polarity) \\
                  & Input resolution                     & $180 \times 320$ \\
@@ -23,7 +38,7 @@ Architecture     & Temporal bins ($T$)                  & 10 \\
 \hline
 Neuron Dynamics  & Neuron model                         & LIF (Leaky Integrate-and-Fire) \\
                  & Membrane time constant ($\tau$)      & 4.0 \\
-                 & Firing threshold ($V_{th}$)          & 0.3 \\
+                 & Firing threshold ($V_{th}$)          & 0.2 \\
                  & Surrogate gradient                   & ATan \\
                  & Step mode                            & Multi-step (\texttt{step\_mode='m'}) \\
                  & Temporal aggregation                 & Sum over $T$ (pre-head) \\
@@ -53,10 +68,8 @@ LR Schedule      & Scheduler                            & ReduceLROnPlateau \\
                  & EMA smoothing ($\beta$)              & 0.9 \\
                  & IoU gate (scheduler activation)      & 0.10 \\
 \hline
-\end{tabular}
-\caption[\texttt{DetectorNX-G3-SNN} hyperparameters.]{\texttt{DetectorNX-G3-SNN} hyperparameters (11.72M parameters).}
-\label{tab_app:g3_snn_params}
-\end{table}
+\end{longtable}
+}
 
 \section{DetectorNX-G3-CNN Hyperparameters}
 
@@ -66,6 +79,8 @@ LR Schedule      & Scheduler                            & ReduceLROnPlateau \\
 \begin{tabular}{|l|l|l|}
 \hline
 \textbf{Category} & \textbf{Hyperparameter} & \textbf{Value} \\
+\hline
+Parameter Count  & Number of Parameters (M)             & 11.73 \\
 \hline
 Architecture     & Temporal bins ($T$)                  & 10 \\
                  & Input channels ($C$)                 & 2 (polarity) \\

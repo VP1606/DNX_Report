@@ -2,7 +2,7 @@
 \label{subsec:dynamic_power}
 
 A fundamental objective of this research is to quantify the energy efficiency gains achieved by transitioning from a continuous \gls{cnn} to a bio-plausible \gls{snn}.
-Traditional \gls{cnn} architectures are characterized by static power consumption; they perform a dense, fixed number of \gls{mac} operations for every forward pass, regardless of the information density within the input scene. 
+Traditional \gls{cnn} architectures are characterised by static power consumption; they perform a dense, fixed number of \gls{mac} operations for every forward pass, regardless of the information density within the input scene. 
 In contrast, \glspl{snn} leverage event-driven dynamics, where metabolic energy is consumed only when a neuron reaches its firing threshold and generates a discrete spike.
 
 The Dynamic Power experiment investigates the reactive scalability of the architecture by mapping instantaneous energy consumption against the temporal density of the input stream. 
@@ -53,7 +53,7 @@ To calculate Dynamic Power, $\zeta$ was calculated by running inference over all
 
 \todo[inline]{Mention SpikeRateMonitor in Evaluation Suite Section and Diagram}
 
-Because \glspl{snn} utilize binary activations, the expensive multiplication part of the \gls{mac} operation is omitted, leaving only a \gls{ac} of the weight to the membrane potential.
+Because \glspl{snn} utilise binary activations, the expensive multiplication part of the \gls{mac} operation is omitted, leaving only a \gls{ac} of the weight to the membrane potential.
 The total energy per frame ($E_{SNN}$) is defined as:
 
 \begin{equation}

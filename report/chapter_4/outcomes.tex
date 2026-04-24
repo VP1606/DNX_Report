@@ -6,7 +6,7 @@ This chapter consolidates the empirical outcomes of the \texttt{DetectorNX-G3-SN
 \subsection{Global Precision Parity}
 The primary outcome of the spatial evaluation was the achievement of a \gls{miou} of $0.4613$ for the spiking model, representing $94.9\%$ of the \gls{cnn} baseline ($0.4861$), and an \gls{map_50} of $0.5977$ against the \gls{cnn}'s $0.6550$ --- a $91.3\%$ parity under the stricter COCO-convention detection-quality metric.
 Furthermore, both architectures achieved a perfect recall of $100.0\%$ for objects with an \gls{iou} $> 0.5$.
-These results prove that the architectural refinements introduced in this work, specifically the multi-box architecture, \gls{se} and \gls{sew} residual blocks, successfully mitigated the precision loss inherent in $1$-bit quantization and discrete temporal resolution.
+These results prove that the architectural refinements introduced in this work, specifically the multi-box architecture, \gls{se} and \gls{sew} residual blocks, successfully mitigated the precision loss inherent in $1$-bit quantisation and discrete temporal resolution.
 
 \subsection{Decisive Efficiency Gains}
 The transition from dense \gls{cnn} convolutions to event-driven spiking dynamics yielded an average power saving of $94.33\%$ across the validation subset,
@@ -21,7 +21,7 @@ As mentioned in Section \ref{subsec:efficiency_landscape} this is left as a ques
 
 \subsection{Temporal Reliability and Sharpening}
 Beyond global averages, the spiking paradigm demonstrated a unique ``Bounding Box Sharpening'' effect. As temporal evidence accumulated across $T=10$ timesteps, the \gls{snn} was observed to produce more stable and spatially accurate regressions in high-traffic scenes compared to the single-pass \gls{cnn}. 
-This temporal integration capability allowed the \gls{snn} to exhibit a more decisive confidence distribution, being confident enough to classify noise with a confidence of $0\%$, effectively suppressing low-evidence background noise.
+This temporal integration capability allowed the \gls{snn} to exhibit a more decisive confidence distribution, effectively suppressing low-evidence background noise by assigning it near-zero confidence.
 
 \subsection{Real-Time Viability}
 Despite the hardware-mismatch penalty of executing iterative spiking logic on synchronous \gls{gpu} hardware, the \gls{snn} achieved a mean inference latency of $3.85$\,ms ($259.80$ \gls{fps}). 
