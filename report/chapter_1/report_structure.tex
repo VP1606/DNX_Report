@@ -1,19 +1,16 @@
 \section{Report Structure}
 \label{sec:intro_report_structure}
 
-In the following chapters, we cover the following:
+The report is structured to first establish the necessary theoretical foundation, before detailing the architecture and its empirical evaluation:
 
 \paragraph{Background:}
 
-\noindent Chapter~\ref{cha:background} provides the theoretical context for the \texttt{DetectorNX} project. It surveys \glspl{cnn} for object detection, introduces \glspl{snn} via the \gls{lif} neuron and surrogate gradients, and reviews event-based vision alongside the \gls{etram} dataset. It then characterises neuromorphic energy economics, concluding with a collection of related work that identifies the critical gap in automotive-specific spiking object detection at high-definition.
+\noindent Chapter~\ref{cha:background} provides the prerequisite theory for the \texttt{DetectorNX} project. It establishes \gls{cnn} and \gls{snn} fundamentals, event-based vision, and neuromorphic energy economics, before concluding with related work to define the critical gap in high-definition automotive spiking detection that this project addresses.
 
-\paragraph{Methodology:}
+\paragraph{Methodology \& Evaluation:}
 
-\noindent Chapter~\ref{cha:methodology} presents the full technical implementation.
-It details the system requirements, the shared multi-box detection head architecture, the data preprocessing pipeline, the design of \texttt{DetectorNX-G3-SNN} and \texttt{DetectorNX-G3-CNN}, the architectural evolution that led to the final configurations, and the complete experimental setup including training hyperparameters, hardware environment, and evaluation protocol.
-Results and their analysis are presented within this chapter as an integrated discussion of methodology and outcome.
+\noindent Chapter~\ref{cha:methodology} details the technical implementation and its results. By integrating the architectural design (\texttt{DetectorNX-G3-SNN} and \texttt{DetectorNX-G3-CNN}) with the experimental setup and evaluation within a single chapter, the report directly links architectural choices—such as the shared multi-box head and \gls{bolt} pipeline—to their empirical outcomes across accuracy, latency, and energy dimensions.
 
 \paragraph{Conclusions:}
 
-\noindent Chapter~\ref{cha:summary_conclusions} concludes the report.
-It revisits each success criterion defined in Section~\ref{sec:intro_success_criteria}, summarises the principal findings across the accuracy, latency, and energy dimensions, reflects critically on the limitations of the experimental design, and proposes concrete directions for future work including deployment on physical neuromorphic hardware and exploration of alternative spiking encodings.
+\noindent Chapter~\ref{cha:summary_conclusions} closes the report by evaluating the overall project against the success criteria defined in Section~\ref{sec:intro_success_criteria}. It synthesises the principal findings, reflects critically on experimental limitations, and outlines future work, such as physical neuromorphic deployment and alternative spike encodings.

@@ -6,6 +6,7 @@ To provide a concrete evaluation framework, the following measurable success cri
 \begin{enumerate}
     \item \textbf{Detection accuracy parity:}
     On both \gls{miou} and \gls{map_50}, the \gls{snn} must score at least $90\%$ of the \gls{cnn} baseline on the \gls{etram} validation set.
+    This $90\%$ threshold is established as a rigorous but realistic target, as achieving exact parity remains an open challenge in deep spiking vision \cite{iaboni2024review}.
     Achieving this will validate that our architecture succeeds in mitigating the compromises expected from the 1-bit temporal quantisation error, across both the geometric-precision metric (\gls{miou}) and the stricter COCO-convention detection-quality metric (\gls{map_50}).
 
     \item \textbf{Measurable theoretical energy savings:} 

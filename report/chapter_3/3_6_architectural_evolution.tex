@@ -70,7 +70,7 @@ This structural addition allowed the model to not only regress bounding box coor
 Initial prototypes with the standard single-box head proved fundamentally incompatible with multi-vehicle scenes: the backbone naturally extracted features for all visible vehicles, but the single-target label penalised correct detections of secondary vehicles as errors, introducing severe label noise. 
 Over thousands of iterations, the model minimised this ambiguous loss by averaging positions across visible vehicles, producing predictions that hovered meaninglessly between cars or a ``super-box'' encompassing the entire roadway.
 
-\todo[inline,backgroundcolor=myblue,textcolor=white]{Insert images of the super box.}
+% \todo[inline,backgroundcolor=myblue,textcolor=white]{Insert images of the super box.}
 
 \subsubsection{Actionable Insight: The Vectorised Matching Loss}
 This phase highlighted the need for a mechanism to handle the \textit{Assignment Problem}: determining which of the 5 predicted boxes should be compared against which ground-truth vehicle. 

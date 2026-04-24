@@ -1,16 +1,15 @@
-\section{Artificial Neural Networks}
+\section{Artificial Neural Networks \& Differentiability}
 \label{sec:background_ann}
 
-\subsection{What is an Artificial Neural Network?}
+\glspl{ann} are a family of computational models that learn hierarchical feature representations by progressively mapping
+input data through layers of weighted, non-linear transformations \cite{lecun2015deep}. 
+Training an \gls{ann} relies entirely on minimising a loss function via gradient descent, where error signals are
+propagated backward through the network using the chain rule of calculus (backpropagation). 
 
-\glspl{ann} are a family of computational models loosely inspired by the structure of biological neural tissue \cite{lecun2015deep}.
-An \gls{ann} is composed of layers of interconnected nodes, or neurons, each of which computes a weighted sum of its inputs and passes the result through a non-linear activation function.
-By stacking multiple of these layers in sequence, the network learns a hierarchical composition of transformations that progressively maps raw input data to a task-specific output representation.
-The dominant activation function in modern deep learning is the \gls{relu}, defined as $f(x) = \max(0, x)$, which is computationally inexpensive and empirically effective at enabling deep networks to learn complex, non-linear functions \cite{lecun2015deep}.
-
-\subsection{Training an Artificial Neural Network}
-
-Training an \gls{ann} is performed by minimising a differentiable loss function over the training set via gradient descent.
-Gradients are propagated from the output layer back through the network using the chain rule of calculus, using a procedure known as backpropagation \cite{lecun2015deep}.
-A fundamental requirement of this process is that every function in the computational graph must be differentiable: if a non-differentiable operation is encountered, the chain rule breaks down and no gradient signal can propagate through it.
-This constraint is unproblematic for standard \glspl{ann} where activations such as \gls{relu} are differentiable almost everywhere, but becomes a significant challenge for the spiking paradigm, which is non-differentiable, as discussed in Section~\ref{sec:background_snn}.
+A fundamental, architectural constraint of this process is that every operation in the computational graph must be
+continuous and differentiable; if a non-differentiable operation is encountered, the chain rule breaks down and the
+gradient signal is zeroed.
+This constraint is easily satisfied in standard \glspl{ann} by using continuous activation functions like \gls{relu},
+which are differentiable almost everywhere. 
+However, as will be established in Section~\ref{sec:background_snn}, this continuous requirement becomes the primary
+mathematical obstacle when transitioning to the discrete, event-driven paradigm of \glspl{snn}.

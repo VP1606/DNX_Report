@@ -9,7 +9,11 @@ Small (bottom $33\%$), Medium (mid $33-66\%$), and Large (top $33\%$).
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{chapter_3/dnx_results/exp2_accuracy_vs_size.png}
-    \caption{Quantisation Error Analysis (Accuracy vs. Object Size) of \gls{snn} (Blue) and \gls{cnn} (Orange).}
+    \caption{
+        Quantisation Error Analysis (Accuracy vs. Object Size) of \gls{snn} (Blue) and \gls{cnn} (Orange).
+        The results invalidate the expected scale-dependent penalty, showing
+        instead that the $T=10$ temporal resolution imposes a global geometric drag across all object sizes.
+    }
     \label{fig:quantization_error}
 \end{figure}
 
@@ -27,7 +31,11 @@ it shows the Mean \gls{iou} of both models across all samples in each subset.
         Large & 0.031 & 5.6 \\
         \hline
     \end{tabular}
-    \caption{Quantisation Error Analysis showing drop in \gls{snn} performance against \gls{cnn}.}
+    \caption{Quantisation Error Analysis showing the absolute and percentage drop in \gls{snn}
+     \gls{miou} performance against the \gls{cnn} baseline. The validation set is partitioned into
+     Small, Medium, and Large objects based on pixel area to evaluate the scale-dependency of the
+     1-bit quantisation penalty.
+    }
     \label{tab:quantization_error}
 \end{table}
 

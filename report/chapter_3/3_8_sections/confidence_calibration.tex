@@ -18,7 +18,7 @@ This indicates that the \gls{cnn} frequently hallucinates vehicle targets in bac
 The empirical trend line for the \gls{cnn} remains consistently below the identity line, particularly in the high-confidence domain.
 
 In contrast, the \texttt{DetectorNX-G3-SNN} (Figure \ref{fig:confidence_calibration}, left) demonstrates superior calibration, particularly at lower confidence intervals.
-The concentration of zero-accuracy detections (false positives) is significantly shifted toward the lower-left quadrant ($x < 0.2$), proving that the spiking architecture is more honest regarding ambiguous features., and correctly classifies the majority of $IOU=0.0$ events with a confidence of zero.
+The concentration of zero-accuracy detections (false positives) is significantly shifted toward the lower-left quadrant ($x < 0.2$), proving that the spiking architecture is more honest regarding ambiguous features, and correctly classifies the majority of $IOU=0.0$ events with a confidence of zero.
 The empirical trend line for the \gls{snn} follows a qualitatively similar trajectory to its \gls{cnn} counterpart, suggesting that the calibration behaviour is more architecture-dependent than being down to spikes versus floats.
 
 \subsubsection*{Hypothesis Validation: The Spiking Uncertainty Sensor}
@@ -39,4 +39,4 @@ than a shared supervisory artefact.
 A hybrid head, combining a rate-coded confidence branch with a conventional float 
 regression branch, represents the most practical near-term approach.
 
-\todo[inline]{Link to future work section.}
+% \todo[inline]{Link to future work section.}

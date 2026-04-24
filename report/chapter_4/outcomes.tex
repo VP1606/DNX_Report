@@ -1,37 +1,25 @@
 \section{Summary of Outcomes}
 \label{sec:summary_outcomes}
 
-This chapter consolidates the empirical outcomes of the \texttt{DetectorNX-G3-SNN} evaluation against the project's success criteria, validating the neuromorphic paradigm for safety-critical edge deployment.
+This project set out to determine whether the theoretical energy advantages of event-driven spiking dynamics could be harnessed for high-definition automotive perception,
+whilst still retaining the spatial precision needed to be viable.
 
-\subsection{Global Precision Parity}
-The primary outcome of the spatial evaluation was the achievement of a \gls{miou} of $0.4613$ for the spiking model, representing $94.9\%$ of the \gls{cnn} baseline ($0.4861$), and an \gls{map_50} of $0.5977$ against the \gls{cnn}'s $0.6550$ --- a $91.3\%$ parity under the stricter COCO-convention detection-quality metric.
-Furthermore, both architectures achieved a perfect recall of $100.0\%$ for objects with an \gls{iou} $> 0.5$.
-These results prove that the architectural refinements introduced in this work, specifically the multi-box architecture, \gls{se} and \gls{sew} residual blocks, successfully mitigated the precision loss inherent in $1$-bit quantisation and discrete temporal resolution.
+By enforcing strict architectural parity between \texttt{DetectorNX-G3-SNN} and a continuous baseline,
+the empirical results decisively validate the neuromorphic paradigm for edge deployment in this domain.
 
-\subsection{Decisive Efficiency Gains}
-The transition from dense \gls{cnn} convolutions to event-driven spiking dynamics yielded an average power saving of $94.33\%$ across the validation subset,
-which was driven by a $3.45\times$ reduction in the total operations required to process a high-definition frame ($9.22$ G-FLOPs vs. $2.67$ G-SOPs). Crucially, the \gls{snn} demonstrated ``Reactive Scalability'' ($R^2=0.7514$), where power consumption scaled linearly with scene complexity rather than model size,
-a property that positions neuromorphic perception as inherently
-suited to the intermittent, sparse event streams characteristic
-of real-world automotive environments.
+The evaluation proved that the multi-box spiking architecture successfully mitigates the 1-bit
+quantisation penalty, achieving near-parity on both geometric (\gls{miou}) and detection-quality (\gls{map_50}) metrics,
+achieving $94.9\%$ and $91.3\%$ parity respectively.
+Crucially, it delivered these results while demonstrating ``reactive scalability'',consuming
+power only in direct proportion to scene activity,yielding an order-of-magnitude reduction in
+theoretical energy consumption per frame. 
+Despite the latency overhead of simulating \gls{lif} dynamics on synchronous \gls{gpu} hardware,
+the spiking model maintained an $8.6\times$ safety margin above the real-time threshold, 
+which confirms its immediate viability for \gls{adas} even on conventional \gls{gpu} hardware.
 
-Furthermore, Table ~\ref{tab:efficiency_landscape} shows \texttt{DetectorNX-G3-SNN} sitting in a noticeably low-energy region amongst similar published \gls{snn} detectors at $2.4$\,mJ per frame.
-Dataset and task differences rule out a direct ranking, but the observation hints that a sparsity-first approach might carry over to multi-class detection, and improve $mAP/mJ$ efficiency. 
-As mentioned in Section \ref{subsec:efficiency_landscape} this is left as a question to be answered in future work.
-
-\subsection{Temporal Reliability and Sharpening}
-Beyond global averages, the spiking paradigm demonstrated a unique ``Bounding Box Sharpening'' effect. As temporal evidence accumulated across $T=10$ timesteps, the \gls{snn} was observed to produce more stable and spatially accurate regressions in high-traffic scenes compared to the single-pass \gls{cnn}. 
-This temporal integration capability allowed the \gls{snn} to exhibit a more decisive confidence distribution, effectively suppressing low-evidence background noise by assigning it near-zero confidence.
-
-\subsection{Real-Time Viability}
-Despite the hardware-mismatch penalty of executing iterative spiking logic on synchronous \gls{gpu} hardware, the \gls{snn} achieved a mean inference latency of $3.85$\,ms ($259.80$ \gls{fps}). 
-When evaluated against the industry-standard threshold for real-time automotive perception of $30$ \gls{fps} \cite{khan2024real}, the spiking model maintains an $8.6\times$ safety margin, despite using simulated \gls{lif} nodes. 
-This validates the immediate viability of the proposed architecture for live deployment in vehicle-to-everything (V2X) and driver assistance systems.
-
-\subsection{Success Criteria Validation}
-\label{subsec:sc_validation}
-
-Table~\ref{tab:sc_outcomes} consolidates the empirical outcome of each success criterion defined in Section~\ref{sec:intro_success_criteria} (mapped to its validating experiment in Table~\ref{tab:sc_traceability}), confirming that all six criteria were satisfied.
+Table~\ref{tab:sc_outcomes} consolidates the empirical outcome of each success criterion defined
+in Section~\ref{sec:intro_success_criteria} (mapped to its validating experiment in
+Table~\ref{tab:sc_traceability}), confirming that all six criteria were satisfied.
 
 \begin{table}[htbp]
 \centering
@@ -54,9 +42,19 @@ SC6 & \gls{snn} confidence calibration $\geq$ \gls{cnn} & \gls{snn} superior at 
 \hline
 \end{tabular}%
 }
-\caption[Success criteria validation outcomes.]{Empirical outcomes for each success criterion defined in Section~\ref{sec:intro_success_criteria}. Validating experiments are mapped in Table~\ref{tab:sc_traceability}.}
+\caption[Success criteria validation outcomes.]{
+    Empirical outcomes for each success criterion defined in Section~\ref{sec:intro_success_criteria}. Validating experiments are mapped in Table~\ref{tab:sc_traceability}.
+    The results demonstrate that all six criteria were successfully met, proving the SNN achieved precision parity while delivering a $94.33\%$ energy saving.
+}
 \label{tab:sc_outcomes}
 \end{table}
 
 \vspace{1em}
-In summary, the empirical evidence demonstrates that the \texttt{DetectorNX-G3-SNN} has successfully bridged the precision gap, establishing the spiking paradigm not merely as a theoretical curiosity, but as a robust, first-class solution for high-definition, power-constrained automotive perception.
+In summary, while the absolute spatial precision (\gls{miou} $\approx 0.46$) of the \texttt{G3}
+architecture remains below the threshold required for immediate deployment in safety-critical
+\gls{adas} systems, the empirical evidence demonstrates that \texttt{DetectorNX-G3-SNN} has
+successfully bridged the precision gap \textit{relative} to an equivalent continuous baseline. By
+definitively proving the reactive energy scalability and temporal reliability of the spiking
+paradigm at high-definition, this research transitions \glspl{snn} from a theoretical curiosity
+into a rigorously quantified architectural alternative, while exposing the areas of weakness, such as temporal quantisation and detection head mismatches, that
+future work must resolve to achieve production-grade automotive perception.
