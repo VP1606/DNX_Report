@@ -1,15 +1,19 @@
 \section{Overview}
 \label{sec:intro_overview}
 
-Autonomous perception is one of the most critical frontiers in automotive engineering, driven by consumer demand and regulatory mandates for \acrfull{adas}.
-However, the pursuit of full autonomy has driven a relentless escalation in the complexity and resolution of these perception systems:
-modern vehicles rely on \acrfullpl{cnn} to process high-definition video streams in real-time,
-executing billions of dense, \acrfullpl{flop} every second.
+Autonomous perception is one of the most critical frontiers in automotive engineering today, 
+driven by both legislation and consumer demand to adopt increasingly complex autonomous driving systems, which will no doubt lead to systems requiring
+real-time spatial understanding of the surrounding environment.
+Euro NCAP (Europe's vehicle safety rating programme) has published 2026 protocols, for example, that require advanced Autonomous Emergency Braking (AEB) to handle increasingly complex scenarios, such as blind junctions, and a concept shift from reactive to predictive intervention \cite{EuroNCAP2025FrontalCollisions}.
+It also introduces an all-new requirement for these more complex \gls{adas} to operate at speeds up to $130$\,km/h, which will require lower inference latencies \cite{EuroNCAP_SafeDriving_VehicleAssistance_2025}.
 
-As both legislation and industry scales towards higher resolutions and faster reaction times to ensure passenger safety, the energy demands of this continuous, dense spatial reasoning have grown substantially.
+Modern vehicles rely on dense \acrfullpl{ann} to process high-definition video streams in real-time,
+executing billions of dense, \acrfullpl{flop} every second.
+As a result, scaling such systems to handle more complex scenarios has caused both energy and thermal demands to grow substantially.
 \textcite{lin_adas_cnn_issues} documented CPU-based \gls{cnn} inference exceeding the thermal and power constraints of \gls{adas} hardware, motivating the industry's shift to \gls{gpu}-class accelerators; 
 continued growth in perception complexity now places dense \gls{ann} workloads on \glspl{gpu} on a similar trajectory, motivating a paradigm shift towards fundamentally more efficient architectures.
 
-This project investigates utilizing cutting-edge neuromorphic paradigms, more specifically \acrfullpl{snn},
-and their feasibility in this domain as an alternative computational approach.
-To achieve this, the project develops \texttt{DetectorNX-G3-SNN}, a high-definition spiking architecture designed for multi-object automotive perception. By rigorously benchmarking this system against a strictly equivalent continuous \gls{cnn} on the event-based \acrfull{etram} dataset \parencite{Verma_2024_CVPR}, this research empirically deconstructs the performance-efficiency frontier---measuring the precise trade-offs between the energy savings of event-driven dynamics and the spatial precision constraints of 1-bit temporal quantization.
+This project investigates utilizing a cutting-edge neuromorphic paradigm, \acrfullpl{snn}, and their feasibility in this domain.
+To achieve this, the project develops \texttt{DetectorNX-G3-SNN}, a high-definition spiking architecture designed for multi-object automotive perception. 
+By rigorously benchmarking this system against a strictly equivalent continuous \gls{cnn} on the event-based \acrfull{etram} dataset \parencite{Verma_2024_CVPR}, 
+this research empirically deconstructs the performance-efficiency frontier---measuring the precise trade-offs between the energy savings of event-driven dynamics and the spatial precision constraints of 1-bit temporal quantisation.
