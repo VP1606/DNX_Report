@@ -23,8 +23,8 @@
 - [ ] Generations: more diagrams, more detail (?) —> methodological refinement and evaluation of each Gen
 - [ ] Lift from other paper + cite
 - [ ] Make COCO/ETRAM comparison alot more obvious.
-- [ ] Citations in ALPHABETICAL order.
+- [x] ~~Citations in ALPHABETICAL order.~~
 - [x] ~~Remove \& from Titles/Subsections~~
-- [ ] Add all 200 audit samples into appendix?
+- [x] ~~Add all 200 audit samples into appendix?~~
 - [ ] Remove GPU energy testing from SC's.
 - [x] ~~Reduce title length.~~
