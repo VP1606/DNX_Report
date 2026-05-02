@@ -1,5 +1,7 @@
-\section{Results \& Evaluation}
-\label{sec:results_evaluation}
+% \section{Results \& Evaluation}
+% \label{sec:results_evaluation}
+\chapter{Results and Evaluation}
+\label{cha:results_evaluation}
 
 Having established a rigorous, multi-faceted benchmarking methodology in Section \ref{sec:experimental_setup},
 this final section presents the empirical evaluation of the G3 generation of the \texttt{DetectorNX} architecture against its \gls{cnn} counterpart.
@@ -10,7 +12,7 @@ By sequentially examining global detection parity, energy consumption, quantisat
 this evaluation aims to quantify the precise trade-offs inherent in transitioning from 32-bit floating-point convolutions to 1-bit, 
 event-driven spiking dynamics for high-definition automotive perception.
 
-\subsection*{Runtime Environment}
+\section{Runtime Environment}
 \label{subsec:runtime_environment}
 The following experiments were run using the following model and data configuration:
 
@@ -23,10 +25,10 @@ The following experiments were run using the following model and data configurat
     \item \textbf{Compute:} The University of Manchester's \gls{hpc} was used for preprocessing, training and evaluation. The environment was set up using 12 \gls{cpu} cores, 120 GB RAM, and one NVIDIA A100 (80 GB) \gls{gpu}.
 \end{itemize}
 
-\input{chapter_3/3_8_sections/global_evaluator}
-\input{chapter_3/3_8_sections/dynamic_power}
-\input{chapter_3/3_8_sections/theoretical_energy}
-\input{chapter_3/3_8_sections/quantization_error}
-\input{chapter_3/3_8_sections/confidence_calibration}
-\input{chapter_3/3_8_sections/temporal}
-\input{chapter_3/3_8_sections/latency}
+\input{chapter_4R/global_evaluator}
+\input{chapter_4R/dynamic_power}
+\input{chapter_4R/theoretical_energy}
+\input{chapter_4R/quantization_error}
+\input{chapter_4R/confidence_calibration}
+\input{chapter_4R/temporal}
+\input{chapter_4R/latency}

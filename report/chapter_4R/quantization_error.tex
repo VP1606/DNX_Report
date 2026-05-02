@@ -1,10 +1,10 @@
-\subsection{Quantisation Error}
+\section{Quantisation Error}
 \label{subsec:quantization_error}
 
 For the following experiment, the validation dataset was sorted by object size, and partitioned into three subsections:
 Small (bottom $33\%$), Medium (mid $33-66\%$), and Large (top $33\%$).
 
-\subsubsection*{Results}
+\subsection*{Results}
 
 \begin{figure}[h]
     \centering
@@ -39,7 +39,7 @@ it shows the Mean \gls{iou} of both models across all samples in each subset.
     \label{tab:quantization_error}
 \end{table}
 
-\subsubsection*{Critical Analysis}
+\subsection*{Critical Analysis}
 
 Earlier in Section \ref{subsubsec:quant_hyp}, we hypothesised the idea of a scale-dependent accuracy gap,
 where the $1$-bit quantisation error would disproportionately penalise the \gls{snn} on small objects,

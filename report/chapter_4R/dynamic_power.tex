@@ -1,6 +1,6 @@
-\subsection{Dynamic Power}
+\section{Dynamic Power}
 
-\subsubsection*{Spike Activation Per Layer}
+\subsection*{Spike Activation Per Layer}
 
 Table \ref{tab:spike_activation} shows the mean activation rates ($\zeta$) of each spiking layer inside the \gls{snn} backbone, aggregated across the 200-sample validation subset. 
 These layer-wise activation values quantify the metabolic sparsity of the network and were subsequently used to calculate the dynamic power consumption (\glspl{sop}) for each frame in the dataset.
@@ -26,7 +26,7 @@ These layer-wise activation values quantify the metabolic sparsity of the networ
 \label{tab:spike_activation}
 \end{table}
 
-\subsubsection*{Mean Energy Savings}
+\subsection*{Mean Energy Savings}
 \label{subsubsec:mean_energy_savings}
 
 By substituting the empirical layer-wise firing rates ($\zeta$) recorded in Table \ref{tab:spike_activation} into the dynamic power formulation established in Equation \ref{eq:e_snn} (Section \ref{subsec:dynamic_power}), the network's computational operations can be directly translated into theoretical energy consumption in microjoules ($\mu J$). This mathematical translation reveals a substantial metabolic advantage for the neuromorphic paradigm, directly validating the core efficiency hypothesis of this research.
@@ -55,7 +55,7 @@ Std Dev & 61.17 & 0.00 \\
 This represents a \textbf{Mean Theoretical Energy Savings of 94.33\%} (with a maximum observed savings of 94.61\% on highly sparse frames). 
 This order-of-magnitude reduction definitively validates the core hypothesis of this project: replacing continuous \gls{mac} operations with discrete, event-driven \gls{ac} operations yields profound energy dividends for high-definition automotive perception.
 
-\subsubsection*{Reactive Scalability: The Line of Best Fit}
+\subsection*{Reactive Scalability: The Line of Best Fit}
 
 To empirically validate the hypothesis from Section \ref{subsec:dynamic_power} that the \gls{snn}'s metabolic cost is a dynamic function of activation sparsity, a linear regression analysis was conducted mapping the raw event count ($x$) of each frame against the theoretical energy consumption ($y$ in $\mu J$).
 
@@ -104,7 +104,7 @@ This proves the reactive scalability of the architecture. While the \gls{cnn} po
 
 \clearpage
 
-\subsubsection*{Mathematical Validation}
+\subsection*{Mathematical Validation}
 
 To ensure the integrity of the tracking tools and the resulting software-measured data, the theoretical mean power consumption was mathematically verified against the layer-wise operation counts (Table \ref{tab:layer_ops}).
 

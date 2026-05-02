@@ -1,8 +1,8 @@
-\subsection{Global Evaluator}
+\section{Global Evaluator}
 
 This global overview defines the baseline from which all subsequent power and precision trade-offs are derived.
 
-\subsubsection*{Quantitative Results}
+\subsection*{Quantitative Results}
 Table \ref{tab:global_benchmark} summarizes the headline results for the G3 generation of the \texttt{DetectorNX} model architecture against its \gls{cnn} counterpart.
 
 \begin{table}[H]
@@ -28,7 +28,7 @@ Min Confidence & 0.0011 & 0.0132 \\
 \label{tab:global_benchmark}
 \end{table}
 
-\subsubsection*{Qualitative Results}
+\subsection*{Qualitative Results}
 
 A qualitative audit was also conducted to visualize the models' spatial reasoning across the validation subset. Figure \ref{fig:qualitative_inference} illustrates the architectures' ability to resolve vehicle geometries in varied traffic conditions, providing the empirical context for the subsequent critical analysis of \gls{snn} precision.
 
@@ -102,7 +102,7 @@ A qualitative audit was also conducted to visualize the models' spatial reasonin
 
 \clearpage
 
-\subsubsection*{Critical Analysis}
+\subsection*{Critical Analysis}
 
 The results from Table \ref{tab:global_benchmark} demonstrate a remarkable degree of parity between the spiking and continuous paradigms. Achieving a mean \gls{iou} of $0.4613$, which corresponds to $94.9\%$ of the \gls{cnn} baseline, proves that the G3 backbone is robust enough to sustain high-resolution spatial reasoning despite the loss of precision inherent in $1$-bit quantisation. This geometric-precision parity is further corroborated by the detection-quality metric: the \gls{snn} achieves an \gls{map_50} of $0.5977$ against the \gls{cnn}'s $0.6550$, a $91.3\%$ parity under the stricter COCO-convention protocol that confirms the parity finding is not an artefact of the \gls{iou}-only evaluation. This parity indicates that the architectural refinements detailed in Section \ref{sec:architectural_evolution}---specifically the integration of \gls{se} blocks and \gls{sew} residual connections---have successfully compensated for the discrete nature of spiking activations.
 

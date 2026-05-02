@@ -1,4 +1,4 @@
-\subsection{Real-Time Latency Benchmark}
+\section{Real-Time Latency Benchmark}
 \label{subsec:exp_latency}
 
 The real-time throughput of the model was quantified in \gls{fps}, derived from the reciprocal of the mean inference latency measured over 1,000 trials. 
@@ -10,7 +10,7 @@ events ($torch.cuda.Event$) with explicit hardware synchronization to
 ensure that the reported FPS represents the raw computational latency of
 the GPU kernels, independent of CPU-bound communication overhead.
 
-\subsubsection*{Results}
+\subsection*{Results}
 
 Table \ref{tab:latency_benchmark} shows the difference in both latency and \gls{fps} between the \gls{cnn} and \gls{snn} architectures.
 Beyond the mean throughput, the P99 latency (99th percentile) was
@@ -35,7 +35,7 @@ Throughput (FPS)    & 259.80 & 1402.60 \\
 \label{tab:latency_benchmark}
 \end{table}
 
-\subsubsection*{Critical Analysis}
+\subsection*{Critical Analysis}
 
 The empirical results confirm the hardware-mismatch penalty hypothesised in Section \ref{subsec:exp_latency}: 
 the \gls{cnn} maintains a dominant speed advantage, outperforming the \gls{snn} by a factor of $5.4\times$ ($3.85\text{ms}$ vs.\ $0.71\text{ms}$ mean latency). 

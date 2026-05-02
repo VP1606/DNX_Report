@@ -1,5 +1,39 @@
+## LaTeX generated files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.glg
+*.glo
+*.gls
+*.acn
+*.acr
+*.alg
+*.ist
+*.lof
+*.log
+*.lot
+*.run.xml
+*.synctex.gz
+*.toc
+*.nlo
+*.tdo
+report/prompt_shortcuts.md
+report/todo_list/
+*.out
+
+report/report.bcf-SAVE-ERROR
+report/report.synctex(busy)
+
+## Main Directory
 muthesis-example/
 .DS_Store
 guides/exemplars/
 report/report.bbl-SAVE-ERROR
 report/SESSION_HANDOFF.md
+
+## Screencast (Temporary)
+screencast/
+full_script.md

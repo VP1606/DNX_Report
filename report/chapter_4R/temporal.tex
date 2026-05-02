@@ -1,11 +1,11 @@
-\subsection{Temporal Evidence Accumulation}
+\section{Temporal Evidence Accumulation}
 \label{subsec:results_temporal}
 
 This experiment empirically evaluates the sequential decision-making dynamics of the \gls{snn} architecture. 
 By extracting predictive snapshots at $t=2$ ($20\text{ms}$), $t=5$ ($50\text{ms}$), and $t=10$ ($100\text{ms}$), we can observe the internal state evolution as the network integrates incoming spikes into a stable bounding box regression. 
 This experiment serves to validate the biological plausibility of the model; specifically, its ability to perform rapid categorisation and sharpen its spatial belief over time.
 
-\subsubsection*{Qualitative Evidence: Bounding Box Sharpening}
+\subsection*{Qualitative Evidence: Bounding Box Sharpening}
 
 Figure \ref{fig:temporal_sequences} illustrates the predictive evolution for three representative validation samples
 across three snapshots at $t=2$ ($20\text{ms}$), $t=5$ ($50\text{ms}$), and $t=10$ ($100\text{ms}$).
@@ -40,7 +40,7 @@ across three snapshots at $t=2$ ($20\text{ms}$), $t=5$ ($50\text{ms}$), and $t=1
     \label{fig:temporal_sequences}
 \end{figure}
 
-\subsubsection*{Critical Analysis}
+\subsection*{Critical Analysis}
 As established in the hypothesis (Section \ref{subsec:temporal_evidence}), the early-stage snapshots ($t=2$) exhibit high coordinate jitter and lower confidence, as the \gls{lif} neurons have only begun to aggregate sufficient membrane potential to overcome the firing threshold.
 Each sample in Figure \ref{fig:temporal_sequences} exhibits different behaviours:
 

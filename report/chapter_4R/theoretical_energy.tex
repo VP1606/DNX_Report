@@ -1,6 +1,6 @@
-\subsection{Theoretical Energy Consumption}
+\section{Theoretical Energy Consumption}
 
-\subsubsection*{Predicted Energy Costs Across Multiple Platforms}
+\subsection*{Predicted Energy Costs Across Multiple Platforms}
 
 Using the \gls{flop} and \gls{sop} count recorded in Table \ref{tab:layer_ops} with the energy constants from Table \ref{tab:energy_constants}, we can predict the theoretical energy consumption of the \texttt{DetectorNX-G3-SNN} architecture across multiple platforms:
 
@@ -19,7 +19,7 @@ IBM TrueNorth (\gls{snn}) & 69.4912 & 61.58\% \\
 \label{tab:hardware_extrapolation}
 \end{table}
 
-\subsubsection*{Critical Analysis}
+\subsection*{Critical Analysis}
 
 Deploying the \gls{snn} on a next-generation Intel Loihi 2 processor yields a projected $76.21\%$ reduction in energy consumption per frame compared to running the continuous baseline on the NVIDIA A100 GPU used for training. This outcome validates the hypothesis formulated in Section \ref{subsubsec:energy_hypothesis}.
 
@@ -35,7 +35,7 @@ As neuromorphic hardware develops, the per-\gls{sop} energy cost will continue t
 
 Overall, the predicted power consumption on the various platforms described in Table \ref{tab:hardware_extrapolation} serves as conclusive proof that event-driven \glspl{snn} can bring highly power-efficient computing to resource-constrained edge environments, validating the neuromorphic paradigm as a viable, sustainable solution for real-time autonomous traffic monitoring.
 
-\subsubsection*{Energy Efficiency Comparison}
+\subsection*{Energy Efficiency Comparison}
 \label{subsec:efficiency_landscape}
 
 The following experiment evaluates the energy efficiency frontier, where efficiency can be defined as $\text{efficiency} = \frac{mAP_{50}}{\text{Power Per Frame}}$,
