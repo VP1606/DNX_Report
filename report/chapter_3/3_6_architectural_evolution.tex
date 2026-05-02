@@ -6,24 +6,36 @@ but rather the culmination of an iterative engineering process across four disti
 According to the project's success criteria, the model required both high temporal precision and robust spatial localization.
 This section documents the empirical obstacles encountered during development, and the actionable insights that led to the final optimised configuration.
 
-\subsection{Phase 0: The Spatial Cropping Pitfall (Early Prototyping)}
+%%%%%%%%%%%%%%%%%%%%%%%%%% GENERATION 0 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Prior to the implementation of downsampling in the \gls{bolt} pipeline, early prototyping explored the use of aggressive spatial cropping to bypass the computational costs of high-definition event processing.
+\subsection{Generation 0: The Spatial Cropping Pitfall (Early Prototyping)}
 
-\subsubsection{Architectural Intent and Technical Logic}
-The primary objective of this phase was to establish a high-resolution localized baseline by cropping the raw $1280 \times 720$ \gls{etram} sensor data into a $224 \times 224$ patch,
-as illustrated in Figure \ref{fig:preprocessing_pipeline} as an optional step; these patches were deterministically anchored to the centroid of the ground-truth vehicle annotation. 
+\subsubsection*{1. Architectural Intent}
 
-The technical logic was based on improving the \gls{snr} at the network's input;
-through \textit{localised foveation}, the initial stem layers would receive a significantly higher frequency of spikes per pixel on the target object. 
-This denser spike signal would preserve fine geometric detail often attenuated by global downsampling, while the smaller patches avoided the memory overhead of aggressive pooling.
+Prior to the implementation of global downsampling, early prototyping explored the use of aggressive spatial cropping to bypass the computational costs of high-definition event processing.
 
-\subsubsection{Empirical Obstacle: Constant Target Bias}
-During initial training cycles, the model achieved exceptional accuracy metrics. 
-However, because the pipeline used deterministic centroid-anchored cropping, the target vehicle occupied the geometric centre of every training sample, and the \gls{snn} succumbed to \textit{Constant Target Bias}: a severe form of spatial overfitting where the regression head ignores the visual event stream and learns to output a constant coordinate vector.
+The hypothesis was based on improving the \gls{snr} at the network's input:
+by cropping the raw $1280 \times 720$ \gls{etram} sensor data into deterministic $224 \times 224$ patches anchored to the target vehicle,
+the initial stem layers would receive a significantly higher frequency of spikes per pixel.
+%
+This \textit{localised foveation} aimed to preserve fine geometric detail without incurring the memory overhead of processing the full \gls{hd} frame.
 
-Critically, this collapse was invisible to the \gls{iou} metric, since the validation split inherited the same cropping as training. 
-The bias only surfaced when inference was later run on raw full-frame input, where the predicted box consistently sat near the image centre regardless of the vehicle's true position (Figure~\ref{fig:constant_target_bias}).
+\subsubsection*{2. Empirical Result}
+During training on the cropped datasets, the model appeared highly successful, 
+easily converging to an apparent validation \gls{miou} of $> 70\%$.
+%
+However, when this trained model was evaluated against raw, uncropped full frames,
+performance collapsed to an effective \gls{miou} of near zero.
+
+\subsubsection*{3. Diagnostic Analysis: Constant Target Bias}
+Analysing the output frames revealed that the network had suffered from \textit{Constant Target Bias}.
+Because the pipeline used deterministic, centroid-anchored cropping, the target vehicle occupied the exact geometric centre of every training sample.
+As a result, the regression head ignored the sparse event stream and learned to output a constant coordinate vector instead.
+%
+This bias was invisible during validation because the validation split inherited the same cropping method;
+it only appeared during full-frame inference, where the predicted box persistently anchored to
+the image centre regardless of the vehicle's true dynamic position, as
+visually shown in Figure~\ref{fig:constant_target_bias}.
 
 \begin{figure}[h]
     \centering
@@ -47,79 +59,172 @@ The bias only surfaced when inference was later run on raw full-frame input, whe
         \caption{Test sample, \gls{iou}$=0.214$.}
         \label{fig:ctb_c}
     \end{subfigure}
-    \caption[Constant Target Bias failure mode]{Qualitative evidence of \textit{Constant Target Bias} during Phase 0. Across three raw full-frame samples drawn from the training and test splits, the \gls{snn} regression head (red) emits a near-identical large central bounding box while the ground-truth vehicle (green) varies in position and scale between scenes. The marginally higher overlap in (\subref{fig:ctb_c}) arises only because the target vehicle incidentally sits near the image centre where the predicted box anchors, confirming the model has learnt a constant coordinate shortcut rather than extracting vehicle features from the event stream.}
+    \caption[Constant Target Bias failure mode]{Qualitative evidence of \textit{Constant Target Bias} in G0. Across three raw full-frame samples drawn from the training and test splits, the \gls{snn} regression head (red) emits a near-identical large central bounding box while the ground-truth vehicle (green) varies in position and scale between scenes. The marginally higher overlap in (\subref{fig:ctb_c}) arises only because the target vehicle incidentally sits near the image centre where the predicted box anchors, confirming the model has learnt a constant coordinate shortcut rather than extracting vehicle features from the event stream.}
     \label{fig:constant_target_bias}
 \end{figure}
 
-\subsubsection{Actionable Insight}
-This phase provided a critical methodological lesson: for a spiking architecture to learn robust spatial localization and objectness, it must be exposed to targets moving dynamically relative to the sensor boundaries within a full-frame (or semi-full-frame) field of view. This insight led to the total abandonment of centered cropping in favour of the global $4\times$ spatial downsampling strategy utilised in the final \gls{bolt} pipeline, ensuring that the model learnt to correlate visual spike patterns with absolute spatial coordinates.
+\subsubsection*{4. Actionable Insight and Iteration}
+The \textit{Constant Target Bias} failure proved that deterministic cropping destroys the spatial variance required to train a regression head.
+To force the network to actively locate targets, the localised foveation had to be abandoned entirely.
+Consequently, Generation 1 (G1) was designed to process the
+entire global frame, relying on aggressive spatial downsampling rather
+than cropping.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% GENERATION 1 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Generation 1 (G1): The Multi-Box Paradigm Shift}
 
-Following the resolution of the spatial cropping bias, the architecture progressed to full-frame processing. 
-However, this transition immediately exposed fundamental limitations in the network's predictive capabilities regarding multi-object scenes.
+\subsubsection*{1. Architectural Intent}
+After removing spatial cropping, the architecture progressed to full-frame global downsampling.
+The G1 prototype attempted to process this global frame using the standard single-box
+regression head (outputting a single $[x, y, w, h]$ vector per frame).
 
-\subsubsection{Architectural Intent and Technical Logic}
-The primary objective of this phase was to develop a \textit{scene-aware detector} capable of identifying multiple vehicles simultaneously within the \gls{etram} traffic environment. 
-To achieve this, the network's output topology underwent a paradigm shift, transitioning from a simplistic single-box regression head (which output a single $[x, y, w, h]$ vector) to a Multi-Box Regression Head with a fixed-capacity output of $[B, 5, 5]$, where there are 5 features $(x, y, w, h, mask)$ and 5 bounding boxes predicted per inference.
-The technical logic dictated that the network required a mechanism to independently evaluate distinct spatial regions. 
-To facilitate this, each of the five predicted boxes was augmented with a fifth dimension: an ``Objectness'' or Confidence Score. 
-This structural addition allowed the model to not only regress bounding box coordinates but also to gate its own predictions, learning to suppress background artefacts with low confidence while maintaining high confidence for legitimate structural targets.
+The hypothesis underpinning the choice of a single-box regression head was driven by computational cost:
+for simple automotive perception using a focused, forward-facing camera,
+a single bounding box could theoretically encompass vehicles ahead to draw a simplified ``critical safety region''.
+If successful, this would bypass the heavy computational overhead and complexity required by a multi-box detection head.
+%
+In hindsight, this assumption was structurally flawed for the specific domain of autonomous driving and \gls{adas},
+which requires precise tracking of every vehicle independently for safe path planning.
 
-\subsubsection{Empirical Obstacle: Single-Target Ambiguity and Label Noise}
-Initial prototypes with the standard single-box head proved fundamentally incompatible with multi-vehicle scenes: the backbone naturally extracted features for all visible vehicles, but the single-target label penalised correct detections of secondary vehicles as errors, introducing severe label noise. 
-Over thousands of iterations, the model minimised this ambiguous loss by averaging positions across visible vehicles, producing predictions that hovered meaninglessly between cars or a ``super-box'' encompassing the entire roadway.
+\subsubsection*{2. Empirical Result}
+The single-box model proved incapable of handling the multi-vehicle traffic scenes from the \gls{etram} dataset,
+and unable to accurately draw the ``critical region'' so that all vehicles present were covered by one box.
+The model failed to converge on distinct targets, instead outputting a meaningless ``super-box'' that
+hovered in the empty space between vehicles or encompassed the entire roadway.
 
-% \todo[inline,backgroundcolor=myblue,textcolor=white]{Insert images of the super box.}
+\subsubsection*{3. Diagnostic Analysis: Super-Box}
+This failure was determined to be a case of \textit{Single-Target Ambiguity and Label Noise}.
+The deep backbone naturally extracted features for all visible vehicles in the global frame.
+However, because the regression head could only output one bounding box,
+the single-target label penalised the network if it correctly detected a secondary vehicle.
+To minimise the loss, the network averaged the spatial coordinates of all active spike clusters, producing the floating ``super-box'' artefact:
+a single bounding box that encompasses all vehicles and roadways rather than individual targets in isolation, as visually evidenced in
+Figure~\ref{fig:superbox_failure}.
 
-\subsubsection{Actionable Insight: The Vectorised Matching Loss}
-This phase highlighted the need for a mechanism to handle the \textit{Assignment Problem}: determining which of the 5 predicted boxes should be compared against which ground-truth vehicle. 
-The resulting Vectorised Multi-Box Loss computes a 3D matrix of \gls{iou} overlaps between the 5 predictions and the $M$ ground-truth objects per batch, then uses greedy matching to identify the best match per real vehicle. 
-Only matched boxes receive a \textit{coordinate gradient}; all unmatched boxes are assigned a target confidence of $0.0$, penalising false positives and suppressing the Ghost Detections prevalent in earlier iterations.
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[trim=15 63 16 62, clip,
+        width=\textwidth]{chapter_3/evolution_samples/g1_super_box/eval_sample_00.png}
+        \caption{Scene 1 averaging.}
+        \label{fig:superbox_a}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[trim=15 63 16 62, clip,
+        width=\textwidth]{chapter_3/evolution_samples/g1_super_box/eval_sample_02.png}
+        \caption{Scene 2 averaging.}
+        \label{fig:superbox_b}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[trim=15 63 16 62, clip,
+        width=\textwidth]{chapter_3/evolution_samples/g1_super_box/eval_sample_04.png}
+        \caption{Scene 3 averaging.}
+        \label{fig:superbox_c}
+    \end{subfigure}
+    \caption[Generation 1 Super-Box Failure]{
+        Qualitative evidence of
+        Single-Target Ambiguity in Generation 1. Forced to output a single
+        bounding box for multi-vehicle scenes, the network averages the spatial locations of all detected spike clusters. 
+        This results in a single, oversized bounding box (red) that hovers between
+        vehicles or encompasses the entire lane, failing to localise the true individual targets (green).
+    }
+    \label{fig:superbox_failure}
+\end{figure}
 
-Crucially, all unmatched predicted boxes are assigned a target confidence of $0.0$, acting as a metabolic penalty for false positives. This forces the model to learn that predicting a vehicle where none exists carries a heavy mathematical penalty, effectively cleaning up the \gls{snn}'s vision and reducing the Ghost Detections prevalent in early iterations. 
+\subsubsection*{4. Actionable Insight and Iteration}
+Generation 1 confirmed that a single global regression head is incompatible with uncropped automotive perception, which requires precise and isolated detection of all obstacles present in the scene.
+To resolve this, the network's output topology shifted to a multi-box regression head;
+the output was expanded to a fixed-capacity $[B, 5, 5]$ tensor, predicting 5 boxes per inference,
+each augmented with a fifth ``Objectness'' confidence score $(x, y, w, h, c)$.
+%
+To support this, Generation 2 (G2) introduces a Vectorised Matching Loss to match predictions to their respective ground-truth annotations.
 
-The transition from single-box regression to scene-aware multi-box detection also introduced the Multi Box Label Alignment step of the \gls{bolt} pipeline (Figure~\ref{fig:preprocessing_pipeline}). 
-By resolving the spatial ambiguity of multi-vehicle traffic, the new head transformed contradictory Label Noise into a structured multi-target learning signal, which was essential for stable convergence on the high-definition, high-density event streams of the \gls{etram} dataset.
+
+% \subsubsection{Actionable Insight: The Vectorised Matching Loss}
+% This phase highlighted the need for a mechanism to handle the \textit{Assignment Problem}: determining which of the 5 predicted boxes should be compared against which ground-truth vehicle. 
+% The resulting Vectorised Multi-Box Loss computes a 3D matrix of \gls{iou} overlaps between the 5 predictions and the $M$ ground-truth objects per batch, then uses greedy matching to identify the best match per real vehicle. 
+% Only matched boxes receive a \textit{coordinate gradient}; all unmatched boxes are assigned a target confidence of $0.0$, penalising false positives and suppressing the Ghost Detections prevalent in earlier iterations.
+
+% Crucially, all unmatched predicted boxes are assigned a target confidence of $0.0$, acting as a metabolic penalty for false positives. This forces the model to learn that predicting a vehicle where none exists carries a heavy mathematical penalty, effectively cleaning up the \gls{snn}'s vision and reducing the Ghost Detections prevalent in early iterations. 
+
+% The transition from single-box regression to scene-aware multi-box detection also introduced the Multi Box Label Alignment step of the \gls{bolt} pipeline (Figure~\ref{fig:preprocessing_pipeline}). 
+% By resolving the spatial ambiguity of multi-vehicle traffic, the new head transformed contradictory Label Noise into a structured multi-target learning signal, which was essential for stable convergence on the high-definition, high-density event streams of the \gls{etram} dataset.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% GENERATION 2 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Generation 2 (G2): The Expanded Spatial Head (7.00M Parameters)}
 
-While Generation 1 successfully established the multi-box logic, empirical validation revealed a persistent failure mode characterised by ghost Detections and overlapping predictions.
+\subsubsection*{1. Architectural Intent}
+As mandated by the results and analysis of Generation 1, Generation 2 (G2) introduced the multi-box regression head.
+This replaced the global output vector with a fixed-capacity $[B, 5, 5]$ tensor, predicting 5 boxes per inference alongside the aforementioned ``Objectness'' score $(x, y, w, h, c)$.
 
-\subsubsection{Architectural Intent and Empirical Obstacle}
-The primary objective of this phase was to resolve \textit{Information Congestion} within the regression head. 
-Generation 1 used an Adaptive Average Pooling layer of $4 \times 4$, compressing the entire field of view into just 16 spatial blocks before entering the final linear layers.
+To train this new multi-box paradigm, G2 implemented the \textit{Vectorised Matching Loss}.
+This algorithm computed a 3D matrix of \gls{iou} overlaps between the 5 predictions and $M$ ground-truth
+targets, using greedy matching to assign coordinate gradients.
+%
+Unmatched predicted boxes were assigned a target confidence of $0.0$ to define a penalty for false positives.
+To feed this new regression head, the deep backbone features were compressed using an Adaptive Average Pooling layer of $4 \times 4$.
 
-This severe spatial bottleneck meant that when vehicles were in close proximity, or situated near clusters of sensor artefacts, their respective spiking features were averaged into an identical $4 \times 4$ block. 
-The regression head lacked the spatial memory required to distinguish valid target spikes from background noise. 
-Consequently, the model frequently outputted overlapping bounding boxes for a single vehicle or failed to suppress high-confidence noise, resulting in an inflated average of 2.50 detections per frame - significantly higher than the ground truth average of 2.02.
+\subsubsection*{2. Empirical Result}
+G2 successfully resolved the ``super-box'' error and learned to predict distinct, separate bounding boxes,
+however validation revealed a new failure: high false-positive rates and overlapping predictions.
+The network's Average Detections per Frame (ADP) rose to $2.50$, significantly higher than the true \gls{etram} dataset average of $2.02$.
 
-\subsubsection{Actionable Insight: Quadrupling Spatial Memory}
-To resolve this congestion, the Adaptive Pooling resolution was expanded from $4 \times 4$ to $8 \times 8$, 
-quadrupling the spatial memory to 64 distinct blocks and providing the regression head with a finer structural map of backbone activations. 
-This enabled localized Object-Noise Discrimination: the model could now isolate structured vehicle spike trains from surrounding sensor noise, producing significant Confidence Polarization with real-object scores surging to $0.99$ while background noise was pushed toward $0.0$.
+\subsubsection*{3. Diagnostic Analysis: Information Congestion}
+The hallucination of extra vehicles was determined to be \textit{Information Congestion} within the regression head.
+Using the $4 \times 4$ Adaptive Pooling layer compressed the field of view into just 16 spatial blocks, creating a severe spatial bottleneck.
+%
+When vehicles were in close proximity, or near clusters of sensor noise, their respective spiking features were
+averaged into the same $4 \times 4$ block;
+%
+the regression head lacked the spatial memory required to distinguish legitimate target spike-trains from adjacent background noise,
+leading it to output multiple overlapping boxes for a single stimulus.
 
-Average detections per frame (ADP) dropped to 2.06, closely matching the ground truth of $2.02$. However, the Mean \gls{iou} plateaued at 41\%, confirming the backbone's heavy downsampling remained the fundamental bottleneck for geometric precision.
+\subsubsection*{4. Actionable Insight and Iteration}
+G2 proved that a multi-box head requires a finer structural map of backbone activations to perform Object-Noise-Discrimination, which
+isolates vehicle spike trains from surrounding sensor noise.
+%
+To resolve this, the pooling resolution was quadrupled from $4 \times 4$ to $8 \times 8$.
+
+Initial prototyping of the wider pool size revealed a new limitation in the model's architecture,
+with the Mean \gls{iou} plateauing at $41\%$.
+%
+This confirmed that the backbone itself was downsampling the raw sensor data too aggressively,
+leading to the development of Generation 3 (G3), which expands both the head's pooling capacity and the backbone's semantic depth.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% GENERATION 3 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Generation 3 (G3): The High-Resolution Backbone (11.7M Parameters)}
 
-Following the expansion of the spatial head in Generation 2, the model demonstrated excellent selectivity but remained computationally constrained by its geometric precision.
+\subsubsection*{1. Architectural Intent}
+The objective of this final generation was to break the $41\%$ \gls{miou} precision ceiling established at the end of Generation 2.
+Analysis of the network's internal spiking dynamics revealed two distinct flaws that constrained its geometric precision:
 
-\subsubsection{Architectural Intent and Empirical Obstacle}
-The primary objective of this final phase was to break the Precision Ceiling established in Generation 2.
+\begin{enumerate}
+    \item \textbf{Spatial Compression:}
+    The G2 backbone downsampled the feature map to a resolution of $11 \times 20$.
+    At this scale, a single pixel in the final feature map represented a massive $16 \times 16$ area of the original HD sensor.
+    As a result, the network was blind to fine-grained pixel shifts, since it lacked the geometric detail required to draw tight, accurate bounding boxes.
 
-The fundamental obstacle was the severe spatial compression occurring within the backbone. By the final layer, the feature map had been downsampled to an $11 \times 20$ resolution. 
-At this scale, a single pixel in the final feature map represented a massive $16 \times 16$ area of the original HD sensor. 
-Consequently, if a vehicle's bounding box edge shifted by several pixels in the real world, the network was entirely blind to the change; the G2 generation simply lacked the geometric detail required to draw tight, pixel-perfect bounding boxes.
+    \item \textbf{Neural Silencing:}
+    The G2 backbone collapsed to an average firing rate of $< 1.5\%$.
+    This extreme sparsity starved the regression head of the temporal evidence needed for high-confidence predictions, preventing the network from fully utilising its 10-timestep observation window.
+\end{enumerate}
 
-Furthermore, an analysis of the network's information flow revealed that the Generation 2 backbone was suffering from neural silencing, exhibiting an average firing rate of $< 1.5\%$. This extreme sparsity starved the regression head of the necessary temporal evidence required for high-confidence predictions.
-
-\subsubsection{Actionable Insight: Semantic Expansion and Metabolic Awakening}
-To overcome this precision ceiling, a multi-faceted architectural overhaul was implemented to create the final G3 configuration:
+\subsubsection*{2. Actionable Implementation: Semantic Expansion and Awakening}
+To solve these bottlenecks, the architecture was overhauled to create the final G3 configuration:
 
 \begin{itemize}
-    \item \textbf{Resolution Boost and Semantic Depth:} To provide the necessary geometric detail, the convolution stride in Block 3 was reduced to $s=1$. This effectively halted the downsampling earlier in the network, doubling the final feature map resolution to $22 \times 40$ (quadrupling the available spatial cells to 880). To handle the increased complexity and high-frequency sensor artefacts exposed by this higher resolution, the backbone's semantic capacity was expanded via the addition of a 4th \texttt{SEWResBlock} (512 channels). 
-    This allowed reason more deeply about the structural composition of the vehicle.
+    \item \textbf{Resolution Boost and Semantic Depth:} To provide the necessary geometric detail, the convolution stride in Block 3 was reduced to $s=1$.
+    This effectively halted the downsampling earlier in the network, doubling the final feature map resolution to $22 \times 40$ (quadrupling the available spatial cells to 880).
+    To handle the increased complexity and high-frequency sensor artefacts exposed by this higher resolution, the backbone's semantic capacity was expanded via the addition of a 4th \texttt{SEWResBlock} (512 channels). 
+    This allowed the model to reason more deeply about the structural composition of the vehicle.
     
     \item \textbf{Metabolic Regularisation:} 
     The \gls{lif} firing threshold was lowered ($V_{th}=0.5 \rightarrow 0.2$) to wake up the silent backbone, making it significantly easier for neurons to activate. 
@@ -128,40 +233,66 @@ To overcome this precision ceiling, a multi-faceted architectural overhaul was i
     
     \item \textbf{Hardware Optimisation:} 
     Expanding the parameter count to 11.7M and quadrupling the spatial resolution exponentially increased the computational load. 
-    To prevent latency penalties, the architecture was refactored to utilise SpikingJelly's \texttt{step\_mode='m'} (\textit{Fused-Kernel optimisation}) \cite{fang2023spikingjelly}, to bypass the Python interpreter to execute the temporal dimension ($T=10$) directly on the GPU. 
-    This was coupled with \gls{amp} utilising 16-bit tensor cores, yielding a $\sim 1.8\times$ training speedup and making the G3 configuration computationally viable.
+    %
+    To prevent latency penalties, the architecture was refactored to utilise SpikingJelly's \texttt{step\_mode='m'} (\textit{Fused-Kernel optimisation}) \cite{fang2023spikingjelly}.
+    Rather than using a slow, sequential Python loop to evaluate the network across $T=10$ timesteps, this method passes the entire spatiotemporal tensor
+    directly to custom \gls{cuda} kernels, allowing the temporal dynamics to be executed in parallel on the \gls{gpu}.
+    %
+    This was coupled with \gls{amp} utilising 16-bit tensor cores, resulting in a $\sim 1.8\times$ training speedup and making the G3 configuration computationally feasible to develop.
 \end{itemize}
+
+\subsubsection*{3. Final Empirical Result}
+The G3 overhaul successfully broke the precision ceiling. 
+By preserving spatial resolution and enforcing metabolic activity, the network achieved a peak validation \gls{miou} of $46.1\%$ and \gls{map_50} of $59.8\%$ (detailed fully in Chapter~\ref{cha:results_evaluation}).
+This architecture was consequently locked as the definitive \texttt{DetectorNX-G3-SNN} model used for all final hardware
+extrapolations and baseline comparisons.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% SUMMARY %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Generations: Summarized}
 
-To summarize, Table \ref{tab:generational_evolution} shows the evolution of the \texttt{DetectorNX} architecture across the three generations.
+To summarize, Table \ref{tab:generational_evolution} maps the complete empirical evolution of the \texttt{DetectorNX} architecture, tracing the resolution of each major failure mode across the four generations.
 
 \begin{table}[H]
 \centering
-\begin{tabularx}{\textwidth}{|p{1.8cm}|X|p{1.2cm}|X|X|}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{1.0cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{1.2cm}|>{\raggedright\arraybackslash}p{1.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
 \hline
-\textbf{Generation} & \textbf{Primary Architectural Shift} & \textbf{Params} & \textbf{Main Strength} & \textbf{Final Limitation} \\
+\textbf{Gen.} & \textbf{Primary Architectural Shift} & \textbf{Params} & \textbf{\gls{miou}} & \textbf{Empirical Breakthrough} & \textbf{Diagnosed Limitation} \\
 \hline
-G1 &
-Multi-Box Head $[B, 5, 5]$ &
+\textbf{G0} &
+Deterministic $224\times224$ Spatial Cropping &
+N/A &
+9.2\%$^\ddagger$ &
+Preserved high \gls{snr} via localised foveation. &
+\textit{Constant Target Bias:} Complete collapse of spatial variance. \\
+\hline
+\textbf{G1} &
+Full Frame Downsampling with Single-Box Head &
 5.43M &
-Handled multi-vehicle scenes simultaneously &
-High false positives in low-density regions (``Ghosting'') \\
+20.4\% &
+Restored global spatial variance, breaking the target bias. &
+\textit{Single-Target Ambiguity:} Averaged targets into floating ``Super-Boxes''. \\
 \hline
-G2 &
-8$\times$8 Spatial Pooling Head &
+\textbf{G2} &
+Multi-Box $[B,5,5]$ Topology with $8 \times 8$ Spatial Pool &
 7.00M &
-Solved object-noise ambiguity through improved spatial aggregation &
-41\% \gls{iou} ceiling due to insufficient spatial resolution \\
+41.1\% &
+Resolved Information Congestion, dropping ADP to 2.06. &
+\textit{Geometric Blindness:} Heavy downsampling enforced a $41\%$ \gls{miou} ceiling. \\
 \hline
-G3 &
-22$\times$40 Resolution with additional SEWResBlock (Stage 4) &
+\textbf{G3} &
+$22\times40$ Backbone Resolution, 4th \texttt{SEWResBlock} and \gls{frr} Regularisation &
 11.72M &
-High-fidelity edge precision through full-resolution backbone processing &
-Higher computational metabolic cost in \glspl{sop} \\
+46.1\% &
+Broke the precision ceiling of G2, achieving the highest \gls{miou} \& \gls{map_50} scores. &
+\textit{Metabolic Cost:} Significant increase in parameter and \gls{sop} count vs G2. \\
 \hline
 \end{tabularx}
-\caption{Generational evolution of the \texttt{DetectorNX} architecture.}
+\caption[Generational evolution of the \texttt{DetectorNX} architecture.]{
+    Empirical evolution of the \texttt{DetectorNX} architecture. 
+    Each generation was designed to resolve the diagnosed limitation of its predecessor.
+    $^\ddagger$ this result was collected using a separately-created test set, whereas all others use the stratified and sampled validation set.
+}
 \label{tab:generational_evolution}
 \end{table}
 
