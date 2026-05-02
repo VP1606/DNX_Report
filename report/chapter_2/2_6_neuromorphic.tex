@@ -3,11 +3,11 @@
 
 \subsection{Neuromorphic Hardware Platforms}
 
-Intel Loihi \cite{davies2018loihi} and IBM TrueNorth \cite{merolla2014million} represent the two principal reference platforms for neuromorphic computing.
+Intel Loihi 2 \cite{gralewicz2024spikes} and IBM TrueNorth \cite{merolla2014million} represent the two principal reference platforms for neuromorphic computing.
 Unlike conventional \glspl{gpu}, which execute computation synchronously across all neurons at every clock cycle, both architectures operate asynchronously and event-driven.
 A neuron consumes energy only when it receives a spike and crosses its firing threshold, remaining entirely silent, drawing no dynamic power in the absence of input activity.
 This mirrors the \gls{snn}'s spike-based dynamics precisely, making neuromorphic hardware the natural target deployment environment for event-driven architectures and completing the end-to-end alignment with the event camera described in Section~\ref{subsec:bg_snn_event_pairing}.
-The per-\gls{sop} energy costs of these platforms, $23.6$\,pJ for Intel Loihi \cite{davies2018loihi} and $26.0$\,pJ for IBM TrueNorth \cite{merolla2014million}, form the hardware extrapolation targets used in the energy evaluation of this project.
+The per-\gls{sop} energy costs of these platforms, $16.1$\,pJ for Intel Loihi 2 \cite{gralewicz2024spikes} and $26.0$\,pJ for IBM TrueNorth \cite{merolla2014million}, form the hardware extrapolation targets used in the energy evaluation of this project.
 
 \subsection{The MAC vs AC Energy Distinction}
 \label{subsec:bg_mac_ac}

@@ -11,7 +11,7 @@ Using the \gls{flop} and \gls{sop} count recorded in Table \ref{tab:layer_ops} w
 \textbf{Hardware Platform} & \textbf{Energy Per Frame ($mJ$)} & \textbf{Energy Savings (\%)} \\
 \hline
 NVIDIA A100 (\gls{cnn} Baseline) & 180.8576 & --- \\
-Intel Loihi (\gls{snn}) & 63.0766 & 65.12\% \\
+Intel Loihi 2 (\gls{snn}) & 43.0223 & 76.21\% \\
 IBM TrueNorth (\gls{snn}) & 69.4912 & 61.58\% \\
 \hline
 \end{tabular}
@@ -21,17 +21,16 @@ IBM TrueNorth (\gls{snn}) & 69.4912 & 61.58\% \\
 
 \subsubsection*{Critical Analysis}
 
-Despite the relatively high per-operation routing overhead inherent to early-generation neuromorphic chips, deploying the \gls{snn} on an Intel Loihi processor yields a $65.12\%$ reduction in energy consumption per frame compared to running the continuous baseline on the same NVIDIA A100 GPU used for training. This outcome validates the hypothesis formulated in Section \ref{subsubsec:energy_hypothesis}.
+Deploying the \gls{snn} on a next-generation Intel Loihi 2 processor yields a projected $76.21\%$ reduction in energy consumption per frame compared to running the continuous baseline on the NVIDIA A100 GPU used for training. This outcome validates the hypothesis formulated in Section \ref{subsubsec:energy_hypothesis}.
 
-The fundamental driver of this efficiency is the massive reduction in computational workload: the \gls{snn} requires only $2.67$ G-\glspl{sop} per frame, compared to the $9.22$ G-\glspl{flop} required by the \gls{cnn} baseline --- $71.02\%$ reduction in total operations. 
-However, a critical observation emerges when comparing the workload reduction ($71.02\%$) to the projected energy savings ($65.12\%$).
-This discrepancy represents the ``routing overhead'' penalty of first-generation neuromorphic silicon: inter-core spike communication is an extremely complex task on chips like Loihi, and as such causes
-a single \gls{sop} to cost significantly more energy ($20.4\%$ more) than a \gls{flop} on a highly optimised \gls{gpu} such as the NVIDIA A100 \cite{su2023coreinterfaceoptimizationmulticore}.
-The \gls{snn} therefore achieves its dominant efficiency purely through extreme activation sparsity, rather than hardware-level architectural optimisations.
+This energy gain is realised by two compounding factors. 
+First, the biological sparsity of the network results in a massive reduction in computational workload: the \gls{snn} requires only $2.67$ G-\glspl{sop} per frame, compared to the $9.22$ G-\glspl{flop} required by the \gls{cnn} baseline----a $71.02\%$ reduction in total operations. 
+Second, the advanced architecture of Loihi 2 reduces the energy cost of each remaining operation to just $16.1$\,pJ \cite{gralewicz2024spikes}, eliminating the first-generation 'routing overhead' penalty that previously constrained neuromorphic hardware.
 
-Furthermore, this 65\% energy savings was achieved despite the integration of the high-resolution G3 backbone ($22 \times 40$ feature maps). This proves that the biological sparsity of the \gls{snn} is robust enough to sustain high-definition spatial reasoning without inducing a catastrophic power surge---a scaling feat that is mathematically impossible for dense \gls{cnn} architectures.
+Furthermore, this 76.21\% energy savings was achieved despite the integration of the high-resolution G3 backbone ($22 \times 40$ feature maps). This proves that the biological sparsity of the \gls{snn} is robust enough to sustain high-definition spatial reasoning without inducing a catastrophic power surge---a scaling feat that is mathematically impossible for dense \gls{cnn} architectures.
 
-Finally, it must be noted that comparing experimental neuromorphic silicon against a mature, massively parallel and optimised NVIDIA \gls{gpu} gives us an upper-bound on the energy savings of event-driven \glspl{snn}, rather than a realistic value.
+Finally, it must be noted that comparing experimental neuromorphic silicon against a mature, massively parallel and optimised NVIDIA \gls{gpu} gives us an upper-bound on the energy savings of event-driven \glspl{snn}, rather than a realistic value;
+deploying models such as \texttt{DetectorNX} on real neuromorphic hardware requires substantial development on its own, and the power saving of $76.21\%$ on Loihi 2 is unlikely to be realised in the real-world due to unaccounted overheads.
 As neuromorphic hardware develops, the per-\gls{sop} energy cost will continue to converge towards the theoretical \acrfull{cmos} limit established by Horowitz \cite{horowitz20141}, and the power savings will scale exponentially higher towards the optimal $94.33\%$ value obtained in Section \ref{subsubsec:mean_energy_savings}.
 
 Overall, the predicted power consumption on the various platforms described in Table \ref{tab:hardware_extrapolation} serves as conclusive proof that event-driven \glspl{snn} can bring highly power-efficient computing to resource-constrained edge environments, validating the neuromorphic paradigm as a viable, sustainable solution for real-time autonomous traffic monitoring.
