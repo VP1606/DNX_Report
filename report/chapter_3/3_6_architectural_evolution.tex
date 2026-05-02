@@ -10,7 +10,7 @@ This section documents the empirical obstacles encountered during development, a
 
 Prior to the implementation of downsampling in the \gls{bolt} pipeline, early prototyping explored the use of aggressive spatial cropping to bypass the computational costs of high-definition event processing.
 
-\subsubsection{Architectural Intent \& Technical Logic}
+\subsubsection{Architectural Intent and Technical Logic}
 The primary objective of this phase was to establish a high-resolution localized baseline by cropping the raw $1280 \times 720$ \gls{etram} sensor data into a $224 \times 224$ patch,
 as illustrated in Figure \ref{fig:preprocessing_pipeline} as an optional step; these patches were deterministically anchored to the centroid of the ground-truth vehicle annotation. 
 
@@ -59,14 +59,14 @@ This phase provided a critical methodological lesson: for a spiking architecture
 Following the resolution of the spatial cropping bias, the architecture progressed to full-frame processing. 
 However, this transition immediately exposed fundamental limitations in the network's predictive capabilities regarding multi-object scenes.
 
-\subsubsection{Architectural Intent \& Technical Logic}
+\subsubsection{Architectural Intent and Technical Logic}
 The primary objective of this phase was to develop a \textit{scene-aware detector} capable of identifying multiple vehicles simultaneously within the \gls{etram} traffic environment. 
 To achieve this, the network's output topology underwent a paradigm shift, transitioning from a simplistic single-box regression head (which output a single $[x, y, w, h]$ vector) to a Multi-Box Regression Head with a fixed-capacity output of $[B, 5, 5]$, where there are 5 features $(x, y, w, h, mask)$ and 5 bounding boxes predicted per inference.
 The technical logic dictated that the network required a mechanism to independently evaluate distinct spatial regions. 
 To facilitate this, each of the five predicted boxes was augmented with a fifth dimension: an ``Objectness'' or Confidence Score. 
 This structural addition allowed the model to not only regress bounding box coordinates but also to gate its own predictions, learning to suppress background artefacts with low confidence while maintaining high confidence for legitimate structural targets.
 
-\subsubsection{Empirical Obstacle: Single-Target Ambiguity \& Label Noise}
+\subsubsection{Empirical Obstacle: Single-Target Ambiguity and Label Noise}
 Initial prototypes with the standard single-box head proved fundamentally incompatible with multi-vehicle scenes: the backbone naturally extracted features for all visible vehicles, but the single-target label penalised correct detections of secondary vehicles as errors, introducing severe label noise. 
 Over thousands of iterations, the model minimised this ambiguous loss by averaging positions across visible vehicles, producing predictions that hovered meaninglessly between cars or a ``super-box'' encompassing the entire roadway.
 
@@ -86,7 +86,7 @@ By resolving the spatial ambiguity of multi-vehicle traffic, the new head transf
 
 While Generation 1 successfully established the multi-box logic, empirical validation revealed a persistent failure mode characterised by ghost Detections and overlapping predictions.
 
-\subsubsection{Architectural Intent \& Empirical Obstacle}
+\subsubsection{Architectural Intent and Empirical Obstacle}
 The primary objective of this phase was to resolve \textit{Information Congestion} within the regression head. 
 Generation 1 used an Adaptive Average Pooling layer of $4 \times 4$, compressing the entire field of view into just 16 spatial blocks before entering the final linear layers.
 
@@ -105,7 +105,7 @@ Average detections per frame (ADP) dropped to 2.06, closely matching the ground 
 
 Following the expansion of the spatial head in Generation 2, the model demonstrated excellent selectivity but remained computationally constrained by its geometric precision.
 
-\subsubsection{Architectural Intent \& Empirical Obstacle}
+\subsubsection{Architectural Intent and Empirical Obstacle}
 The primary objective of this final phase was to break the Precision Ceiling established in Generation 2.
 
 The fundamental obstacle was the severe spatial compression occurring within the backbone. By the final layer, the feature map had been downsampled to an $11 \times 20$ resolution. 
@@ -114,11 +114,11 @@ Consequently, if a vehicle's bounding box edge shifted by several pixels in the 
 
 Furthermore, an analysis of the network's information flow revealed that the Generation 2 backbone was suffering from neural silencing, exhibiting an average firing rate of $< 1.5\%$. This extreme sparsity starved the regression head of the necessary temporal evidence required for high-confidence predictions.
 
-\subsubsection{Actionable Insight: Semantic Expansion \& Metabolic Awakening}
+\subsubsection{Actionable Insight: Semantic Expansion and Metabolic Awakening}
 To overcome this precision ceiling, a multi-faceted architectural overhaul was implemented to create the final G3 configuration:
 
 \begin{itemize}
-    \item \textbf{Resolution Boost \& Semantic Depth:} To provide the necessary geometric detail, the convolution stride in Block 3 was reduced to $s=1$. This effectively halted the downsampling earlier in the network, doubling the final feature map resolution to $22 \times 40$ (quadrupling the available spatial cells to 880). To handle the increased complexity and high-frequency sensor artefacts exposed by this higher resolution, the backbone's semantic capacity was expanded via the addition of a 4th \texttt{SEWResBlock} (512 channels). 
+    \item \textbf{Resolution Boost and Semantic Depth:} To provide the necessary geometric detail, the convolution stride in Block 3 was reduced to $s=1$. This effectively halted the downsampling earlier in the network, doubling the final feature map resolution to $22 \times 40$ (quadrupling the available spatial cells to 880). To handle the increased complexity and high-frequency sensor artefacts exposed by this higher resolution, the backbone's semantic capacity was expanded via the addition of a 4th \texttt{SEWResBlock} (512 channels). 
     This allowed reason more deeply about the structural composition of the vehicle.
     
     \item \textbf{Metabolic Regularisation:} 

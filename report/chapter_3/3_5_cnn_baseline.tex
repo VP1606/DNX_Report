@@ -5,7 +5,7 @@ The \gls{cnn} architecture \texttt{DetectorNX-G3-CNN} was engineered as the prim
 It is a 11.73M parameter \gls{cnn} specifically designed to mirror the \gls{snn} architecture, satisfying the ``Architectural Parity`` functional requirement specified in \ref{subsec:req_functional}. 
 This ensures that the only variable being tested in this comparative study is the neural activation mechanism (event-driven binary spikes versus continuous-valued floats), making the comparison immune to common criticisms regarding unmatched or unoptimised baselines.
 
-\subsection{Structural Configuration \& Layer-Wise Mapping}
+\subsection{Structural Configuration and Layer-Wise Mapping}
 The \gls{cnn} mirrors the \gls{snn}'s configuration strictly 1:1, replacing every temporal and spiking component with a standard continuous equivalent. Table \ref{tab:snn_cnn_mapping} outlines this direct mapping.
 
 \begin{table}[htbp]
@@ -41,7 +41,7 @@ Instead of processing 10 timesteps sequentially, it concatenates the $T=10$ bins
 
 This approach allows the \gls{cnn} to correlate events across the entire 100ms window in a single spatial pass. This channel-wise stacking of event bins is a standard and effective methodology for feeding asynchronous event-camera data into traditional, non-spiking \gls{cnn} architectures \cite{gehrig2019}.
 
-\subsection{Backbone: Identity Mapping \& Residual Connections}
+\subsection{Backbone: Identity Mapping and Residual Connections}
 \label{subsec:cnn_backbone}
 
 The \gls{cnn} backbone employs deep residual learning (Section~\ref{sec:background_cnn}), utilising four Standard Residual Blocks that expand to 512 channels in the final stage. To satisfy Architectural Parity, the \texttt{SEWResBlock}s of the \gls{snn} were replaced with Standard Residual Blocks of the structure $\text{Conv} \rightarrow \text{BN} \rightarrow \text{ReLU} \rightarrow \text{Conv} \rightarrow \text{BN} + \text{Shortcut} \rightarrow \text{ReLU}$; these shortcut paths mitigate vanishing gradients and enable stable training at this depth \cite{he2015deep}.

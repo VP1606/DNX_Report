@@ -24,5 +24,7 @@
 - [ ] Lift from other paper + cite
 - [ ] Make COCO/ETRAM comparison alot more obvious.
 - [ ] Citations in ALPHABETICAL order.
-- [ ] Remove \& from Titles/Subsections
+- [x] Remove \& from Titles/Subsections
 - [ ] Add all 200 audit samples into appendix?
+- [ ] Remove GPU energy testing from SC's.
+- [ ] Reduce title length.

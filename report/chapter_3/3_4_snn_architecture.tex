@@ -5,7 +5,7 @@ The core focus, effort and innovation of this project is the development and opt
 This model is explicitly designed to process high-definition neuromorphic event data while adhering to the computational paradigms of \gls{snn}s. 
 By prioritising event-driven, binary communication, the architecture aims to drastically reduce both the dynamic power consumption and the computational complexity compared to traditional deep learning models, making it superior for power and time constrained environments.
 
-\subsection{Spatiotemporal Input \& Multi-Step Execution}
+\subsection{Spatiotemporal Input and Multi-Step Execution}
 \label{subsec:snn_input}
 The raw \gls{etram} event data is initially preprocessed to a spatial resolution of $320 \times 180$ with $T=10$ discrete temporal bins.
 Consequently, the network ingests a massive, high-dimensional spatiotemporal tensor of shape $[B, 10, 2, 180, 320]$ (Batch, Time, Polarity, Height, Width). 
@@ -40,7 +40,7 @@ To get around the zeroed gradients and the consequent ``dead neuron'' problem, t
 this mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution.
 In this implementation, SpikingJelly's default value of $\alpha = 2.0$ was used, which is the standard value used for high-performance \gls{snn} training.
 
-\subsection{Backbone: SEW-ResNet \& Attention}
+\subsection{Backbone: SEW-ResNet and Attention}
 \label{subsec:snn_backbone}
 
 To extract high-level semantic features and manage the computational complexity of the high-definition input, the architecture utilises a deep residual backbone divided into five sequential stages, as outlined in Table \ref{tab:snn_staged_architecture}.

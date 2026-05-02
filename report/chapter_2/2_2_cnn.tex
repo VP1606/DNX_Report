@@ -18,7 +18,7 @@ The additive shortcut connection, otherwise known as a skip connection, bypasses
 Within a Standard Residual Block, this shortcut carries the raw input features forward through the identity path, and the convolutional branch learns only the incremental refinement needed to improve the representation.
 This mechanism forms the backbone of the \gls{cnn} baseline employed in this project. In a spiking network, however, the standard residual formulation fails, since naively summing two binary spikes produces a non-binary value; a variant that preserves binary output therefore underpins the \texttt{DetectorNX-G3-SNN} architecture, as detailed in Section~\ref{subsec:snn_backbone}.
 
-\subsection{Object Detection \& Bounding Box Regression}
+\subsection{Object Detection and Bounding Box Regression}
 
 Object detection requires a network to simultaneously localise and identify one or more targets within a scene, and determine what their coordinates and size in the space are.
 In the bounding box regression paradigm popularised by Redmon et al.~\cite{redmon2016yolo}, this is framed as a direct regression problem: the network predicts a set of candidate boxes, each parameterised by a feature tuple $\mathcal{F} = \{x, y, w, h, c\}$, where $(x, y)$ and $(w, h)$ are the normalised centre coordinates and dimensions of the box, and $c$ is an objectness confidence score reflecting the probability that a genuine target is present within that region.

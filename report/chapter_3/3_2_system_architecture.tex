@@ -13,7 +13,7 @@ To satisfy the success criteria established in Section~\ref{sec:intro_success_cr
 As illustrated, the architecture is divided into four primary sequential stages, where the central neural backbone acts as an interchangeable module:
 
 \begin{enumerate}
-    \item \textbf{Data Ingestion \& The \gls{bolt} Pipeline (Fixed):}
+    \item \textbf{Data Ingestion and The \gls{bolt} Pipeline (Fixed):}
     Raw, asynchronous event data at a high spatial resolution of $1280 \times 720$ is ingested from the \gls{etram} dataset.
     Due to the sparse and noisy nature of neuromorphic hardware outputs, the data enters the \gls{bolt} preprocessing pipeline, which is heavily adapted from the methodology proposed in the original \gls{etram} study \cite{Verma_2024_CVPR}.
     While the core spatiotemporal noise filtering and bilinear temporal interpolation (to $T=10$ bins) remain faithful to the original study, this project included an additional spatial downsampling stage ($ds=4: 1280 \times 720 \rightarrow 320 \times 180$).
@@ -35,7 +35,7 @@ As illustrated, the architecture is divided into four primary sequential stages,
     Each detection is defined by the feature set $\mathcal{F} = \{x, y, w, h, c\}$, where $(x, y, w, h)$ denote the normalised bounding box coordinates and $c$ represents the object confidence logit.
     The regression output is evaluated via a fully vectorised Multi-Box Loss function during training.
 
-    \item \textbf{Evaluation \& Benchmarking Suite (Fixed):}
+    \item \textbf{Evaluation and Benchmarking Suite (Fixed):}
     The predictions and internal neuronal activity from both backbones are passed into a dedicated benchmarking suite that pairs each of the six success criteria with a matched experiment, as summarised in Table~\ref{tab:sc_traceability}. Diagnostic analyses of quantisation error (Section~\ref{subsec:quantization_error_setup}) \cite{cordone2022objectdetectionspikingneural} and temporal evidence accumulation (Section~\ref{subsec:temporal_evidence}) complement the primary accuracy result by explaining \textit{how} the \gls{snn}'s rate-coded regression converges, rather than validating a distinct criterion. The full benchmarking suite is detailed in Section~\ref{sec:experimental_setup}.
 
 \end{enumerate}

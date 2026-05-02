@@ -15,14 +15,14 @@ To ensure a fair empirical comparison and to solve the complexities of multi-obj
     \item \textbf{Comprehensive Evaluation Metrics:} The evaluation suite was required to output granular metrics beyond top-line Mean \gls{iou} and \gls{map_50}. This included real-time dynamic power consumption mapping, confidence calibration analysis (reliability diagrams), and quantisation error tracking across varying object sizes.
 \end{itemize}
 
-\subsection{Non-Functional Requirements \& Constraints}
+\subsection{Non-Functional Requirements and Constraints}
 \label{subsec:req_nonfunctional}
 
 The processing of high-definition event data at scales of up to 150 training epochs imposed severe computational bottlenecks. Consequently, the system had to satisfy critical performance and stability constraints:
 
 \begin{itemize}
     \begin{sloppypar}
-    \item \textbf{Computational Scalability \& Speed:} The SNN simulation had to be optimised for execution on local accelerator hardware (GPUs). This required the integration of Automatic Mixed Precision (AMP) to utilise Tensor Cores, memory-efficient vectorised loss functions to eliminate sequential batch loops, and the utilisation of optimised C++/CUDA kernels (e.g., SpikingJelly's multi-step modes) over native Python loops.
+    \item \textbf{Computational Scalability and Speed:} The SNN simulation had to be optimised for execution on local accelerator hardware (GPUs). This required the integration of Automatic Mixed Precision (AMP) to utilise Tensor Cores, memory-efficient vectorised loss functions to eliminate sequential batch loops, and the utilisation of optimised C++/CUDA kernels (e.g., SpikingJelly's multi-step modes) over native Python loops.
     \end{sloppypar}
 
     \begin{sloppypar}

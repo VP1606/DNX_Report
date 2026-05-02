@@ -4,7 +4,7 @@
 As established in Section~\ref{sec:background_eventcamera}, an event camera outputs a sparse, asynchronous stream of events $e = (x, y, t, p)$, where $(x, y)$ are the spatial coordinates, $t$ is the microsecond timestep, and $p \in \{-1, 1\}$ is the polarity indicating an increase or decrease in brightness.
 The \gls{bolt} preprocessing pipeline takes the raw \gls{etram} data at $1280 \times 720$ spatial resolution and converts it into the dense, structured tensor format required by the \gls{snn} and \gls{cnn} backbones.
 
-\subsection{Raw Event Ingestion \& Windowing}
+\subsection{Raw Event Ingestion and Windowing}
 
 The \gls{bolt} pipeline begins by reading the raw h5 event files $(x, y, t, p)$ and the partnering npy files containing the bounding box annotations from the \gls{etram} dataset.
 Once both files have been parsed, the first step taken is to apply a $100 ms$ sliding window across the entire duration of the event file. 
@@ -50,7 +50,7 @@ To make the asynchronous event data compatible with neural network layers, a vox
 
 This accumulation process preserves the temporal distribution of the events while generating a dense 4D spatiotemporal tensor of shape $[10, 2, 720, 1280]$ (representing Time $\times$ Channels $\times$ Height $\times$ Width).
 
-\subsection{Downsampling \& Normalisation}
+\subsection{Downsampling and Normalisation}
 Following spatiotemporal voxelisation, the voxelised data undergoes a dual-phase refinement consisting of spatial downsampling and amplitude normalisation. 
 This is the final polishing step of the pipeline, transforming the high-resolution event counts into a stabilized, low-memory format that the neural backbones can process efficiently.
 
