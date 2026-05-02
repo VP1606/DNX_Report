@@ -14,7 +14,18 @@ Recordings span intersections, roadways, and local streets around Arizona State 
 \gls{etram} covers eight distinct object classes organised into three broad categories: Vehicles (Car, Truck, Bus, Tram), Pedestrians, and Micro-mobility (Bicycle, Bike, Wheelchair).
 Over $2$M bounding boxes were manually annotated using CVAT \cite{Verma_2024_CVPR}, with each annotation additionally carrying an object ID to support multi-object tracking.
 Raw data is distributed in multiple formats (RAW, DAT, and H5), with ground-truth annotations provided in NumPy format.
-For this project, the dataset was abstracted to the Vehicle category exclusively, allowing the \gls{snn}--\gls{cnn} comparison to be isolated on a single, well-defined object class.
+For this project, the dataset was abstracted to the Vehicle category exclusively, allowing the \gls{snn}--\gls{cnn} comparison to be isolated on a single, well-defined object class. Figure~\ref{fig:etram_samples} shows representative sample frames demonstrating both the visual character of the event-camera output and the multi-class bounding-box annotation scheme.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{cited_figures/etram_sample.png}
+    \caption[Sample frames from the ETraM dataset.]{
+        Sample frames from the ETraM dataset, showing the sparse white-on-dark visual character of event-camera output, with only changing events being registered by the sensor. 
+        Objects are annotated using boxes and colours to separate classes, with confidence scores from the original authors' CNN detector.
+        Reproduced from \textcite{Verma_2024_CVPR}.
+    }
+    \label{fig:etram_samples}
+\end{figure}
 
 \subsection{Suitability for This Project}
 

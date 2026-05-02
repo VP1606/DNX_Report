@@ -5,12 +5,19 @@
 
 A \acrfull{cnn} extends the standard \gls{ann} architecture by replacing dense linear layers with convolutional operations, in which a bank of learnt filters is applied across the spatial extent of an input.
 Each filter performs a localised weighted sum at every spatial position, producing a feature map that encodes the presence and magnitude of a particular learnt pattern at each location.
-Stacking these layers yields a representational hierarchy, with early layers capturing low-level edges and motion boundaries and deeper layers composing them into object-level features \cite{lecun2015deep}.
+Stacking these layers yields a representational hierarchy, with early layers capturing low-level edges and motion boundaries and deeper layers composing them into object-level features \textcite{lecun2015deep}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{cited_figures/lecun_cnn}
+    \caption[Hierarchical feature extraction in a CNN]{Hierarchical feature extraction in a \gls{cnn}. Filters are convolved across the input's spatial extent, producing feature maps that are progressively pooled and recombined. Early layers respond to low-level structure such as edges, while deeper layers compose these into increasingly abstract, object-level representations. Reproduced from \textcite{lecun2015deep}.}
+    \label{fig:cnn_feature_hierarchy}
+\end{figure}
 
 \subsection{Residual Learning}
 
 A well-documented failure mode of deep \glspl{cnn} is the \textit{vanishing gradient} problem: as backpropagation proceeds through many successive layers, gradients are repeatedly scaled by values less than one, causing them to decay exponentially and preventing effective learning in early layers \cite{he2015deep}.
-He et al.~\cite{he2015deep} resolved this through the introduction of \textit{residual learning}: rather than tasking each layer with learning a direct mapping $y = \mathcal{H}(x)$, the network instead learns the \textit{residual} $\mathcal{F}(x) = \mathcal{H}(x) - x$, recasting the target as:
+He et al.~\textcite{he2015deep} resolved this through the introduction of \textit{residual learning}: rather than tasking each layer with learning a direct mapping $y = \mathcal{H}(x)$, the network instead learns the \textit{residual} $\mathcal{F}(x) = \mathcal{H}(x) - x$, recasting the target as:
 \begin{equation}
     y = \mathcal{F}(x) + x
 \end{equation}
@@ -18,10 +25,17 @@ The additive shortcut connection, otherwise known as a skip connection, bypasses
 Within a Standard Residual Block, this shortcut carries the raw input features forward through the identity path, and the convolutional branch learns only the incremental refinement needed to improve the representation.
 This mechanism forms the backbone of the \gls{cnn} baseline employed in this project. In a spiking network, however, the standard residual formulation fails, since naively summing two binary spikes produces a non-binary value; a variant that preserves binary output therefore underpins the \texttt{DetectorNX-G3-SNN} architecture, as detailed in Section~\ref{subsec:snn_backbone}.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.45\textwidth]{cited_figures/he_resnet.png}
+    \caption[The residual learning building block.]{The standard residual block. The convolutional branch learns the residual mapping $\mathcal{F}(x)$, while an identity shortcut adds the unmodified input $x$ back at the summation node, producing $\mathcal{F}(x) + x$. The shortcut provides an unobstructed gradient path through the block, mitigating vanishing gradients in deep networks. Reproduced from \textcite{he2015deep}.}
+    \label{fig:standard_resblock}
+\end{figure}
+
 \subsection{Object Detection and Bounding Box Regression}
 
 Object detection requires a network to simultaneously localise and identify one or more targets within a scene, and determine what their coordinates and size in the space are.
-In the bounding box regression paradigm popularised by Redmon et al.~\cite{redmon2016yolo}, this is framed as a direct regression problem: the network predicts a set of candidate boxes, each parameterised by a feature tuple $\mathcal{F} = \{x, y, w, h, c\}$, where $(x, y)$ and $(w, h)$ are the normalised centre coordinates and dimensions of the box, and $c$ is an objectness confidence score reflecting the probability that a genuine target is present within that region.
+In the bounding box regression paradigm popularised by \textcite{redmon2016yolo}, this is framed as a direct regression problem: the network predicts a set of candidate boxes, each parameterised by a feature tuple $\mathcal{F} = \{x, y, w, h, c\}$, where $(x, y)$ and $(w, h)$ are the normalised centre coordinates and dimensions of the box, and $c$ is an objectness confidence score reflecting the probability that a genuine target is present within that region.
 
 By predicting multiple candidate boxes simultaneously in a single forward pass, this multi-box formulation enables real-time detection across the full spatial extent of the input --
 a necessity for automotive perception, where multiple vehicles and artefacts may coexist in the same scene.

@@ -22,7 +22,21 @@ When $H[t]$ exceeds a predefined threshold $V_{th}$, the neuron emits a binary s
     S[t] = \Theta(H[t] - V_{th})
     \label{eq:lif_spike}
 \end{equation}
-Following a spike ($S[t]=1$), the neuron undergoes a hard reset, instantly dropping its potential $V[t]$ to $V_{reset}$, mimicking the refractory period of biological neurons, preventing infinite spiking and overstimulation \cite{sarpeshkar1992refractory}.
+Following a spike ($S[t]=1$), the neuron undergoes a hard reset, instantly dropping its potential $V[t]$ to $V_{reset}$, mimicking the refractory period of biological neurons, preventing infinite spiking and overstimulation \cite{sarpeshkar1992refractory}; the complete integrate-fire-reset cycle is illustrated in Figure~\ref{fig:lif_neuron}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{cited_figures/lif_dynamics.jpg}
+    \caption[Leaky integrate-and-fire neuron dynamics.]{
+        The leaky integrate-and-fire neuron over time. 
+        \textit{Left:} the neuron receives pre-synaptic spikes through multiple input synapses. 
+        \textit{Right (upper):} the membrane potential trace $V(t)$ accumulates each input contribution and decays toward its resting state at a rate set by the leak constant $\tau$ (Equation~\ref{eq:lif_membrane}). 
+        When $V(t)$ crosses the firing threshold (dashed yellow), the neuron emits a spike (Equation~\ref{eq:lif_spike}) and the potential is hard-reset toward $V_{reset}$ before the cycle repeats. 
+        \textit{Right (lower):} the output spike train, with each yellow tick marking the discrete moments at which the threshold was crossed. 
+        The neuron consumes computation only at these firing moments, illustrating the activation-sparsity property responsible for the SNN's energy efficiency.
+    }
+    \label{fig:lif_neuron}
+\end{figure}
 If no spike is emitted ($S[t]=0$), the potential naturally decays, ensuring that subsequent layers only perform computations upon receiving active events \cite{sengupta2019goingdeeperspikingneural}.
 This \textit{activation sparsity}, the property that computation is triggered only by genuine signal, not by silence, is the primary driver of the \gls{snn}'s exceptional energy efficiency \cite{Roy2019SpikeBasedMI}.
 
@@ -40,7 +54,14 @@ A common choice is the \gls{atan} function:
     \frac{\partial S}{\partial H} \approx \frac{\alpha}{2\left(1 + \left(\frac{\pi}{2} \alpha (H - V_{th})\right)^2\right)}
     \label{eq:atan_surrogate}
 \end{equation}
-where $\alpha$ is a hyperparameter controlling the steepness of the surrogate curve.
+where $\alpha$ is a hyperparameter controlling the steepness of the surrogate curve, as visualised in Figure~\ref{fig:surrogate_gradient}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{cited_figures/surrogate_gradient.pdf}
+    \caption[The surrogate gradient method.]{The surrogate gradient method. \textit{Left:} the Heaviside step function $S = \Theta(H - V_{th})$ governing spike emission in the forward pass. \textit{Right:} its true derivative is the Dirac delta $\delta(H - V_{th})$, which is zero everywhere except at the threshold and therefore unusable for backpropagation. During the backward pass, the true derivative is replaced by a smooth atan surrogate (Equation~\ref{eq:atan_surrogate}); the steepness hyperparameter $\alpha$ controls how closely the surrogate approximates the true delta. This substitution allows gradients to flow through the otherwise-blocking spike non-linearity while preserving the strictly binary forward execution.}
+    \label{fig:surrogate_gradient}
+\end{figure}
 This mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution, with gradients propagated through the temporal dimension via \acrfull{bptt}.
 
 \subsection{Temporal Dynamics and Rapid Categorisation}

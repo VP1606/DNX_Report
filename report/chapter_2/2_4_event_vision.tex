@@ -11,7 +11,18 @@ This design introduces several well-documented limitations: motion blur at high 
 
 An event camera fundamentally departs from this paradigm;
 rather than reading out all pixels simultaneously, each pixel operates independently, firing an event the moment its log-intensity changes beyond a threshold.
-The result is a continuous, asynchronous stream of discrete events rather than a sequence of synchronous frames, registering only what has changed between scenes instead of the full scenes themselves.
+The result is a continuous, asynchronous stream of discrete events rather than a sequence of synchronous frames, registering only what has changed between scenes instead of the full scenes themselves (Figure~\ref{fig:frame_vs_event}).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{cited_figures/gallego_event_cam.png}
+    \caption[Frame-based vs event-based output on the same urban scene.]{
+        Comparison of (a) a frame-based RGB image (left) and (b) the corresponding event-camera output of the same urban scene (right), rendered as a spatio-temporal point cloud. 
+        The event camera only registers the locations of intensity changes, producing a sparse representation that ignores the static building visible in (a). 
+        Reproduced from \textcite{gallego2020event}.
+    }
+    \label{fig:frame_vs_event}
+\end{figure}
 
 \subsubsection*{Advantages and the Compatibility Problem}
 

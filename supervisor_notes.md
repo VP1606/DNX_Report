@@ -8,7 +8,7 @@
 
 ### Comments
 
-- [ ] There are no diagrams(!), and this is a missed opportunity. My recommendation in the remaining time is to prioritise inclusion of additional diagrams wherever possible to help communicate technical concepts. In particular in the background section, to help break up the text of this section, and to better communicate concepts which the second marker may be unfamiliar with. E.g. CNNs, residual connections, surrogate gradients, event-based vision, extracts from the ETRAM dataset, etc.
+- [x] ~~There are no diagrams(!), and this is a missed opportunity. My recommendation in the remaining time is to prioritise inclusion of additional diagrams wherever possible to help communicate technical concepts. In particular in the background section, to help break up the text of this section, and to better communicate concepts which the second marker may be unfamiliar with. E.g. CNNs, residual connections, surrogate gradients, event-based vision, extracts from the ETRAM dataset, etc.~~
 
 - [x] ~~It’s recommended to start a new page and section for the results (e.g. 4.0 Results and Evaluation), this helps make them distinct from the methods, and also makes it clear where the project outputs are being presented. (This won’t interfere with the mark scheme.)~~
 
@@ -18,13 +18,14 @@
 
 ### Summary Notes
 
-- [ ] More figures to fit the prose: eg. LIF, CNN, Membrane Potentials
+- [x] ~~More figures to fit the prose: eg. LIF, CNN, Membrane Potentials~~
 - [ ] More screenshots - can go over existing 6
 - [ ] Generations: more diagrams, more detail (?) —> methodological refinement and evaluation of each Gen
-- [ ] Lift diagrams from other papers + cite them.
+- [x] ~~Lift diagrams from other papers + cite them.~~
 - [x] ~~Make COCO/ETRAM comparison alot more obvious.~~
 - [x] ~~Citations in ALPHABETICAL order.~~
 - [x] ~~Remove \& from Titles/Subsections~~
 - [x] ~~Add all 200 audit samples into appendix?~~
 - [x] ~~Remove GPU energy testing from SC's.~~
 - [x] ~~Reduce title length.~~
+- [ ] Add more figures: Before/After BOLT.
