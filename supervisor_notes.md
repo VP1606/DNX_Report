@@ -22,7 +22,7 @@
 - [ ] More screenshots - can go over existing 6
 - [ ] Generations: more diagrams, more detail (?) —> methodological refinement and evaluation of each Gen
 - [ ] Lift diagrams from other papers + cite them.
-- [ ] Make COCO/ETRAM comparison alot more obvious.
+- [x] ~~Make COCO/ETRAM comparison alot more obvious.~~
 - [x] ~~Citations in ALPHABETICAL order.~~
 - [x] ~~Remove \& from Titles/Subsections~~
 - [x] ~~Add all 200 audit samples into appendix?~~

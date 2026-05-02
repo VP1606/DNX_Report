@@ -38,23 +38,25 @@ Overall, the predicted power consumption on the various platforms described in T
 \subsection*{Energy Efficiency Comparison}
 \label{subsec:efficiency_landscape}
 
-The following experiment evaluates the energy efficiency frontier, where efficiency can be defined as $\text{efficiency} = \frac{mAP_{50}}{\text{Power Per Frame}}$,
+The following experiment evaluates the energy efficiency frontier, defined as $\text{efficiency} = \frac{mAP_{50}}{\text{Power Per Frame}}$,
 of \texttt{DetectorNX-G3-SNN} against contemporary published \gls{snn} detectors.
 
-However, these results serve as a rough guide rather than a rigorous comparison,
-as the comparison is confounded by two structural asymmetries between the projects.
-First, the surveyed competitors report figures on the 80-class COCO benchmark,
-whereas \texttt{DetectorNX-G3-SNN} is evaluated on the single-class vehicle subset of \gls{etram}, 
-yielding unrecoverable differences in image statistics and object distribution.
-Second, the competitor \gls{map_50} quantifies the joint difficulty of localisation and 80-way classification,
-whereas on \gls{etram} the classification sub-task collapses to a binary vehicle/background decision; the two scores fundamentally measure different quantities, which cannot be corrected.
+This comparison serves as an illustrative guide rather than a strict benchmark, as it is confounded by three fundamental asymmetries:
+\begin{enumerate}
+    \item \textbf{Task Complexity:} 
+    Competitors evaluate on the 80-class COCO dataset, whereas \texttt{DetectorNX} performs single-class vehicle detection on \gls{etram}. 
+    As a result, the baseline \gls{map_50} scores measure different joint-classification difficulties.
+    \item \textbf{Input Resolution:} The COCO-based models typically operate at lower spatial dimensions (e.g., SpikeDet processes $640 \times 640$ inputs \cite{fan2025spikedet}). In contrast, \texttt{DetectorNX} processes high-definition automotive data at $1280 \times 720$, representing a $2.25\times$ larger raw pixel volume per frame.
+    \item \textbf{Domain Statistics:} 
+    COCO features dense RGB backgrounds, whereas \gls{etram} provides sparse, dynamic event-driven streams.
+\end{enumerate}
 
 \begin{table}[htbp]
 \centering
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{|l|l|c|c|c|c|c|}
 \hline
-\textbf{Model} & \textbf{Dataset (Task)} & \textbf{\gls{map_50}} & \textbf{Params (M)} & \textbf{G-SOPs} & \textbf{Power (mJ)} & \textbf{mAP/mJ} \\
+\textbf{Model} & \textbf{Dataset (Task)} & \textbf{\gls{map_50}} & \textbf{Params (M)} & \textbf{G-SOPs} & \textbf{Power (mJ)} & \textbf{mAP/mJ$^\dagger$} \\
 \hline
 SpikeDet-S \cite{fan2025spikedet}    & COCO (80-class) & 62.6 & 22.0 & 20.3  & 19.6  & 3.19  \\
 SpikeYOLO-N \cite{spike_yolo}        & COCO (80-class) & 59.2 & 13.2 & 25.1  & 23.1  & 2.56  \\
@@ -68,15 +70,13 @@ E-SpikeFormer \cite{espikeformer}    & COCO (80-class) & 58.8 & 38.7 & 127.0 & 1
 \hline
 \end{tabular}%
 }
-\caption[Comparative efficiency landscape of related SNN detectors.]{Comparative efficiency landscape for \texttt{DetectorNX-G3-SNN} against published \gls{snn} object detectors. All competitor figures are reported on the COCO dataset (80-class), while \texttt{DetectorNX-G3-SNN} is evaluated on the single-class vehicle subset of \gls{etram}. G-SOPs reflects total synaptic operations (MAC + AC) per frame; Power reflects estimated energy per frame on neuromorphic hardware. Competitors are sorted by descending mAP/mJ ratio.}
+\caption[Comparative efficiency landscape of related SNN detectors.]{Comparative efficiency landscape for \texttt{DetectorNX-G3-SNN} against published \gls{snn} object detectors. All competitor figures are reported on the COCO dataset (80-class), while \texttt{DetectorNX-G3-SNN} is evaluated on the single-class vehicle subset of \gls{etram}. G-SOPs reflects total synaptic operations (MAC + AC) per frame; Power reflects estimated energy per frame on neuromorphic hardware. Competitors are sorted by descending mAP/mJ ratio. $^\dagger$ The mAP/mJ ratio is not directly comparable across rows of differing dataset, since the numerator scales with task difficulty (80-class versus 1-class detection).}
 \label{tab:efficiency_landscape}
 \end{table}
 
-Despite these asymmetries, one observation from Table~\ref{tab:efficiency_landscape} is hard to dismiss. At $2.4$\,mJ per frame, \texttt{DetectorNX-G3-SNN} is approximately an order of magnitude more energy-efficient than any other entry in the table, and it carries the smallest parameter budget at $11.7$\,M. 
-Two architectural choices from the G3 iteration account for this. The \texttt{SEWResBlock} backbone carries binary spikes deep into the network without a spike explosion, and the \gls{frr} constraint holds per-layer firing rates below $20\%$; together, they keep the \gls{sop} count low no matter what task the output feeds into. 
-The multi-box detection head reinforces this by staying deliberately lightweight, avoiding the transformer-based and anchor-rich machinery used by E-SpikeFormer and SpikeDet-X \cite{espikeformer, fan2025spikedet}. 
-Neither choice is tied to \gls{etram} --- both would carry over if the model were ported elsewhere.
+Despite these asymmetries, the data in Table~\ref{tab:efficiency_landscape} reveals a compelling observation. At just $2.4$\,mJ per frame, \texttt{DetectorNX-G3-SNN} is approximately an order of magnitude more energy-efficient than the surveyed alternatives, whilst simultaneously carrying the smallest parameter budget ($11.7$\,M) and processing the highest-resolution input.
 
-The honest takeaway is therefore not that \texttt{DetectorNX-G3-SNN} leads on efficiency, but that it sits in a noticeably low-energy region of the published landscape; it is an intriguing observation that suggests a sparsity-first approach might generalise to multi-class detection. 
-Confirming the hypothesis would take one of two experiments: retraining \texttt{DetectorNX-G3-SNN} on a single-class slice of COCO with a classification head bolted on, or re-evaluating the comparator models on an equivalent single-class \gls{etram} task. 
-Both are substantial pieces of work in their own right, and are left for future investigation.
+This extreme efficiency is driven by the G3 architecture. 
+The \texttt{SEWResBlock} layout propagates spikes without inducing an activation explosion, while the \gls{frr} constraint strictly bounds layer-wise firing rates below $20\%$. Combined with a deliberately lightweight multi-box head versus the heavy transformer head of E-SpikeFormer \cite{espikeformer}, the model ensures the global \gls{sop} count remains minimal regardless of input scale.
+
+The honest takeaway is not a direct claim of superior efficiency, given the dataset mismatches, but rather that \texttt{DetectorNX-G3-SNN} occupies a uniquely low-power, high-resolution region of the SNN landscape. The ability to maintain $\sim 60\%$ \gls{map_50} at HD resolutions for under $3$\,mJ suggests this sparsity-first architecture could scale highly effectively to multi-class tasks; this hypothesis is left for future COCO-based validation.
