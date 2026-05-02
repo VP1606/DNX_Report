@@ -21,10 +21,10 @@
 - [ ] More figures to fit the prose: eg. LIF, CNN, Membrane Potentials
 - [ ] More screenshots - can go over existing 6
 - [ ] Generations: more diagrams, more detail (?) —> methodological refinement and evaluation of each Gen
-- [ ] Lift from other paper + cite
+- [ ] Lift diagrams from other papers + cite them.
 - [ ] Make COCO/ETRAM comparison alot more obvious.
 - [x] ~~Citations in ALPHABETICAL order.~~
 - [x] ~~Remove \& from Titles/Subsections~~
 - [x] ~~Add all 200 audit samples into appendix?~~
-- [ ] Remove GPU energy testing from SC's.
+- [x] ~~Remove GPU energy testing from SC's.~~
 - [x] ~~Reduce title length.~~
