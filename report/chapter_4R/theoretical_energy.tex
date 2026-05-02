@@ -51,20 +51,24 @@ whereas on \gls{etram} the classification sub-task collapses to a binary vehicle
 
 \begin{table}[htbp]
 \centering
-\begin{tabular}{|l|c|c|c|c|c|}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|c|c|c|c|c|}
 \hline
-\textbf{Model} & \textbf{\gls{map_50}} & \textbf{Params (M)} & \textbf{G-SOPs} & \textbf{Power (mJ)} & \textbf{mAP/mJ} \\
+\textbf{Model} & \textbf{Dataset (Task)} & \textbf{\gls{map_50}} & \textbf{Params (M)} & \textbf{G-SOPs} & \textbf{Power (mJ)} & \textbf{mAP/mJ} \\
 \hline
-SpikeDet-S \cite{fan2025spikedet}        & 62.6 & 22.0 & 20.3  & 19.6  & 3.19  \\
-SpikeYOLO-N \cite{spike_yolo}      & 59.2 & 13.2 & 25.1  & 23.1  & 2.56  \\
-EMS-YOLO \cite{ems_yolo}          & 50.1 & 33.9 & 29.2  & 29.0  & 1.73  \\
-SpikeDet-X \cite{fan2025spikedet}        & 67.6 & 75.2 & 42.9  & 40.4  & 1.67  \\
-E-SpikeFormer \cite{espikeformer} & 58.8 & 38.7 & 127.0 & 119.5 & 0.49  \\
+SpikeDet-S \cite{fan2025spikedet}    & COCO (80-class) & 62.6 & 22.0 & 20.3  & 19.6  & 3.19  \\
+SpikeYOLO-N \cite{spike_yolo}        & COCO (80-class) & 59.2 & 13.2 & 25.1  & 23.1  & 2.56  \\
+EMS-YOLO \cite{ems_yolo}             & COCO (80-class) & 50.1 & 33.9 & 29.2  & 29.0  & 1.73  \\
+SpikeDet-X \cite{fan2025spikedet}    & COCO (80-class) & 67.6 & 75.2 & 42.9  & 40.4  & 1.67  \\
+E-SpikeFormer \cite{espikeformer}    & COCO (80-class) & 58.8 & 38.7 & 127.0 & 119.5 & 0.49  \\
 \hline
-\textbf{\texttt{DetectorNX-G3-SNN}} & \textbf{59.8} & \textbf{11.7} & \textbf{2.7} & \textbf{2.4} & \textbf{24.92} \\
+\multicolumn{7}{|c|}{\itshape Below: evaluated on a different task --- figures not directly comparable.} \\
 \hline
-\end{tabular}
-\caption[Comparative efficiency landscape of related SNN detectors.]{Comparative efficiency landscape for \texttt{DetectorNX-G3-SNN} against contemporary published \gls{snn} object detectors. All competitor figures are reported on the COCO dataset (80-class), while \texttt{DetectorNX-G3-SNN} is evaluated on the single-class vehicle subset of \gls{etram}. G-SOPs reflects total synaptic operations (MAC + AC) per frame; Power reflects estimated energy per frame on 45\,nm neuromorphic hardware. Competitors are sorted by descending mAP/mJ ratio.}
+\textbf{\texttt{DetectorNX-G3-SNN}}  & \textbf{ETraM (1-class)} & \textbf{59.8} & \textbf{11.7} & \textbf{2.7} & \textbf{2.4} & \textbf{24.92} \\
+\hline
+\end{tabular}%
+}
+\caption[Comparative efficiency landscape of related SNN detectors.]{Comparative efficiency landscape for \texttt{DetectorNX-G3-SNN} against published \gls{snn} object detectors. All competitor figures are reported on the COCO dataset (80-class), while \texttt{DetectorNX-G3-SNN} is evaluated on the single-class vehicle subset of \gls{etram}. G-SOPs reflects total synaptic operations (MAC + AC) per frame; Power reflects estimated energy per frame on neuromorphic hardware. Competitors are sorted by descending mAP/mJ ratio.}
 \label{tab:efficiency_landscape}
 \end{table}
 
