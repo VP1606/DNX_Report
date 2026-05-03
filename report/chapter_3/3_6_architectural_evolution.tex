@@ -1,9 +1,9 @@
 \section{Architectural Evolution}
 \label{sec:architectural_evolution}
 
-The final \texttt{G3} revision of the \texttt{DetectorNX} architecture was not the result of a single design phase,
+The final \texttt{G3} iteration of the \texttt{DetectorNX} architecture was not the result of a single design phase,
 but rather the culmination of an iterative engineering process across four distinct generations.
-According to the project's success criteria, the model required both high temporal precision and robust spatial localization.
+According to the project's success criteria, the model required both high temporal precision and robust spatial localisation.
 This section documents the empirical obstacles encountered during development, and the actionable insights that led to the final optimised configuration.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% GENERATION 0 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -64,7 +64,7 @@ visually shown in Figure~\ref{fig:constant_target_bias}.
 \end{figure}
 
 \subsubsection*{4. Actionable Insight and Iteration}
-The \textit{Constant Target Bias} failure proved that deterministic cropping destroys the spatial variance required to train a regression head.
+The \textit{Constant Target Bias} failure proved that deterministic cropping eliminates the spatial variance required to train a regression head.
 To force the network to actively locate targets, the localised foveation had to be abandoned entirely.
 Consequently, Generation 1 (G1) was designed to process the
 entire global frame, relying on aggressive spatial downsampling rather
@@ -99,7 +99,7 @@ The deep backbone naturally extracted features for all visible vehicles in the g
 However, because the regression head could only output one bounding box,
 the single-target label penalised the network if it correctly detected a secondary vehicle.
 To minimise the loss, the network averaged the spatial coordinates of all active spike clusters, producing the floating ``super-box'' artefact:
-a single bounding box that encompasses all vehicles and roadways rather than individual targets in isolation, as visually evidenced in
+a single bounding box that encompasses all vehicles and roadways rather than individual targets, as visually evidenced in
 Figure~\ref{fig:superbox_failure}.
 
 \begin{figure}[h]
@@ -143,25 +143,14 @@ To resolve this, the network's output topology shifted to a multi-box regression
 the output was expanded to a fixed-capacity $[B, 5, 5]$ tensor, predicting 5 boxes per inference,
 each augmented with a fifth ``Objectness'' confidence score $(x, y, w, h, c)$.
 %
-To support this, Generation 2 (G2) introduces a Vectorised Matching Loss to match predictions to their respective ground-truth annotations.
-
-
-% \subsubsection{Actionable Insight: The Vectorised Matching Loss}
-% This phase highlighted the need for a mechanism to handle the \textit{Assignment Problem}: determining which of the 5 predicted boxes should be compared against which ground-truth vehicle. 
-% The resulting Vectorised Multi-Box Loss computes a 3D matrix of \gls{iou} overlaps between the 5 predictions and the $M$ ground-truth objects per batch, then uses greedy matching to identify the best match per real vehicle. 
-% Only matched boxes receive a \textit{coordinate gradient}; all unmatched boxes are assigned a target confidence of $0.0$, penalising false positives and suppressing the Ghost Detections prevalent in earlier iterations.
-
-% Crucially, all unmatched predicted boxes are assigned a target confidence of $0.0$, acting as a metabolic penalty for false positives. This forces the model to learn that predicting a vehicle where none exists carries a heavy mathematical penalty, effectively cleaning up the \gls{snn}'s vision and reducing the Ghost Detections prevalent in early iterations. 
-
-% The transition from single-box regression to scene-aware multi-box detection also introduced the Multi Box Label Alignment step of the \gls{bolt} pipeline (Figure~\ref{fig:preprocessing_pipeline}). 
-% By resolving the spatial ambiguity of multi-vehicle traffic, the new head transformed contradictory Label Noise into a structured multi-target learning signal, which was essential for stable convergence on the high-definition, high-density event streams of the \gls{etram} dataset.
+To support this, Generation 2 (G2) introduced a Vectorised Matching Loss to match predictions to their respective ground-truth annotations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% GENERATION 2 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Generation 2 (G2): The Expanded Spatial Head (7.00M Parameters)}
 
 \subsubsection*{1. Architectural Intent}
-As mandated by the results and analysis of Generation 1, Generation 2 (G2) introduced the multi-box regression head.
+As determined by the results and analysis of Generation 1, Generation 2 (G2) introduced the multi-box regression head.
 This replaced the global output vector with a fixed-capacity $[B, 5, 5]$ tensor, predicting 5 boxes per inference alongside the aforementioned ``Objectness'' score $(x, y, w, h, c)$.
 
 To train this new multi-box paradigm, G2 implemented the \textit{Vectorised Matching Loss}.
@@ -174,7 +163,7 @@ To feed this new regression head, the deep backbone features were compressed usi
 \subsubsection*{2. Empirical Result}
 G2 successfully resolved the ``super-box'' error and learned to predict distinct, separate bounding boxes,
 however validation revealed a new failure: high false-positive rates and overlapping predictions.
-The network's Average Detections per Frame (ADP) rose to $2.50$, significantly higher than the true \gls{etram} dataset average of $2.02$.
+The network's Average Detections per Frame (ADP) rose to $2.50$, significantly higher than the true validation-set average of $2.02$.
 
 \subsubsection*{3. Diagnostic Analysis: Information Congestion}
 The hallucination of extra vehicles was determined to be \textit{Information Congestion} within the regression head.
@@ -183,7 +172,7 @@ Using the $4 \times 4$ Adaptive Pooling layer compressed the field of view into 
 When vehicles were in close proximity, or near clusters of sensor noise, their respective spiking features were
 averaged into the same $4 \times 4$ block;
 %
-the regression head lacked the spatial memory required to distinguish legitimate target spike-trains from adjacent background noise,
+the regression head lacked the spatial memory required to distinguish legitimate target spike trains from adjacent background noise,
 leading it to output multiple overlapping boxes for a single stimulus.
 
 \subsubsection*{4. Actionable Insight and Iteration}
@@ -193,17 +182,17 @@ isolates vehicle spike trains from surrounding sensor noise.
 To resolve this, the pooling resolution was quadrupled from $4 \times 4$ to $8 \times 8$.
 
 Initial prototyping of the wider pool size revealed a new limitation in the model's architecture,
-with the Mean \gls{iou} plateauing at $41\%$.
+with the Mean \gls{iou} plateauing at $41.1\%$.
 %
 This confirmed that the backbone itself was downsampling the raw sensor data too aggressively,
-leading to the development of Generation 3 (G3), which expands both the head's pooling capacity and the backbone's semantic depth.
+leading to the development of Generation 3 (G3), which expanded both the head's pooling capacity and the backbone's semantic depth.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% GENERATION 3 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Generation 3 (G3): The High-Resolution Backbone (11.7M Parameters)}
 
 \subsubsection*{1. Architectural Intent}
-The objective of this final generation was to break the $41\%$ \gls{miou} precision ceiling established at the end of Generation 2.
+The objective of this final generation was to break the $41.1\%$ \gls{miou} precision ceiling established at the end of Generation 2.
 Analysis of the network's internal spiking dynamics revealed two distinct flaws that constrained its geometric precision:
 
 \begin{enumerate}
@@ -232,7 +221,7 @@ To solve these bottlenecks, the architecture was overhauled to create the final 
     This forced the network to generate a dense, high-frequency stream of geometric data, providing the regression head with the robust temporal evidence needed to sense the exact boundaries of the vehicles.
     
     \item \textbf{Hardware Optimisation:} 
-    Expanding the parameter count to 11.7M and quadrupling the spatial resolution exponentially increased the computational load. 
+    Expanding the parameter count to 11.7M and quadrupling the spatial resolution substantially increased the computational load. 
     %
     To prevent latency penalties, the architecture was refactored to utilise SpikingJelly's \texttt{step\_mode='m'} (\textit{Fused-Kernel optimisation}) \cite{fang2023spikingjelly}.
     Rather than using a slow, sequential Python loop to evaluate the network across $T=10$ timesteps, this method passes the entire spatiotemporal tensor
@@ -249,9 +238,9 @@ extrapolations and baseline comparisons.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% SUMMARY %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Generations: Summarized}
+\subsection{Generations: Summarised}
 
-To summarize, Table \ref{tab:generational_evolution} maps the complete empirical evolution of the \texttt{DetectorNX} architecture, tracing the resolution of each major failure mode across the four generations.
+To summarise, Table \ref{tab:generational_evolution} maps the complete empirical evolution of the \texttt{DetectorNX} architecture, tracing the resolution of each major failure mode across the four generations.
 
 \begin{table}[H]
 \centering
@@ -262,7 +251,7 @@ To summarize, Table \ref{tab:generational_evolution} maps the complete empirical
 \textbf{G0} &
 Deterministic $224\times224$ Spatial Cropping &
 N/A &
-9.2\%$^\ddagger$ &
+1.37\%$^\ddagger$ &
 Preserved high \gls{snr} via localised foveation. &
 \textit{Constant Target Bias:} Complete collapse of spatial variance. \\
 \hline
@@ -278,20 +267,20 @@ Multi-Box $[B,5,5]$ Topology with $8 \times 8$ Spatial Pool &
 7.00M &
 41.1\% &
 Resolved Information Congestion, dropping ADP to 2.06. &
-\textit{Geometric Blindness:} Heavy downsampling enforced a $41\%$ \gls{miou} ceiling. \\
+\textit{Geometric Blindness:} Heavy downsampling enforced a $41.1\%$ \gls{miou} ceiling. \\
 \hline
 \textbf{G3} &
 $22\times40$ Backbone Resolution, 4th \texttt{SEWResBlock} and \gls{frr} Regularisation &
 11.72M &
 46.1\% &
-Broke the precision ceiling of G2, achieving the highest \gls{miou} \& \gls{map_50} scores. &
-\textit{Metabolic Cost:} Significant increase in parameter and \gls{sop} count vs G2. \\
+Broke the precision ceiling of G2, achieving the highest \gls{miou} and \gls{map_50} scores. &
+\textit{Trade-off:} Significant increase in parameter and \gls{sop} count vs. G2. \\
 \hline
 \end{tabularx}
 \caption[Generational evolution of the \texttt{DetectorNX} architecture.]{
     Empirical evolution of the \texttt{DetectorNX} architecture. 
     Each generation was designed to resolve the diagnosed limitation of its predecessor.
-    $^\ddagger$ this result was collected using a separately-created test set, whereas all others use the stratified and sampled validation set.
+    $^\ddagger$ This result was collected using a separately-created test set, whereas all others use the stratified and sampled validation set.
 }
 \label{tab:generational_evolution}
 \end{table}
