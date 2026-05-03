@@ -40,7 +40,7 @@ SOPs_l = FLOPs_l \times \zeta \times T
 
 \noindent where $\zeta_l$ represents the average firing rate of layer $l$, $T$ is the number of temporal simulation steps ($T=10$).
 
-In order to obtain $\zeta_l$, a specialized \texttt{SpikeRateMonitor} tool was developed.
+In order to obtain $\zeta_l$, a specialised \texttt{SpikeRateMonitor} tool was developed.
 The tool attaches a hook to every \gls{lif} inside the \gls{snn} backbone, which listens to the layer during the forward pass and intercepts the binary spike tensor before it moves to the next layer.
 For every layer $l$, the \gls{snn} produces a spike tensor $S_l$ with the shape $[T, B, C, H, W]$, where $T = 10$ is the number of timesteps, $B$ is the batch size, and $C, H, W$ are the spatial dimensions.
 Since a spike is binary ($1$ for fire, $0$ for rest), $\zeta$ can be calculated by taking the global mean of the entire tensor:

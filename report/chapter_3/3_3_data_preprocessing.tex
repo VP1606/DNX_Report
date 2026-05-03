@@ -52,7 +52,7 @@ This accumulation process preserves the temporal distribution of the events whil
 
 \subsection{Downsampling and Normalisation}
 Following spatiotemporal voxelisation, the voxelised data undergoes a dual-phase refinement consisting of spatial downsampling and amplitude normalisation. 
-This is the final polishing step of the pipeline, transforming the high-resolution event counts into a stabilized, low-memory format that the neural backbones can process efficiently.
+This is the final polishing step of the pipeline, transforming the high-resolution event counts into a stabilised, low-memory format that the neural backbones can process efficiently.
 
 \subsubsection{Spatial Downsampling (16-fold Data Reduction)}
 The generated high-definition voxel grid ($1280 \times 720$) is subjected to a $4 \times 4$ Max-Pooling operation, reducing the spatial resolution to $320 \times 180$. 
@@ -126,7 +126,7 @@ The \gls{lru} eviction policy is a safety net for cache-smaller-than-dataset con
 
 The combined effect of offline precomputation, chunked serialisation, and in-memory caching reduces the 150-epoch wall time from a projected multi-day run to approximately six hours at $\sim$160\,ms/iter.
 
-\subsection{\gls{bolt} Pipeline: Visualized}
+\subsection{\gls{bolt} Pipeline: Visualised}
 
 Figure \ref{fig:preprocessing_pipeline} details the order of which the aforementioned preprocessing steps are applied to the raw event data.
 

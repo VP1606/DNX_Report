@@ -1,7 +1,7 @@
 \section{System Architecture Overview}
 \label{sec:system_architecture}
 
-To satisfy the success criteria established in Section~\ref{sec:intro_success_criteria} and the functional requirements in Section~\ref{sec:requirements}, the overall system was designed as an end-to-end, highly modular pipeline. Decoupling the preprocessing, neural backbone, and regression stages enabled the isolation and empirical study of individual architectural modifications, ensuring that any performance gap between the spiking and continuous paradigms is attributable to the paradigm swap itself rather than to differences in preprocessing or head design. The high-level data flow is formalized in Figure~\ref{fig:system_architecture_block}.
+To satisfy the success criteria established in Section~\ref{sec:intro_success_criteria} and the functional requirements in Section~\ref{sec:requirements}, the overall system was designed as an end-to-end, highly modular pipeline. Decoupling the preprocessing, neural backbone, and regression stages enabled the isolation and empirical study of individual architectural modifications, ensuring that any performance gap between the spiking and continuous paradigms is attributable to the paradigm swap itself rather than to differences in preprocessing or head design. The high-level data flow is formalised in Figure~\ref{fig:system_architecture_block}.
 
 \begin{figure}[htbp]
     \centering

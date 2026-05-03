@@ -139,7 +139,7 @@ Following the final backbone stage, the fused spatiotemporal feature map is rout
 
 A $1 \times 1$ convolution first projects the 512-channel fused tensor down to 128 channels, compressing feature dimensionality ahead of the spatial reduction and lowering the parameter count of the downstream head.
 
-The projected map is then passed through two parallel $8 \times 8$ adaptive pools, an Adaptive Average Pool and an Adaptive Max Pool, whose outputs are summed element-wise. Average pooling captures the global scene statistics but tends to smooth out sparse, informative responses; max pooling preserves the strongest localized activations but discards distributional context. Summing the two retains both signals, mitigating the spatial ambiguities observed during the iterative design process (detailed in Section \ref{sec:architectural_evolution}).
+The projected map is then passed through two parallel $8 \times 8$ adaptive pools, an Adaptive Average Pool and an Adaptive Max Pool, whose outputs are summed element-wise. Average pooling captures the global scene statistics but tends to smooth out sparse, informative responses; max pooling preserves the strongest localised activations but discards distributional context. Summing the two retains both signals, mitigating the spatial ambiguities observed during the iterative design process (detailed in Section \ref{sec:architectural_evolution}).
 
 The resulting $[B, 128, 8, 8]$ tensor is then mapped via final convolutional and linear layers to an output tensor of shape $[B, 5, 5]$, where $B$ represents the batch size.
 The final two dimensions encode the top 5 predicted bounding boxes globally per image, with each box defined by a feature tuple $\mathcal{F} = \{x, y, w, h, c\}$.

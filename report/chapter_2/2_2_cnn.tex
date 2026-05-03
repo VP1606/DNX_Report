@@ -17,7 +17,7 @@ Stacking these layers yields a representational hierarchy, with early layers cap
 \subsection{Residual Learning}
 
 A well-documented failure mode of deep \glspl{cnn} is the \textit{vanishing gradient} problem: as backpropagation proceeds through many successive layers, gradients are repeatedly scaled by values less than one, causing them to decay exponentially and preventing effective learning in early layers \cite{he2015deep}.
-He et al.~\textcite{he2015deep} resolved this through the introduction of \textit{residual learning}: rather than tasking each layer with learning a direct mapping $y = \mathcal{H}(x)$, the network instead learns the \textit{residual} $\mathcal{F}(x) = \mathcal{H}(x) - x$, recasting the target as:
+\textcite{he2015deep} resolved this through the introduction of \textit{residual learning}: rather than tasking each layer with learning a direct mapping $y = \mathcal{H}(x)$, the network instead learns the \textit{residual} $\mathcal{F}(x) = \mathcal{H}(x) - x$, recasting the target as:
 \begin{equation}
     y = \mathcal{F}(x) + x
 \end{equation}
