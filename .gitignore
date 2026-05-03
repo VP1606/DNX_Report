@@ -42,3 +42,7 @@ report/SESSION_HANDOFF.md
 screencast/animations/media/
 screencast/animations/*.mp4
 screencast/audio_files/
+
+audit_playback/*.mp4
+
+screencast/slides_images/
