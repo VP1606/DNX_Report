@@ -53,9 +53,13 @@ To extract high-level semantic features and manage the computational complexity 
 \textbf{Stage} & \textbf{Name} & \textbf{Resolution} & \textbf{Channels} & \textbf{Primary Operation} \\
 \hline
 1 & Initial Stem      & 90$\times$160 & 64  & Stride-2 Conv + \gls{lif} (Downsamples HD input) \\
+\hline
 2 & Backbone Alpha    & 22$\times$40  & 256 & Blocks 1 \& 2 (SEWResBlocks with Stride-2) \\
+\hline
 3 & Attention Bridge  & 22$\times$40  & 256 & Squeeze-and-Excitation (SE) Global Firing Recalibration \\
+\hline
 4 & High-Res Backbone & 22$\times$40  & 512 & Blocks 3 \& 4 (SEWResBlocks with Stride-1) \\
+\hline
 5 & Temporal Fusion   & 22$\times$40  & 512 & Summation of spikes across all $T$=10 timesteps \\
 \hline
 \end{tabular}%

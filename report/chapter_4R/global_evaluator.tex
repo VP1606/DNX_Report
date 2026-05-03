@@ -32,7 +32,7 @@ Min Confidence & 0.0011 & 0.0132 \\
 
 A qualitative audit was also conducted to visualise the models' spatial reasoning across the validation subset. Figure \ref{fig:qualitative_inference} illustrates the architectures' ability to resolve vehicle geometries in varied traffic conditions, providing the empirical context for the subsequent critical analysis of \gls{snn} precision. An expanded set of 20 paired samples is provided in Appendix~\ref{app:audit_samples}, with the full 200-sample audit available via the link.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
@@ -65,7 +65,8 @@ A qualitative audit was also conducted to visualise the models' spatial reasonin
     \end{subfigure}
 
     \vspace{1em}
-    
+
+    \centering
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{chapter_3/dnx_results/cnn_audit/audit_sample_020.png}
@@ -80,7 +81,13 @@ A qualitative audit was also conducted to visualise the models' spatial reasonin
         \label{fig:snn_sample020}
     \end{subfigure}
 
-    \vspace{1em}
+    \caption[Qualitative Inference Audit]{Qualitative comparison of bounding box regression between the CNN baseline and SNN (G3) across representative validation samples.}
+    \label{fig:qualitative_inference}
+\end{figure}
+
+\begin{figure}[H]
+    \ContinuedFloat
+    \centering
     
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
@@ -95,12 +102,8 @@ A qualitative audit was also conducted to visualise the models' spatial reasonin
         \caption{SNN (G3) - Sample 030}
         \label{fig:snn_sample030}
     \end{subfigure}
-    
-    \caption[Qualitative Inference Audit]{Qualitative comparison of bounding box regression between the CNN baseline and SNN (G3) across representative validation samples.}
-    \label{fig:qualitative_inference}
+    \caption[]{Qualitative comparison of bounding box regression between the CNN baseline and SNN (G3) across representative validation samples (continued).}
 \end{figure}
-
-\clearpage
 
 \subsection*{Critical Analysis}
 

@@ -9,7 +9,7 @@ This experiment serves to validate the biological plausibility of the model; spe
 
 Figure \ref{fig:temporal_sequences} illustrates the predictive evolution for three representative validation samples
 across three snapshots at $t=2$ ($20\text{ms}$), $t=5$ ($50\text{ms}$), and $t=10$ ($100\text{ms}$).
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.95\textwidth}
         \centering
@@ -26,18 +26,20 @@ across three snapshots at $t=2$ ($20\text{ms}$), $t=5$ ($50\text{ms}$), and $t=1
         \caption{Temporal Sequence 2: Persistent hunting with partial sharpening.}
         \label{fig:temp_seq_2}
     \end{subfigure}
-    
-    \vspace{1.5em}
-    
+    \caption[Temporal Evidence Accumulation Sequences]{Evolution of SNN bounding box predictions over $T=10$ timesteps, with annotated confidence scores. Each row demonstrates the progression from sparse initial evidence to a stable, high-confidence detection.}
+    \label{fig:temporal_sequences}
+\end{figure}
+
+\begin{figure}[H]
+    \ContinuedFloat
+    \centering
     \begin{subfigure}[b]{0.95\textwidth}
         \centering
         \includegraphics[width=\textwidth]{chapter_3/dnx_results/exp4_temporal/sequence_4.png}
         \caption{Temporal Sequence 3: High-confidence early detection.}
         \label{fig:temp_seq_3}
     \end{subfigure}
-    
-    \caption[Temporal Evidence Accumulation Sequences]{Evolution of SNN bounding box predictions over $T=10$ timesteps, with annotated confidence scores. Each row demonstrates the progression from sparse initial evidence to a stable, high-confidence detection.}
-    \label{fig:temporal_sequences}
+    \caption[]{Evolution of SNN bounding box predictions over $T=10$ timesteps, with annotated confidence scores (continued).}
 \end{figure}
 
 \subsection*{Critical Analysis}
@@ -50,7 +52,7 @@ spike activity provides sufficient evidence to localise the scene region, produc
 moderate-confidence ($0.43$--$0.56$) predictions, but remains insufficient to resolve precise
 vehicle boundaries. At $t=50\text{ms}$, membrane potential oscillation within the regression head
 causes a brief commitment to a spurious, spatially incorrect region. While partial consolidation
-occurs by $t=100\text{ms}$,successfully localising the partially occluded vehicle in the top
+occurs by $t=100\text{ms}$, successfully localising the partially occluded vehicle in the top
 left, overlapping boxes and unstable confidences persist. This failure to settle is
 characteristic of ```hunting without resolution'': competing spike trains from dense, multi-object
 clusters prevent a stable threshold-crossing consensus, highlighting a limitation of the current

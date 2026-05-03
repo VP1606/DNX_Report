@@ -10,26 +10,33 @@ The \gls{cnn} mirrors the \gls{snn}'s configuration strictly 1:1, replacing ever
 
 \begin{table}[htbp]
 \centering
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|p{8cm}|}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}X|}
 \hline
 \textbf{SNN Component} & \textbf{CNN Equivalent} & \textbf{Technical Purpose} \\
 \hline
 Spatiotemporal Voxel \texttt{[B, 10, 2, H, W]} & Flattened Channel Input \texttt{[B, 20, H, W]} & Translates 10 time bins into a format the respective network can ingest. \\
+\hline
 LIF Neuron (Leaky Integrate-and-Fire) & ReLU Activation & Provides the nonlinearity; SNN uses discrete pulses, \gls{cnn} uses continuous values. \\
-Binary Spikes $\{0, 1\}$ & Continuous Floats $[0, \infty)$ & Represents the information ``currency'' being passed between layers. \\
+\hline
+Binary Spikes $\{0, 1\}$ & Continuous Floats $[0, \infty]$ & Represents the information ``currency'' being passed between layers. \\
+\hline
 Surrogate Gradient & Exact Derivative (Standard) & Enables backpropagation through the non-differentiable spiking threshold. \\
+\hline
 SEWResBlock (Spiking Shortcut) & Standard Residual Block & Implements identity mapping to prevent vanishing gradients during training. \\
+\hline
 Multi-Step Mode (\texttt{step\_mode=`m'}) & Single spatial pass & Processes the temporal window efficiently on the GPU. \\
+\hline
 Squeeze-and-Excitation (Spike-based) & Squeeze-and-Excitation (Float-based) & Recalibrates channel importance based on global frame context. \\
+\hline
 Temporal Summation ($\sum_{t=1}^{T} S_t$) & N/A (Direct Feature Pass) & Aggregates 100ms of evidence into a single map for the regression head. \\
+\hline
 Multi-Box Head (5 Boxes) & Multi-Box Head (5 Boxes) & Predicts coordinates and objectness scores for 5 targets simultaneously. \\
+\hline
 Synaptic Operations (SOPs) & Floating Point Ops (FLOPs) & The metric used to quantify and compare hardware energy efficiency. \\
 \hline
-\end{tabular}%
-}
+\end{tabularx}
 \caption{1:1 Architectural Mapping (SNN vs. CNN) demonstrating strict structural parity.
-     Both models utilise an identical parameter budget (11.7M) and channel progression, differing only
+     Both models have an identical parameter budget (11.7M) and channel progression, differing only
      in the temporal dimension and activation functions (LIF vs. ReLU).
 }
 \label{tab:snn_cnn_mapping}
@@ -54,7 +61,7 @@ The core mathematical difference between the two architectures lies in their sum
     Performs an accumulative floating-point addition ($y = f(x) + x$). 
     The continuous intensity of the residual path is directly added to the identity path before the final \gls{relu} activation. 
     Here, the shortcut carries the \textit{raw input features} forward. 
-    This mechanism allows the model to learn the ``difference'' (the residual) needed to improve the representation, focusing on information preservation \cite{he2015deep}.
+    This mechanism allows the model to learn the difference (the residual) needed to improve the representation, focusing on information preservation \cite{he2015deep}.
     
     \item \textbf{SEWResBlock (SNN):} 
     Performs a relational element-wise spiking operation \textit{after} the activation function. 
@@ -67,18 +74,19 @@ Table \ref{tab:resblock_comparison} summarises these foundational differences in
 
 \begin{table}[htbp]
 \centering
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|p{5cm}|p{5cm}|}
+\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
 \hline
 \textbf{Feature} & \textbf{Standard ResBlock (CNN)} & \textbf{SEWResBlock (SNN)} \\
 \hline
 Summation & Accumulative ($y = f(x) + x$) & Relational (Spiking Element-Wise) \\
-Output Type & Continuous Float $[0, \infty)$ & Binary Spikes $\{0, 1\}$ \\
+\hline
+Output Type & Continuous Float $[0, \infty]$ & Binary Spikes $\{0, 1\}$ \\
+\hline
 Primary Benefit & Prevents vanishing gradients & Prevents spike vanishing \\
+\hline
 Mathematical Goal & Information preservation & Temporal integrity \\
 \hline
-\end{tabular}%
-}
+\end{tabularx}
 \caption[Identity Mapping Comparison]{Comparison of identity mapping between Standard ResBlocks and SEWResBlocks.}
 \label{tab:resblock_comparison}
 \end{table}

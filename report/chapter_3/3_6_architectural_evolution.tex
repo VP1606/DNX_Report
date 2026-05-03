@@ -102,7 +102,15 @@ To minimise the loss, the network averaged the spatial coordinates of all active
 a single bounding box that encompasses all vehicles and roadways rather than individual targets, as visually evidenced in
 Figure~\ref{fig:superbox_failure}.
 
-\begin{figure}[h]
+\subsubsection*{4. Actionable Insight and Iteration}
+Generation 1 confirmed that a single global regression head is incompatible with uncropped automotive perception, which requires precise and isolated detection of all obstacles present in the scene.
+To resolve this, the network's output topology shifted to a multi-box regression head;
+the output was expanded to a fixed-capacity $[B, 5, 5]$ tensor, predicting 5 boxes per inference,
+each augmented with a fifth ``Objectness'' confidence score $(x, y, w, h, c)$.
+%
+To support this, Generation 2 (G2) introduced a Vectorised Matching Loss to match predictions to their respective ground-truth annotations.
+
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.32\textwidth}
         \centering
@@ -136,14 +144,6 @@ Figure~\ref{fig:superbox_failure}.
     }
     \label{fig:superbox_failure}
 \end{figure}
-
-\subsubsection*{4. Actionable Insight and Iteration}
-Generation 1 confirmed that a single global regression head is incompatible with uncropped automotive perception, which requires precise and isolated detection of all obstacles present in the scene.
-To resolve this, the network's output topology shifted to a multi-box regression head;
-the output was expanded to a fixed-capacity $[B, 5, 5]$ tensor, predicting 5 boxes per inference,
-each augmented with a fifth ``Objectness'' confidence score $(x, y, w, h, c)$.
-%
-To support this, Generation 2 (G2) introduced a Vectorised Matching Loss to match predictions to their respective ground-truth annotations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% GENERATION 2 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
