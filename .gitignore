@@ -35,5 +35,10 @@ report/report.bbl-SAVE-ERROR
 report/SESSION_HANDOFF.md
 
 ## Screencast (Temporary)
-screencast/
-full_script.md
+# screencast/
+# full_script.md
+*.pyc
+
+screencast/animations/media/
+screencast/animations/*.mp4
+screencast/audio_files/
