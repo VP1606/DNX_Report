@@ -28,7 +28,7 @@ The result is a continuous, asynchronous stream of discrete events rather than a
 
 This per-pixel, threshold-driven design gives event cameras a compelling profile for autonomous perception: high temporal resolution, high dynamic range, low latency, and low data redundancy \cite{gallego2020event}.
 However, a sparse, unordered point cloud of $(x, y, t, p)$ tuples is fundamentally incompatible with conventional deep learning frameworks, which expect dense, structured tensors of fixed spatial dimensions.
-Correcting this to adapt to deep learning approaches requires a preprocessing step to convert the asynchronous stream into a format suitable for neural network ingestion, the specific design of which is detailed in Section~\ref{sec:data_preprocessing}.
+Adapting this to deep learning requires a preprocessing step to convert the asynchronous stream into a structured tensor, which is detailed in Section~\ref{sec:data_preprocessing}.
 
 \subsection{The Natural SNN--Event Camera Pairing}
 \label{subsec:bg_snn_event_pairing}
