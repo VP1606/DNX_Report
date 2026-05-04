@@ -5,7 +5,7 @@
 
 A \acrfull{cnn} extends the standard \gls{ann} architecture by replacing dense linear layers with convolutional operations, in which a bank of learnt filters is applied across the spatial extent of an input.
 Each filter performs a localised weighted sum at every spatial position, producing a feature map that encodes the presence and magnitude of a particular learnt pattern at each location.
-Stacking these layers yields a representational hierarchy, with early layers capturing low-level edges and motion boundaries and deeper layers composing them into object-level features \cite{lecun2015deep}.
+Stacking these layers yields a representational hierarchy, with early layers capturing low-level edges and motion boundaries, and deeper layers composing them into object-level features \cite{lecun2015deep}.
 
 \begin{figure}[htbp]
     \centering
@@ -17,7 +17,7 @@ Stacking these layers yields a representational hierarchy, with early layers cap
 \subsection{Residual Learning}
 
 A well-documented failure mode of deep \glspl{cnn} is the \textit{vanishing gradient} problem: as backpropagation proceeds through many successive layers, gradients are repeatedly scaled by values less than one, causing them to decay exponentially and preventing effective learning in early layers \cite{he2015deep}.
-\textcite{he2015deep} resolved this through the introduction of \textit{residual learning}: rather than tasking each layer with learning a direct mapping $y = \mathcal{H}(x)$, the network instead learns the \textit{residual} $\mathcal{F}(x) = \mathcal{H}(x) - x$, recasting the target as:
+\textcite{he2015deep} resolved this through the introduction of \textit{residual learning}: rather than tasking each layer with learning a direct mapping $y = \mathcal{H}(x)$, the network learns the \textit{residual} $\mathcal{F}(x) = \mathcal{H}(x) - x$, recasting the target as:
 \begin{equation}
     y = \mathcal{F}(x) + x
 \end{equation}

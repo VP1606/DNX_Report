@@ -29,11 +29,11 @@ These layer-wise activation values quantify the metabolic sparsity of the networ
 \subsection*{Mean Energy Savings}
 \label{subsubsec:mean_energy_savings}
 
-By substituting the empirical layer-wise firing rates ($\zeta$) recorded in Table \ref{tab:spike_activation} into the dynamic power formulation established in Equation \ref{eq:e_snn} (Section \ref{subsec:dynamic_power}), the network's computational operations can be directly translated into theoretical energy consumption in microjoules ($\mu J$). This mathematical translation reveals a substantial metabolic advantage for the neuromorphic paradigm, directly validating the core efficiency hypothesis of this research.
+By substituting the empirical layer-wise firing rates ($\zeta$) recorded in Table \ref{tab:spike_activation} into the dynamic power formulation established in Equation \ref{eq:e_snn} (Section \ref{subsec:dynamic_power}), the network's computational operations can be directly translated into theoretical energy consumption in microjoules ($\mu\text{J}$). This mathematical translation reveals a substantial metabolic advantage for the neuromorphic paradigm, directly validating the core efficiency hypothesis of this research.
 
 Table \ref{tab:energy_statistics} outlines the energy consumption statistics per frame across the 200-sample validation set.
-The continuous \gls{cnn} baseline, processing the input uniformly regardless of scene complexity, consumed a massive, static $42,429.21\ \mu J$ per frame with zero variance. 
-In contrast, the \texttt{DetectorNX-G3-SNN} architecture consumed a mean of only $2,404.98\ \mu J$ per frame, and dipped as low as $2,287.54\ \mu J$ on highly sparse scenes.
+The continuous \gls{cnn} baseline, processing the input uniformly regardless of scene complexity, consumed a massive, static $42{,}429.21\,\mu\text{J}$ per frame with zero variance.
+In contrast, the \texttt{DetectorNX-G3-SNN} architecture consumed a mean of only $2{,}404.98\,\mu\text{J}$ per frame, and dipped as low as $2{,}287.54\,\mu\text{J}$ on highly sparse scenes.
 
 \begin{table}[htbp]
 \centering
@@ -67,25 +67,25 @@ The model demonstrated a strong positive correlation ($R = 0.8668, R^2 = 0.7514$
 
 Critically, the parameters of this equation map directly to the biological behaviour of the network:
 \begin{itemize}
-    \item \textbf{The Metabolic Resting State ($y$-intercept):} The constant $2294.80\ \mu J$ represents the architectural overhead---the baseline energy required to simply maintain the membrane potentials across the 11.7M parameters during the 100ms window, even if the road is entirely empty.
-    \item \textbf{The Cost of Information (Slope):} The gradient $0.001757\ \mu J$ represents the exact, marginal energy cost of processing a single new event (e.g., a pixel of a car moving). 
+    \item \textbf{The Metabolic Resting State ($y$-intercept):} The constant $2294.80\,\mu\text{J}$ represents the architectural overhead---the baseline energy required to simply maintain the membrane potentials across the 11.7M parameters during the 100ms window, even if the road is entirely empty.
+    \item \textbf{The Cost of Information (Slope):} The gradient $0.001757\,\mu\text{J}$ represents the exact, marginal energy cost of processing a single new event (e.g., a pixel of a car moving).
 \end{itemize}
 
-This proves the reactive scalability of the architecture. While the \gls{cnn} possesses a static slope of exactly $0$ (consuming $42,429\ \mu J$ regardless of whether the frame contains complex traffic or empty asphalt), the \gls{snn} mimics biological neural efficiency by consuming power only in direct proportion to the incoming visual evidence.
+This proves the reactive scalability of the architecture. While the \gls{cnn} possesses a static slope of exactly $0$ (consuming $42{,}429\,\mu\text{J}$ regardless of whether the frame contains complex traffic or empty asphalt), the \gls{snn} mimics biological neural efficiency by consuming power only in direct proportion to the incoming visual evidence.
 
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{chapter_3/dnx_results/dynamic_power/exp1_dynamic_power_snn_only.png}
-        \caption{SNN Dynamic Power ($\mu J$)}
+        \caption{SNN Dynamic Power ($\mu\text{J}$)}
         \label{fig:dynamic_power_snn}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{chapter_3/dnx_results/dynamic_power/exp1_dynamic_power_cnn_only.png}
-        \caption{CNN Static Power ($\mu J$)}
+        \caption{CNN Static Power ($\mu\text{J}$)}
         \label{fig:dynamic_power_cnn}
     \end{subfigure}
     
@@ -98,7 +98,7 @@ This proves the reactive scalability of the architecture. While the \gls{cnn} po
         \label{fig:dynamic_power_merged}
     \end{subfigure}
     
-    \caption[Dynamic Power Consumption vs. Scene Activity]{Comparison of dynamic power consumption ($\mu J$) between the SNN and CNN architectures relative to the raw event count of the input scene. The isolated SNN graph (a) demonstrates strong linear scaling ($R^2 = 0.7514$), validating its event-driven efficiency, whereas the CNN (b) consumes a massive static overhead.}
+    \caption[Dynamic Power Consumption vs. Scene Activity]{Comparison of dynamic power consumption ($\mu\text{J}$) between the SNN and CNN architectures relative to the raw event count of the input scene. The isolated SNN graph (a) demonstrates strong linear scaling ($R^2 = 0.7514$), validating its event-driven efficiency, whereas the CNN (b) consumes a massive static overhead.}
     \label{fig:dynamic_power}
 \end{figure}
 

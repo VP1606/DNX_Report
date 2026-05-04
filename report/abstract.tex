@@ -14,7 +14,7 @@ To the best of our knowledge, this is the first directly-trained SNN developed a
 DetectorNX-G3-SNN achieves $94.9\%$ mIoU parity and $91.3\%$ $mAP_{50}$ parity against the continuous baseline,
 with $100\%$ recall at IoU $> 0.5$.
 Per-frame theoretical energy consumption drops by $94.33\%$, scaling linearly with scene activity ($R^2 = 0.7514$).
-The SNN maintains $259.80$ FPS on GPU hardware ($8.6\times$ the automotive real-time threshold) with superior confidence calibration at low-confidence regions.
+The SNN maintains $259.80$ FPS on GPU hardware ($8.6\times$ the automotive real-time threshold) with superior confidence calibration in low-confidence regions.
 
 This project establishes directly-trained SNNs as a viable route to energy-efficient automotive-grade vehicle detection, at a cost of only $\sim5\%$ \gls{miou} precision under strict architectural \gls{snn}--\gls{cnn} parity. 
 The $1$-bit quantisation penalty underlying this gap acts as a scale-independent global ceiling, invalidating the initial scale-dependent hypothesis. 

@@ -11,7 +11,7 @@ By prioritising event-driven binary communication, this paradigm aims to drastic
 At the foundation of most practical \glspl{snn} lies the \acrfull{lif} neuron model, which governs the temporal dynamics and binary spike generation of the network.
 Unlike standard \glspl{ann} that utilise continuous activation functions such as \gls{relu}, the \gls{lif} node maintains an internal state: the membrane potential $V[t]$, which updates iteratively across discrete timesteps $t \in [1, T]$.
 
-The dynamics of the \gls{lif} neuron at a given spatial position and timestep $t$ are governed by the integration of incoming pre-synaptic spatial features $X[t]$ and an inherent leak factor $\tau$, which dictates how quickly $V[t]$ returns to its resting state in absence of incoming input.
+The dynamics of the \gls{lif} neuron at a given spatial position and timestep $t$ are governed by the integration of incoming pre-synaptic spatial features $X[t]$ and an inherent leak factor $\tau$, which dictates how quickly $V[t]$ returns to its resting state in the absence of incoming input.
 The hidden membrane potential $H[t]$ prior to spiking is mathematically defined as:
 \begin{equation}
     H[t] = V[t-1] + \frac{1}{\tau} \left(X[t] - (V[t-1] - V_{reset})\right)

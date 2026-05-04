@@ -6,19 +6,19 @@ This experiment evaluates the predictive reliability of the architectures by map
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{chapter_3/dnx_results/exp3_confidence_calibration.png}
-    \caption[Confidence Calibration Reliability Diagrams]{Reliability diagrams for the \gls{snn} (left) and \gls{cnn} (right). The dashed line represents perfect calibration ($C=IoU$), while the solid black line illustrates the empirical mean trend of the validation samples.}
+    \caption[Confidence Calibration Reliability Diagrams]{Reliability diagrams for the \gls{snn} (left) and \gls{cnn} (right). The dashed line represents perfect calibration ($C=\mathrm{IoU}$), while the solid black line illustrates the empirical mean trend of the validation samples.}
     \label{fig:confidence_calibration}
 \end{figure}
 
 \subsection*{Comparative Analysis: Overconfidence vs.\ Calibration}
 
 The results demonstrate a clear divergence in predictive behaviour. 
-The \gls{cnn} baseline (Figure \ref{fig:confidence_calibration}, right) exhibits a pronounced \textit{overconfidence bias}: a significant number of validation samples occupy the positive-confidence region ($x > 0.5$) while maintaining an actual \gls{iou} of zero, and never predicts an $IoU=0.0$ event to have a confidence of zero. 
+The \gls{cnn} baseline (Figure \ref{fig:confidence_calibration}, right) exhibits a pronounced \textit{overconfidence bias}: a significant number of validation samples occupy the positive-confidence region ($x > 0.5$) while maintaining an actual \gls{iou} of zero, and never predicts an $\mathrm{IoU}=0$ event to have a confidence of zero. 
 This indicates that the \gls{cnn} frequently hallucinates vehicle targets in background noise with near-maximum certainty, a failure mode that is critically dangerous for autonomous perception systems. 
 The empirical trend line for the \gls{cnn} remains consistently below the identity line, particularly in the high-confidence domain.
 
 In contrast, the \texttt{DetectorNX-G3-SNN} (Figure \ref{fig:confidence_calibration}, left) demonstrates superior calibration, particularly at lower confidence values.
-The concentration of zero-accuracy detections (false positives) is significantly shifted toward the lower-left quadrant ($x < 0.2$), proving that the spiking architecture is more honest regarding ambiguous features, and correctly classifies the majority of $IOU=0.0$ events with a confidence of zero.
+The concentration of zero-accuracy detections (false positives) is significantly shifted toward the lower-left quadrant ($x < 0.2$), proving that the spiking architecture is more honest regarding ambiguous features, and correctly classifies the majority of $\mathrm{IoU}=0$ events with a confidence of zero.
 The empirical trend line for the \gls{snn} follows a qualitatively similar trajectory to its \gls{cnn} counterpart, suggesting that the calibration behaviour is more architecture-dependent than being down to spikes versus floats.
 
 \subsection*{Hypothesis Validation: The Spiking Uncertainty Sensor}

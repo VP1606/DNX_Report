@@ -13,7 +13,7 @@ As a result, scaling such systems to handle more complex scenarios has caused bo
 \textcite{lin_adas_cnn_issues} documented CPU-based \gls{cnn} inference exceeding the thermal and power constraints of \gls{adas} hardware, motivating the industry's shift to \gls{gpu}-class accelerators; 
 continued growth in perception complexity now places dense \gls{ann} workloads on \glspl{gpu} on a similar trajectory, motivating a paradigm shift towards fundamentally more efficient architectures.
 
-This project investigates utilising a cutting-edge neuromorphic paradigm, \acrfullpl{snn}, and their feasibility in this domain.
+This project investigates a cutting-edge neuromorphic paradigm, \acrfullpl{snn}, and their feasibility in this domain.
 To achieve this, the project develops \texttt{DetectorNX-G3-SNN}, a high-definition spiking architecture designed for multi-object automotive perception. 
 While recent architectures such as SpikeDet \cite{fan2025spikedet}, SpikeYOLO \cite{spike_yolo}, and EMS-YOLO \cite{ems_yolo} have advanced \gls{snn} detection on general-purpose benchmarks, their applicability and efficiency trade-offs in high-definition automotive environments remain critically underexplored.
 By rigorously benchmarking this system against a strictly equivalent continuous \gls{cnn} on the event-based \acrfull{etram} dataset \parencite{Verma_2024_CVPR}, 

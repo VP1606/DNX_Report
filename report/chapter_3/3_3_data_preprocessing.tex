@@ -22,8 +22,8 @@ The practical consequence of this choice is two-fold.
 First, a $100\text{ms}$ window is long enough to guarantee a minimum event density sufficient for the \gls{lif} neurons 
 in the stem layer to accumulate membrane potential and produce meaningful spike trains 
 across all $T = 10$ temporal bins. 
-Second, specific to the context of vehicle detection, it is short enough that a vehicle travelling at highway speed (e.g., $120\text{ km/h} \approx 33\text{ ms}^{-1}$) displaces by 
-only $3.3\text{m}$ within the window, ensuring that the bounding box annotation 
+Second, specific to the context of vehicle detection, it is short enough that a vehicle travelling at highway speed (e.g., $120$\,km/h $\approx 33$\,m\,s$^{-1}$) displaces by
+only $3.3$\,m within the window, ensuring that the bounding box annotation
 assigned to the window remains spatially valid and does not introduce label noise through excessive object displacement.
 
 In combination with the Box-Central sampling approach, the pipeline applies a density filter prior to voxelisation: for each $100\text{ms}$ window the raw event count is checked, and windows containing fewer than \texttt{min\_events} $= 500$ events are discarded. 
@@ -128,7 +128,7 @@ The combined effect of offline precomputation, chunked serialisation, and in-mem
 
 \subsection{\gls{bolt} Pipeline: Visualised}
 
-Figure \ref{fig:preprocessing_pipeline} details the order of which the aforementioned preprocessing steps are applied to the raw event data.
+Figure \ref{fig:preprocessing_pipeline} details the order in which the aforementioned preprocessing steps are applied to the raw event data.
 
 \begin{figure}[htbp]
     \centering

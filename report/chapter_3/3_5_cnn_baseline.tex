@@ -18,7 +18,7 @@ Spatiotemporal Voxel \texttt{[B, 10, 2, H, W]} & Flattened Channel Input \texttt
 \hline
 LIF Neuron (Leaky Integrate-and-Fire) & ReLU Activation & Provides the nonlinearity; \gls{snn} uses discrete pulses, \gls{cnn} uses continuous values. \\
 \hline
-Binary Spikes $\{0, 1\}$ & Continuous Floats $[0, \infty]$ & Represents the information ``currency'' being passed between layers. \\
+Binary Spikes $\{0, 1\}$ & Continuous Floats $[0, \infty)$ & Represents the information ``currency'' being passed between layers. \\
 \hline
 Surrogate Gradient & Exact Derivative (Standard) & Enables backpropagation through the non-differentiable spiking threshold. \\
 \hline
