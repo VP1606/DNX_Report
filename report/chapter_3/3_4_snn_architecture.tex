@@ -27,7 +27,7 @@ Both the membrane potential dynamics from Equation~\ref{eq:lif_membrane} and Hea
     \tau &= 4.0
 \end{align*}
 
-The voltage threshold $V_{th} = 0.2$ was tuned to balance information flow against noise. Earlier revisions used $V_{th} = 0.3$, which silenced the network, whereas decreasing $V_{th}$ further allowed erroneous background noise to register as spikes.
+The voltage threshold $V_{th} = 0.2$ was tuned to balance information flow against noise. Earlier revisions used $V_{th} = 0.5$, which silenced the network, whereas decreasing $V_{th}$ further allowed erroneous background noise to register as spikes.
 
 The time constant $\tau = 4.0$ creates a leaky effect, allowing the neuron to retain input evidence across roughly four to five timesteps -- low enough to prevent over-saturation, but high enough for the signal to persist until it reaches the regression head.
 

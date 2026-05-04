@@ -19,7 +19,7 @@ To provide a concrete evaluation framework, the following measurable success cri
     The \gls{snn} and \gls{cnn} must share an equivalent parameter count (within $1\%$), ensuring that any observed performance gap reflects the spiking mechanism rather than differences in model capacity.
 
     \item \textbf{Detection completeness:}
-    Both models must achieve a recall of $100\%$ for objects with an \gls{iou} exceeding $0.5$ on the validation set, confirming that the multi-box regression head reliably detects all ground-truth vehicles in the scene.
+    Both models must achieve a recall at $\mathrm{IoU}\ge0.5$ of $100\%$ on the validation set, confirming that the multi-box regression head reliably detects all ground-truth vehicles in the scene.
 
     \item \textbf{Confidence calibration:}
     The \gls{snn} must exhibit confidence calibration equivalent to, or superior to, that of the \gls{cnn} baseline on the \gls{etram} validation set.

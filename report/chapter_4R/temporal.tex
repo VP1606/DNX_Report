@@ -62,7 +62,7 @@ backbone capacity in highly complex spatial environments.
 Figure \ref{fig:temp_seq_1} best shows this phenomenon: at $t=2$, the initial guess is nowhere near the ground truth, since the majority 
 of \gls{lif} neurons have not accumulated sufficient membrane potential to cross the firing threshold ($V_{th} = 0.2$).
 However, as time progresses, the model correctly starts to localise on the car, and by $t=10$ settles down into a stable prediction with a confidence of $53\%$.
-This sample in particular shows an area for further development, where a post-detection step could be introduced to accumulate nested predictions into one large prediction, which would prevent phenomena such as the one observed here: where there are two nested bounding boxes being drawn for the same event.
+This sample in particular shows an area for further development, where a post-detection step could be introduced to accumulate nested predictions into one large prediction, which would prevent phenomena such as the one observed here: where there are two nested bounding boxes being drawn for the same target.
 
 \paragraph{High-confidence early detection:}
 Figure \ref{fig:temp_seq_3} shows that the current architecture succeeds in high-confidence early detection,

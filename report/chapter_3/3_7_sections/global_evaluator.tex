@@ -17,17 +17,16 @@ In this experiment, five complementary metrics are evaluated:
     \item \textbf{\gls{map_50}:} the COCO-convention detection-quality metric, measuring average precision at a fixed 0.5 \gls{iou} threshold; enables external comparison against published detectors and validates that \gls{miou} parity is not an artefact of the overlap-only evaluation.
 
     \item \textbf{Recall:}
-    measures the proportion of ground truth objects successfully localised at a confidence threshold of 50\%, penalising architectures that fail to respond to
+    measures the proportion of ground truth objects successfully localised at an \gls{iou} threshold of 50\%, penalising architectures that fail to respond to
     sparse event regions.
 
     \item \textbf{\gls{adp}:} 
     quantifies detector selectivity relative to the ground truth mean of 2.02 objects per frame;
     significant positive deviation indicates spurious ``ghost'' detections arising from background noise misclassification.
 
-    \item \textbf{Mean Prediction Confidence:}
-    captures network self-certainty by averaging sigmoid-activated confidence scores across all
-    positive detections, probing whether spiking dynamics produce decisive or hesitant objectness
-    predictions.
+    \item \textbf{Prediction Confidence Range (Max/Min):}
+    captures the dynamic range of network self-certainty by reporting the highest and lowest sigmoid-activated confidence scores across all positive detections, 
+    testing whether spiking dynamics produce a wider or more conservative confidence spread compared to continuous activations.
 \end{itemize}
 
 \subsubsection{Hypothesis}
@@ -44,7 +43,7 @@ prior observations that surrogate-trained networks distribute representational e
 
 This experiment provides three contributions. 
 It delivers the \textit{parity proof}, framing the accuracy-efficiency trade-off quantitatively. 
-It offers \textit{logical validation} that the Phase 1 ambiguity problem has been resolved through the
+It offers \textit{logical validation} that the Generation 1 ambiguity problem has been resolved through the
 architectural refinements described in Section~\ref{sec:architectural_evolution}.
 Finally, evaluation across the full validation set ensures statistical robustness,
 confirming that results are representative of the broader \gls{etram} environment rather than artefacts of favourable individual frames.

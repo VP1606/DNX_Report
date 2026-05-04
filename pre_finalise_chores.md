@@ -2,7 +2,7 @@
 
 [ ] Formatting: check figure formatting on all pages.
 [x] ~~SPaG.~~
-[ ] Correctness.
-[ ] Soundness.
+[x] ~~Correctness.~~
+[x] ~~Soundness.~~
 [ ] Words <18,000.
 [ ] Check Citations.
