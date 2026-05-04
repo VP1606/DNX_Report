@@ -270,7 +270,7 @@ class EfficiencyOverlay(Scene):
         self.play(FadeIn(snn_tag_combined, shift=UP * 0.15), run_time=0.5)
 
         self.play(FadeIn(reduction_callout, scale=0.85), run_time=0.9)
-        self.wait(5.5)
+        self.wait(7.5)
 
         # ---------- Phase 3: zoom transition  (~3 s) ----------
         # Drop the combined-view-only callouts before rescaling.
@@ -298,7 +298,7 @@ class EfficiencyOverlay(Scene):
             FadeIn(r_squared_callout, shift=UP * 0.10),
             run_time=0.8,
         )
-        self.wait(7.0)
+        self.wait(13.0)
 
         # ---------- Phase 5: zoom back out  (~12 s) ----------
         # Zoomed callouts fade; cross-fade back to combined view.
@@ -319,8 +319,8 @@ class EfficiencyOverlay(Scene):
             FadeIn(snn_tag_combined),
             run_time=2.0,
         )
-        self.wait(8.5)
+        self.wait(4.0)
 
-        # ---------- Phase 6: closing tag  (~5 s) ----------
+        # ---------- Phase 6: closing tag  (~6 s) ----------
         self.play(FadeIn(closing_tag, shift=UP * 0.15), run_time=0.7)
-        self.wait(3.5)
+        self.wait(5.5)
