@@ -47,7 +47,7 @@
 
 <!-- Label for skip -->
 <text x="530" y="180" text-anchor="start" dominant-baseline="central" style="fill:#BA7517;fill:rgb(186, 117, 23);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:central">Skip connection</text>
-<text x="530" y="196" text-anchor="start" dominant-baseline="central" style="fill:#BA7517;fill:rgb(186, 117, 23);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:central">x[t] ∈ {0,1}</text>
+<text x="530" y="196" text-anchor="start" dominant-baseline="central" style="fill:#BA7517;fill:rgb(186, 117, 23);stroke:none;color:rgb(0, 0, 0);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:central">x[t] in {0,1}</text>
 
 <!-- Key annotation: "After activation" callout -->
 <line x1="240" y1="312" x2="120" y2="312" stroke-dasharray="4 3" style="fill:none;stroke:rgb(115, 114, 108);color:rgb(0, 0, 0);stroke-width:0.5px;stroke-dasharray:4px, 3px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, &quot;system-ui&quot;, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
