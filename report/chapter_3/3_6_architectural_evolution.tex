@@ -217,7 +217,7 @@ To solve these bottlenecks, the architecture was overhauled to create the final 
     
     \item \textbf{Metabolic Regularisation:} 
     The \gls{lif} firing threshold was lowered ($V_{th}=0.5 \rightarrow 0.2$) to wake up the silent backbone, making it significantly easier for neurons to activate. 
-    Concurrently, the \gls{frr} penalty multiplier ($\lambda$) was also increased ($1.0 \rightarrow 5.0$) with a target rate of 20\%. 
+    The \gls{frr} penalty multiplier ($\lambda$) was also increased ($1.0 \rightarrow 5.0$) with a target rate of 20\%.
     This forced the network to generate a dense, high-frequency stream of geometric data, providing the regression head with the robust temporal evidence needed to sense the exact boundaries of the vehicles.
     
     \item \textbf{Hardware Optimisation:} 

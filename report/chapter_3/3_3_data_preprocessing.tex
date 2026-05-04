@@ -8,11 +8,11 @@ The \gls{bolt} preprocessing pipeline takes the raw \gls{etram} data at $1280 \t
 
 The \gls{bolt} pipeline begins by reading the raw h5 event files $(x, y, t, p)$ and the partnering npy files containing the bounding box annotations from the \gls{etram} dataset.
 Once both files have been parsed, the first step taken is to apply a $100 ms$ sliding window across the entire duration of the event file. 
-``Windowing`` is the process of slicing the continuous event stream into chunks that represent a single instance of time for the model, thereby anchoring the asynchronous event stream into discrete, structured training instances. 
+``Windowing'' is the process of slicing the continuous event stream into chunks that represent a single instance of time for the model, thereby anchoring the asynchronous event stream into discrete, structured training instances. 
 
 To maximise training efficiency and ensure a high signal-to-noise ratio in the training distribution, the \gls{bolt} pipeline adopts a Box-Central sampling strategy rather than more conventional uniform temporal partitioning;
 training windows are anchored deterministically around the centroids of existing ground truth annotations. 
-This approach ensures that 100\% of the training voxels contain informative structural targets, mitigating the prevalence of 'empty-scene' noise and providing the SNN with consistent temporal evidence to drive membrane potential
+This approach ensures that 100\% of the training voxels contain informative structural targets, mitigating the prevalence of ``empty-scene'' noise and providing the SNN with consistent temporal evidence to drive membrane potential
 accumulation prior to the target timestamp.
 
 In this project, the time window $\Delta T = 100\text{ms}$ was chosen to align with the temporal persistency of the human visual system of roughly $100\text{ms}$ \cite{deodato2024continuous};

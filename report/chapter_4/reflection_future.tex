@@ -8,7 +8,7 @@ This section analyses the principal trade-offs and limitations encountered durin
 \subsubsection*{Impact}
 
 The most significant limitation of this evaluation is the hardware-mismatch penalty inherent in benchmarking an event-driven \gls{snn} on synchronous \gls{gpu} hardware. 
-utilising the SpikingJelly library's multi-step execution paradigm (\texttt{step\_mode='m'}) \cite{fang2023spikingjelly}, the $T=10$ temporal window is processed as a series of fused-kernel iterations. The \gls{gpu} must explicitly update the membrane potential and reset state for every neuron in every layer, regardless of whether a spike is generated. 
+Utilising the SpikingJelly library's multi-step execution paradigm (\texttt{step\_mode='m'}) \cite{fang2023spikingjelly}, the $T=10$ temporal window is processed as a series of fused-kernel iterations. The \gls{gpu} must explicitly update the membrane potential and reset state for every neuron in every layer, regardless of whether a spike is generated. 
 
 This ``simulated time'' approach nullifies the asynchronous, event-driven nature of the \gls{snn}, resulting in the $5.4\times$ throughput penalty documented in Section \ref{subsec:exp_latency}. 
 
@@ -53,7 +53,7 @@ Finally, the choice of the \gls{etram} dataset \parencite{Verma_2024_CVPR} intro
 Because the frames are captured from a static roadside perspective ($\sim$6\,m height), they lack the ego-motion artefacts, such as motion blur and rapid optic flow, that define a vehicle-mounted sensor's environment. In real-world autonomous deployments, cameras are mounted directly to moving vehicles; therefore, it is imperative that a perception system is trained to process and filter such dynamic artefacts.
 
 However, the selection of \gls{etram} over alternatives like Prophesee GEN1 was a deliberate methodological trade-off; \gls{etram} was prioritised for its manual label fidelity (human-assigned labels) and \gls{hd} resolution, providing a gold standard benchmark that was essential for the architectural validation of the \texttt{DetectorNX-G3-SNN} backbone.
-While the static mounting is a weakness, the quality of the annotations ensured that the $94.9\%$ \gls{miou} / $91.3\%$ \gls{map_50} parity was a reflection of the architecture's capacity, rather than an artifact of noisy, automated labels.
+While the static mounting is a weakness, the quality of the annotations ensured that the $94.9\%$ \gls{miou} / $91.3\%$ \gls{map_50} parity was a reflection of the architecture's capacity, rather than an artefact of noisy, automated labels.
 Furthermore, the \gls{etram} study also provided a custom preprocessing pipeline optimised towards the specific dataset \cite{Verma_2024_CVPR}, which served as the foundation for the \gls{bolt} pipeline detailed in Section \ref{sec:data_preprocessing}. Leveraging this existing infrastructure significantly accelerated development, ensuring the project's ambitious scope could be realised within the constrained timeframe.
 
 \subsubsection*{Future Work}

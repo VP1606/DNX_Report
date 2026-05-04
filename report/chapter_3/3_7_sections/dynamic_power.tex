@@ -13,16 +13,16 @@ This analysis serves to validate the event-driven nature of the \gls{snn}, demon
 In a standard \gls{cnn}, the total energy per frame ($E_{CNN}$) is calculated by multiplying the total number of \glspl{flop} by the cost of a 32-bit \gls{mac} ($E_{MAC}$):
 
 \begin{equation}
-  E_{CNN} = \sum_{l=1}^{L} (FLOPs_l \times E_{MAC})
+  E_{CNN} = \sum_{l=1}^{L} (\mathrm{FLOPs}_l \times E_{MAC})
 \end{equation}
 
-\noindent Where $E_{MAC} = 4.6\text{ pJ}$ per 32-bit floating point operation, as referenced in Table \ref{tab:energy_constants} \cite{horowitz20141}.
+\noindent Where $E_{MAC} = 4.6\text{ pJ}$ per 32-bit floating-point operation, as referenced in Table \ref{tab:energy_constants} \cite{horowitz20141}.
 
 The number of \glspl{flop} is the total number of \glspl{mac} operations required to produce the output feature map; in a \gls{cnn}, this number is static, regardless of what the image contains.
 The \glspl{flop} of a \gls{cnn} can be calculated as follows:
 
 \begin{equation}
-     FLOPs_l = (H_{out} \times W_{out}) \times (K \times K) \times C_{in} \times C_{out}
+     \mathrm{FLOPs}_l = (H_{out} \times W_{out}) \times (K \times K) \times C_{in} \times C_{out}
 \end{equation}
 
 Where $(H_{out} \times W_{out})$ is the number of pixels in the output frame, $(K \times K)$ is the size of the convolutional kernel, $C_{in}$ is the number of input channels, and $C_{out}$ is the number of output channels.
@@ -34,7 +34,7 @@ For the spiking architecture, the calculation is scaled by the activation sparsi
 The metabolic cost of the spiking backbone can be quantified via the \gls{sop} metric;
 unlike the static complexity of the \gls{cnn} baseline, the \gls{sop} count for a given layer is a dynamic function, which can be calculated as follows:
 \begin{equation}
-SOPs_l = FLOPs_l \times \zeta \times T
+\mathrm{SOPs}_l = \mathrm{FLOPs}_l \times \zeta_l \times T
 \label{eq:sop_zeta}
 \end{equation}
 
@@ -58,7 +58,7 @@ The total energy per frame ($E_{SNN}$) is defined as:
 
 \begin{equation}
 \label{eq:e_snn}
-  E_{SNN} = \sum_{l=1}^{L} (SOPs_l \times E_{AC})
+  E_{SNN} = \sum_{l=1}^{L} (\mathrm{SOPs}_l \times E_{AC})
 \end{equation}
 
 

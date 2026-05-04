@@ -2,7 +2,7 @@
 \label{sec:snn_architecture}
 
 The core focus, effort and innovation of this project is the development and optimisation of the \texttt{DetectorNX-G3-SNN} architecture. 
-This model is explicitly designed to process high-definition neuromorphic event data while adhering to the computational paradigms of \gls{snn}s. 
+This model is explicitly designed to process high-definition neuromorphic event data while adhering to the computational paradigms of \glspl{snn}. 
 By prioritising event-driven, binary communication, the architecture aims to drastically reduce both the dynamic power consumption and the computational complexity compared to traditional deep learning models, making it superior for power and time constrained environments.
 
 \subsection{Spatiotemporal Input and Multi-Step Execution}
@@ -13,7 +13,7 @@ Consequently, the network ingests a massive, high-dimensional spatiotemporal ten
 Given the high spatial dimensionality and the iterative nature of spiking neurons, native Python loop execution over the time dimension proved computationally restrictive. 
 To overcome this bottleneck, the entire architecture was refactored to utilise the SpikingJelly framework's optimised Multi-Step (\texttt{step\_mode='m'}) execution paradigm \cite{fang2023spikingjelly};
 instead of iterating through the 10 time bins sequentially, the entire spatiotemporal tensor is passed directly into custom-compiled \gls{cuda} kernels.
-This low-level optimisation enables high-speed, parallelised execution of the temporal dynamics, making the extensive benchmarking of this HD dataset feasible on local GPU hardware, and reducing overall training time from approximately 16 hours to 7.
+This low-level optimisation enables high-speed, parallelised execution of the temporal dynamics, making the extensive benchmarking of this HD dataset feasible on local GPU hardware, and reducing overall training time from approximately 16 hours to 7 hours.
 
 \subsection{Neuron Dynamics: \gls{lif}}
 \label{subsec:snn_lif}
@@ -27,18 +27,18 @@ Both the membrane potential dynamics from Equation~\ref{eq:lif_membrane} and Hea
     \tau &= 4.0
 \end{align*}
 
-The voltage threshold $V_{th} = 0.2$ was tuned to balance information flow against noise. Earlier revisions used $V_{th} = 0.3$, which silenced the network, whereas decreasing $V_{th}$ further submitted erroneous background noise as spikes.
+The voltage threshold $V_{th} = 0.2$ was tuned to balance information flow against noise. Earlier revisions used $V_{th} = 0.3$, which silenced the network, whereas decreasing $V_{th}$ further allowed erroneous background noise to register as spikes.
 
 The time constant $\tau = 4.0$ creates a leaky effect, allowing the neuron to retain input evidence across roughly four to five timesteps -- low enough to prevent over-saturation, but high enough for the signal to be remembered until the regression head before decay.
 
-Following each spike, the neurons apply a hard reset to $V_{reset} = 0.0$, enforcing temporal sparsity by requiring the neuron to integrate new spatiotemporal information before re-activating,
+Following each spike, the neuron applies a hard reset to $V_{reset} = 0.0$, enforcing temporal sparsity by requiring the neuron to integrate new spatiotemporal information before re-activating,
 and providing the zero-centred baseline required for stable surrogate gradient descent \cite{fang2022resnet_sew}. 
 
 \subsubsection{The Backward Pass (Surrogate Gradients)}
 As described in Section~\ref{subsec:bg_surrogate}, the Heaviside function's non-differentiable property poses a challenge in spiking neural networks.
 To get around the zeroed gradients and the consequent ``dead neuron'' problem, the \gls{snn} model employs the \gls{atan} function described in Section~\ref{subsec:bg_surrogate}, where the backward pass approximates the step function using Equation~\ref{eq:atan_surrogate};
 this mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution.
-In this implementation, SpikingJelly's default value of $\alpha = 2.0$ was used, which is the standard value used for high-performance \gls{snn} training.
+In this implementation, SpikingJelly's default value of $\alpha = 2.0$ was adopted, which is the standard for high-performance \gls{snn} training.
 
 \subsection{Backbone: SEW-ResNet and Attention}
 \label{subsec:snn_backbone}
@@ -102,17 +102,17 @@ In this \texttt{DetectorNX-G3-SNN} architecture, the bottleneck exists at the tr
       This spatial bottleneck is critical because each remaining pixel must now represent a large $8 \times 8$ receptive field of the original HD sensor data, forcing the network to discard fine-grained geometric redundancy while retaining the
       core structural boundaries of multiple detected objects.
 
-      \item \textbf{A Semantic Shift (High-Level Abstraction):} 
-      This juncture marks the definitive pivot where the network transitions from extracting low-level geometric primitives, such as spike-edge orientation and motion direction, to synthesizing complex semantic concepts. 
+      \item \textbf{A Semantic Shift (High-Level Abstraction):}
+      This juncture marks the definitive pivot where the network transitions from extracting low-level geometric primitives, such as spike-edge orientation and motion direction, to synthesising complex semantic concepts. 
       Without an explicit selection mechanism, the network at this depth is susceptible to noise and artefacts from the HD event stream, which can blur the distinction between legitimate targets and background interference.
   \end{enumerate}
 
 To both mitigate and solve these bottleneck constraints, a \gls{se} mechanism is introduced in Stage 3 of the backbone, sitting directly at the transition point \cite{hu2019_se_block}.
-The \gls{se} block operates by performing a global average pooling of the 256 feature channels (the ``Squeeze`` phase), followed by two fully connected layers that calculate a weighting factor for each channel (the ``Excitation`` phase).
+The \gls{se} block operates by performing a global average pooling of the 256 feature channels (the ``Squeeze'' phase), followed by two fully connected layers that calculate a weighting factor for each channel (the ``Excitation'' phase).
 This effectively mitigates the spatial constraint by allowing the network to incorporate global context into its local representations, compensating for the loss of resolution.
 
 When applied in the context of an \gls{snn}, this acts as a dynamic firing modulator: the backbone's activations are re-calibrated by looking at the global context of the entire frame, magnifying the most informative channels whilst suppressing those containing artefacts.
-By applying this recalibration, the \gls{se} block ensures that only the most relevant ``objectness``, where objectness is the probability that a specific region contains a genuine object of interest rather than background noise, are passed into the final high-capacity blocks, effectively mitigating the semantic ambiguity before the final bounding box regression.
+By applying this recalibration, the \gls{se} block ensures that only the most relevant ``objectness'' (the probability that a specific region contains a genuine object of interest rather than background noise) features are passed into the final high-capacity blocks, effectively mitigating the semantic ambiguity before the final bounding box regression.
 
 \begin{figure}[h]
     \centering
@@ -125,7 +125,7 @@ By applying this recalibration, the \gls{se} block ensures that only the most re
 
 \subsection{Firing Rate Regularisation (FRR)}
 \label{subsec:snn_frr}
-A common failure mode in deep SNN training is network silencing (zero spikes emitted) or over-saturation (firing continuously at every timestep), both of which halt gradient flow and destroy energy efficiency. 
+A common failure mode in deep \gls{snn} training is network silencing (zero spikes emitted) or over-saturation (firing continuously at every timestep), both of which halt gradient flow and destroy energy efficiency. 
 To constrain the network, a custom Firing Rate Regularisation (FRR) Metabolic Penalty was integrated into the training pipeline.
 
 The FRR applies a squared error loss to the network's average firing rate:

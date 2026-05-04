@@ -7,14 +7,14 @@ but differs in the final calculation:
 as opposed to calculating the dynamic power consumption per frame, this experiment aims to find the average power consumption per frame across the entire dataset, and extrapolates for multiple hardware platforms:
 
 \begin{equation}
-\bar{E}_{SNN} = \sum_{l=1}^{L} (SOPs_l \times E_{chip})
+\bar{E}_{SNN} = \sum_{l=1}^{L} (\mathrm{SOPs}_l \times E_{chip})
 \end{equation}
 
 \begin{equation}
-    \bar{E}_{CNN} = \sum_{l=1}^{L} (FLOPs_l \times E_{MAC})
+    \bar{E}_{CNN} = \sum_{l=1}^{L} (\mathrm{FLOPs}_l \times E_{MAC})
 \end{equation}
 
-\noindent The calculation mirrors Equation \ref{eq:e_snn}, however $E_{SNN}$ replaces $E_{AC}$ for $E_{chip}$, which is the power consumed per \gls{sop} for different chipsets as depicted in Table \ref{tab:energy_constants}.
+\noindent The calculation mirrors Equation \ref{eq:e_snn}, however $E_{AC}$ is replaced by $E_{chip}$, the per-\gls{sop} energy of the target hardware platform, as listed in Table \ref{tab:energy_constants}.
 
 Subsequently, the total percentage energy saving is formulated using the following equation:
 \begin{equation}

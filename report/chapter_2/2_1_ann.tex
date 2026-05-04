@@ -6,7 +6,7 @@ input data through layers of weighted, non-linear transformations \cite{lecun201
 Training an \gls{ann} relies entirely on minimising a loss function via gradient descent, where error signals are
 propagated backward through the network using the chain rule of calculus (backpropagation). 
 
-A fundamental, architectural constraint of this process is that every operation in the computational graph must be
+A fundamental architectural constraint of this process is that every operation in the computational graph must be
 continuous and differentiable; if a non-differentiable operation is encountered, the chain rule breaks down and the
 gradient signal is zeroed.
 This constraint is easily satisfied in standard \glspl{ann} by using continuous activation functions like \gls{relu},

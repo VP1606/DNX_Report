@@ -9,7 +9,7 @@ mentioned in Section \ref{sec:architectural_evolution} are sufficient to resolve
 
 \subsubsection{Metrics}
 
-In this experiment, four complementary metrics are evaluated:
+In this experiment, five complementary metrics are evaluated:
 
 \begin{itemize}
     \item \textbf{\gls{miou}:} measures geometric precision between predicted and ground truth bounding boxes.
@@ -24,7 +24,7 @@ In this experiment, four complementary metrics are evaluated:
     quantifies detector selectivity relative to the ground truth mean of 2.02 objects per frame;
     significant positive deviation indicates spurious ``ghost'' detections arising from background noise misclassification.
 
-    \item{\textbf{Mean Prediction Confidence}:}
+    \item \textbf{Mean Prediction Confidence:}
     captures network self-certainty by averaging sigmoid-activated confidence scores across all
     positive detections, probing whether spiking dynamics produce decisive or hesitant class
     activations.
