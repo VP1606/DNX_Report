@@ -70,7 +70,7 @@ Subsequently, max-normalisation is performed to scale the raw event accumulation
 by dividing every pixel in the temporal volume by the single highest event count found within that 10-bin voxel.
 
 This normalisation serves as a fundamental safeguard against neural saturation. 
-\gls{lif} nodes have fixed firing thresholds (in this architecture, $V_{th}=0.2$) - if a raw, unscaled event count of 50 were fed into the network, the first-layer neurons would fire instantaneously and repeatedly, effectively ``screaming'' and drowning out all other spatiotemporal information. 
+\gls{lif} nodes have fixed firing thresholds (in this architecture, $V_{th}=0.2$) --- if a raw, unscaled event count of 50 were fed into the network, the first-layer neurons would fire instantaneously and repeatedly, effectively ``screaming'' and drowning out all other spatiotemporal information. 
 By enforcing input calibration, we ensure that the input magnitudes are calibrated relative to the \gls{lif} thresholds, facilitating stable surrogate gradient propagation during the 150-epoch training cycle.
 
 \subsection{Multi-Object Label Alignment}

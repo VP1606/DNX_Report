@@ -55,7 +55,7 @@ SC3 & Real-time viability ($\geq 30$ \gls{fps}) & Fused CUDA kernels (\texttt{st
 \hline
 SC4 & Architectural parity (within $1\%$ parameters) & 1:1 block-for-block backbone matching, shared regression head, shared \gls{bolt} input & Parameter count audit (Tables \ref{tab_app:g3_snn_params} and \ref{tab_app:g3_cnn_params}) \\
 \hline
-SC5 & Detection completeness ($100\%$ recall @ \gls{iou}$>0.5$) & Vectorised Multi-Box Loss with greedy assignment matching & Global Evaluator (Section~\ref{subsec:global_evaluator}) \\
+SC5 & Detection completeness ($100\%$ recall @ \gls{iou}$=0.5$) & Vectorised Multi-Box Loss with greedy assignment matching & Global Evaluator (Section~\ref{subsec:global_evaluator}) \\
 \hline
 SC6 & Confidence calibration equivalence & Objectness logits $+$ \texttt{BCEWithLogitsLoss} on unmatched boxes & Confidence Calibration (Section~\ref{subsec:confidence_calibration}) \\
 \hline

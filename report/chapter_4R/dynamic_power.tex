@@ -48,7 +48,7 @@ Minimum & 2287.54 & 42429.21 \\
 Std Dev & 61.17 & 0.00 \\
 \hline
 \end{tabular}
-\caption[Energy Statistics per Frame]{Dynamic energy statistics ($\mu J$ per frame) comparing the \gls{snn} and \gls{cnn} architectures over the 200-sample validation set.}
+\caption[Energy Statistics per Frame]{Dynamic energy statistics ($\mu\text{J}$ per frame) comparing the \gls{snn} and \gls{cnn} architectures over the 200-sample validation set.}
 \label{tab:energy_statistics}
 \end{table}
 
@@ -57,7 +57,7 @@ This order-of-magnitude reduction definitively validates the core hypothesis of 
 
 \subsection*{Reactive Scalability: The Line of Best Fit}
 
-To empirically validate the hypothesis from Section \ref{subsec:dynamic_power} that the \gls{snn}'s metabolic cost is a dynamic function of activation sparsity, a linear regression analysis was conducted mapping the raw event count ($x$) of each frame against the theoretical energy consumption ($y$ in $\mu J$).
+To empirically validate the hypothesis from Section \ref{subsec:dynamic_power} that the \gls{snn}'s metabolic cost is a dynamic function of activation sparsity, a linear regression analysis was conducted mapping the raw event count ($x$) of each frame against the theoretical energy consumption ($y$ in $\mu\text{J}$).
 
 Figure \ref{fig:dynamic_power} illustrates this relationship: the linear regression model yielded the following equation of best fit:
 \begin{equation}

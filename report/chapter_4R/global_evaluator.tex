@@ -14,7 +14,7 @@ Table \ref{tab:global_benchmark} summarises the headline results for the G3 gene
 \hline
 Mean IoU & 0.4613 & 0.4861 \\
 \gls{map_50} & 0.5977 & 0.6550 \\
-Recall (IoU $>$ 0.5) & 100.0\% & 100.0\% \\
+Recall (IoU $=$ 0.5) & 100.0\% & 100.0\% \\
 \hline
 Avg.\ Detections per Frame (GT) & 2.02 & 2.02 \\
 Avg.\ Detections per Frame (Pred) & 1.73 & 1.75 \\
@@ -109,7 +109,7 @@ A qualitative audit was also conducted to visualise the models' spatial reasonin
 
 The results from Table \ref{tab:global_benchmark} demonstrate a remarkable degree of parity between the spiking and continuous paradigms. Achieving a mean \gls{iou} of $0.4613$, which corresponds to $94.9\%$ of the \gls{cnn} baseline, proves that the G3 backbone is robust enough to sustain high-resolution spatial reasoning despite the loss of precision inherent in $1$-bit quantisation. This geometric-precision parity is further corroborated by the detection-quality metric: the \gls{snn} achieves an \gls{map_50} of $0.5977$ against the \gls{cnn}'s $0.6550$, a $91.3\%$ parity under the stricter COCO-convention protocol that confirms the parity finding is not an artefact of the \gls{iou}-only evaluation. This parity indicates that the architectural refinements detailed in Section \ref{sec:architectural_evolution}---specifically the integration of \gls{se} blocks and \gls{sew} residual connections---have successfully compensated for the discrete nature of spiking activations.
 
-This convergence in predictive capacity is further reflected in the detection metrics. Both models achieve a perfect recall of $100.0\%$ for objects with an IoU $> 0.5$, demonstrating that the transition to spiking dynamics has not induced any catastrophic forgetting of vehicle features. Furthermore, both models exhibit a similar detection profile compared to the ground truth ($1.73$ and $1.75$ predicted vs.\ $2.02$ ground truth average detections), which is typical for object detection on noisy, asynchronous event data. The negligible gap between the spiking and continuous variants confirms that the \gls{snn} has not compromised its feature extraction or proposal capacity.
+This convergence in predictive capacity is further reflected in the detection metrics. Both models achieve a perfect recall of $100.0\%$ for objects at the COCO-convention \gls{iou} threshold of $0.5$, demonstrating that the transition to spiking dynamics has not induced any catastrophic forgetting of vehicle features. Furthermore, both models exhibit a similar detection profile compared to the ground truth ($1.73$ and $1.75$ predicted vs.\ $2.02$ ground truth average detections), which is typical for object detection on noisy, asynchronous event data. The negligible gap between the spiking and continuous variants confirms that the \gls{snn} has not compromised its feature extraction or proposal capacity.
 
 Furthermore, the confidence distribution analysis provides the first indication of representational divergence. The \gls{snn} exhibits a lower minimum confidence ($0.0011$ vs.\ $0.0132$) compared to the baseline, while maintaining a competitive maximum confidence ($0.9930$ vs.\ $0.9918$). This suggests that the spiking model utilises a wider dynamic range of membrane potentials to differentiate between high-evidence targets and background noise. The ability of the \gls{snn} to suppress low-evidence detections more effectively than the continuous baseline points toward a more honest internal representation, a hypothesis further investigated in the calibration analysis (Section \ref{subsec:results_calibration}).
 
