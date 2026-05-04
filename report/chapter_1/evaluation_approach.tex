@@ -14,8 +14,8 @@ represented.
 
 Two complementary dimensions are measured. \emph{Prediction Performance}
 captures how accurately each model localises vehicles in the event
-stream, using \gls{iou}, \gls{map_50}, recall at a fixed overlap threshold, and
-\gls{ece}-based confidence calibration. \emph{Model Performance}
+stream, using the standard object-detection evaluation suite (\gls{iou}, \gls{map_50}, recall at a fixed overlap threshold) established by~\textcite{lin2014microsoft} and~\textcite{everingham2010pascal},
+complemented by \gls{ece}-based confidence calibration \cite{guo2017calibration}. \emph{Model Performance}
 captures deployment efficiency, using inference latency on \gls{gpu}
 hardware against the $30$\,\gls{fps} real-time threshold
 \cite{khan2024real}, and a theoretical energy model projected onto
