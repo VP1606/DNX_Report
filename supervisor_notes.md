@@ -32,4 +32,5 @@
 
 ## Remaining TODO
 - [ ] Figure 3.3 + Another: Unknown Characters on diagrams!
-- [ ] §1: Report structure is now incorrect.
+- [x] ~~§1.6: Report structure is now incorrect.~~
+- [ ] §2.6 and §2.7 are still text-only.
