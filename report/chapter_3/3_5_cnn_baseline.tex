@@ -102,7 +102,7 @@ While this block offers no hardware-level sparsity advantages here, it is retain
 \subsection{The ``Gold Standard'' Upper Bound}
 By constructing this custom \gls{cnn} mirror, the baseline serves as the upper theoretical bound of this specific architecture's capability on the \gls{etram} dataset. 
 For example, if the \gls{cnn} baseline achieves a Mean \gls{iou} of 48\%, this represents the maximum performance extractable by this parameter configuration. 
-If the corresponding SNN achieves 43\% \gls{iou}, the 5\% gap explicitly represents the ``quantisation cost'' of switching from 32-bit continuous floats to 1-bit binary spikes \cite{cordone2022objectdetectionspikingneural}. 
+If the corresponding SNN achieves 43\% \gls{iou}, the 5\% gap explicitly represents the ``quantisation cost'' of switching from 32-bit continuous floats to 1-bit binary spikes \cite{quantization_error_putra}. 
 Adhering to this methodology ensures that the evaluation of the neuromorphic paradigm is both fair and scientifically sound.
 
 

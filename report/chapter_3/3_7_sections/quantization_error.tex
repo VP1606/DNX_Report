@@ -29,6 +29,6 @@ For large-scale objects, the \gls{snn} is expected to achieve parity with the \g
 
 Conversely, for small-scale objects, a substantial performance divergence is anticipated. 
 For the $T=10$ configuration used here, this ceiling resolves to eleven discrete states ($0/10$, $1/10$, $\ldots$, $10/10$).
-As documented by \cite{cordone2022objectdetectionspikingneural}, this rounding error, or quantisation penalty, is massive relative to the dimensions of small vehicles. 
+As demonstrated by \textcite{quantization_error_putra}, aggressive quantisation of spiking network parameters can cause significant accuracy degradation, highlighting a precision-memory trade-off that must be managed carefully in deployed \glspl{snn}. 
 If a target requires a precise coordinate gradient (e.g., $0.154$) for accurate localization, the \gls{snn} is physically forced to discretise this value, establishing a fundamental ``resolution floor'' that limits \gls{miou} on small features. 
 While the use of \texttt{SEWResBlock} architectures improves signal flow \cite{fang2022resnet_sew}, it does not inherently resolve this quantisation of the final regression output, which is further exacerbated by the low event counts typical of small objects in event-based vision \cite{gallego2020event}.
