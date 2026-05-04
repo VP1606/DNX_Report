@@ -13,7 +13,7 @@ This experiment evaluates the predictive reliability of the architectures by map
 \subsection*{Comparative Analysis: Overconfidence vs.\ Calibration}
 
 The results demonstrate a clear divergence in predictive behaviour. 
-The \gls{cnn} baseline (Figure \ref{fig:confidence_calibration}, right) exhibits a pronounced \textit{overconfidence bias}: a significant amount of validation samples occupy the positive-confidence region ($x > 0.5$) while maintaining an actual \gls{iou} of zero, and never predicts an $IoU=0.0$ event to have a confidence of zero. 
+The \gls{cnn} baseline (Figure \ref{fig:confidence_calibration}, right) exhibits a pronounced \textit{overconfidence bias}: a significant number of validation samples occupy the positive-confidence region ($x > 0.5$) while maintaining an actual \gls{iou} of zero, and never predicts an $IoU=0.0$ event to have a confidence of zero. 
 This indicates that the \gls{cnn} frequently hallucinates vehicle targets in background noise with near-maximum certainty, a failure mode that is critically dangerous for autonomous perception systems. 
 The empirical trend line for the \gls{cnn} remains consistently below the identity line, particularly in the high-confidence domain.
 
@@ -36,7 +36,5 @@ rates, naturally bounding outputs to a discrete resolution of $\frac{1}{T}$ and
 decoupling the calibration confound identified here --- divergence between the 
 \gls{snn} and \gls{cnn} curves would then reflect representational differences rather 
 than a shared supervisory artefact. 
-A hybrid head, combining a rate-coded confidence branch with a conventional float 
+A hybrid head, combining a rate-coded confidence branch with a conventional float
 regression branch, represents the most practical near-term approach.
-
-% \todo[inline]{Link to future work section.}

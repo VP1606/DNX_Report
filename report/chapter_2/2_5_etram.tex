@@ -30,6 +30,6 @@ For this project, the dataset was abstracted to the Vehicle category exclusively
 \subsection{Suitability for This Project}
 
 Two properties motivated the selection of \gls{etram} for this project.
-First, critically for an \gls{adas} and autonomous driving context, recordings span the full spectrum of real-world operating conditions: daytime, nighttime, and twilight, across sunny, overcast, and rainy weather --- precisely the range of environments an autonomous perception system must handle reliably, and one that deliberately exercises the conditions under which frame-based sensors are known to degrade.
+First, critically for \gls{adas} and autonomous driving contexts, recordings span the full spectrum of real-world operating conditions: daytime, nighttime, and twilight, across sunny, overcast, and rainy weather --- precisely the range of environments an autonomous perception system must handle reliably, and one that deliberately exercises the conditions under which frame-based sensors are known to degrade.
 Second, the \gls{etram} study provides a dataset-specific spatiotemporal filtering and denoising pipeline tuned to the noise characteristics of the EVK4 sensor, which was adopted directly as the signal conditioning stage of the \gls{bolt} preprocessing pipeline. This eliminated the need to develop bespoke noise suppression from first principles, and significantly accelerated the transition to model development.
 The full \gls{bolt} pipeline is detailed in Section~\ref{sec:data_preprocessing}.

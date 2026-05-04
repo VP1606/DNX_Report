@@ -1,7 +1,7 @@
 \section{Spiking Neural Network (SNN) Architecture}
 \label{sec:snn_architecture}
 
-The core focus, effort and innovation of this project is the development and optimisation of the \texttt{DetectorNX-G3-SNN} architecture. 
+The core focus, effort, and innovation of this project is the development and optimisation of the \texttt{DetectorNX-G3-SNN} architecture. 
 This model is explicitly designed to process high-definition neuromorphic event data while adhering to the computational paradigms of \glspl{snn}. 
 By prioritising event-driven, binary communication, the architecture aims to drastically reduce both the dynamic power consumption and the computational complexity compared to traditional deep learning models, making it superior for power and time constrained environments.
 
@@ -29,7 +29,7 @@ Both the membrane potential dynamics from Equation~\ref{eq:lif_membrane} and Hea
 
 The voltage threshold $V_{th} = 0.2$ was tuned to balance information flow against noise. Earlier revisions used $V_{th} = 0.3$, which silenced the network, whereas decreasing $V_{th}$ further allowed erroneous background noise to register as spikes.
 
-The time constant $\tau = 4.0$ creates a leaky effect, allowing the neuron to retain input evidence across roughly four to five timesteps -- low enough to prevent over-saturation, but high enough for the signal to be remembered until the regression head before decay.
+The time constant $\tau = 4.0$ creates a leaky effect, allowing the neuron to retain input evidence across roughly four to five timesteps -- low enough to prevent over-saturation, but high enough for the signal to persist until it reaches the regression head.
 
 Following each spike, the neuron applies a hard reset to $V_{reset} = 0.0$, enforcing temporal sparsity by requiring the neuron to integrate new spatiotemporal information before re-activating,
 and providing the zero-centred baseline required for stable surrogate gradient descent \cite{fang2022resnet_sew}. 
@@ -98,7 +98,7 @@ In this \texttt{DetectorNX-G3-SNN} architecture, the bottleneck exists at the tr
 
   \begin{enumerate}
       \item \textbf{A Spatial Constraint (Resolution Limit):} 
-      At this stage, the original $320 \times 180$ spatiotemporal input has been downsampled by a factor of 8x via the strided convolutions in the stem and early residual blocks, resulting in a highly compressed $22 \times 40$ feature map.
+      At this stage, the original $320 \times 180$ spatiotemporal input has been downsampled by a factor of $8\times$ via the strided convolutions in the stem and early residual blocks, resulting in a highly compressed $22 \times 40$ feature map.
       This spatial bottleneck is critical because each remaining pixel must now represent a large $8 \times 8$ receptive field of the original HD sensor data, forcing the network to discard fine-grained geometric redundancy while retaining the
       core structural boundaries of multiple detected objects.
 

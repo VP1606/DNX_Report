@@ -7,7 +7,7 @@ The \gls{bolt} preprocessing pipeline takes the raw \gls{etram} data at $1280 \t
 \subsection{Raw Event Ingestion and Windowing}
 
 The \gls{bolt} pipeline begins by reading the raw h5 event files $(x, y, t, p)$ and the partnering npy files containing the bounding box annotations from the \gls{etram} dataset.
-Once both files have been parsed, the first step taken is to apply a $100 ms$ sliding window across the entire duration of the event file. 
+Once both files have been parsed, the first step taken is to apply a $100$\,ms sliding window across the entire duration of the event file. 
 ``Windowing'' is the process of slicing the continuous event stream into chunks that represent a single instance of time for the model, thereby anchoring the asynchronous event stream into discrete, structured training instances. 
 
 To maximise training efficiency and ensure a high signal-to-noise ratio in the training distribution, the \gls{bolt} pipeline adopts a Box-Central sampling strategy rather than more conventional uniform temporal partitioning;
@@ -111,7 +111,7 @@ This provides a Scale-Independent Signal, ensuring the regression head can learn
 \label{subsec:chunking}
 
 Training the model for 150 epochs is only feasible if the \gls{bolt} pipeline is executed once rather than on every epoch.
-A naive dataloader would stream the raw h5 and npy files in whatever segment fits in memory and re-run the full pipeline (signal conditioning, voxelisation, downsampling, label alignment) on each pass, multiplying the preprocessing cost 150-fold and starving the \gls{gpu} while the CPU works through every voxelisation and denoising call.
+A naive dataloader would stream the raw h5 and npy files in whatever segment fits in memory and re-run the full pipeline (signal conditioning, voxelisation, downsampling, label alignment) on each pass, multiplying the preprocessing cost 150-fold and starving the \gls{gpu} while the \gls{cpu} works through every voxelisation and denoising call.
 
 The chunking strategy moves the preprocessing out of the training loop entirely.
 The \gls{bolt} pipeline is executed once, offline, and the resulting spatiotemporal voxels and aligned label tensors are serialised to disk as contiguous 250-sample chunks (compressed \texttt{.pt}), indexed by a global \texttt{manifest.json} byte-offset map.

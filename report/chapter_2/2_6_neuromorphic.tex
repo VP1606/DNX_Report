@@ -4,7 +4,7 @@
 \subsection{Neuromorphic Hardware Platforms}
 
 Intel Loihi 2 \cite{gralewicz2024spikes} and IBM TrueNorth \cite{merolla2014million} represent the two principal reference platforms for neuromorphic computing.
-Unlike conventional \glspl{gpu}, which execute computation synchronously across all neurons at every clock cycle, both architectures operate asynchronously and event-driven.
+Unlike conventional \glspl{gpu}, which execute computation synchronously across all neurons at every clock cycle, both architectures operate asynchronously and in an event-driven manner.
 A neuron consumes energy only when it receives a spike and crosses its firing threshold, remaining entirely silent, drawing no dynamic power in the absence of input activity.
 This mirrors the \gls{snn}'s spike-based dynamics precisely, making neuromorphic hardware the natural target deployment environment for event-driven architectures and completing the end-to-end alignment with the event camera described in Section~\ref{subsec:bg_snn_event_pairing}.
 The per-\gls{sop} energy costs of these platforms, $16.1$\,pJ for Intel Loihi 2 \cite{gralewicz2024spikes} and $26.0$\,pJ for IBM TrueNorth \cite{merolla2014million}, form the hardware extrapolation targets used in the energy evaluation of this project.
@@ -13,7 +13,7 @@ The per-\gls{sop} energy costs of these platforms, $16.1$\,pJ for Intel Loihi 2 
 \label{subsec:bg_mac_ac}
 
 The foundational energy analysis underlying this project rests on the silicon-level operation costs documented by \textcite{horowitz20141}.
-A standard \gls{cnn} performs a full \gls{mac} at each synaptic connection - a floating-point multiplication followed by an accumulation, costing $E_{\text{MAC}} = 4.6$\,pJ per 32-bit operation.
+A standard \gls{cnn} performs a full \gls{mac} at each synaptic connection --- a floating-point multiplication followed by an accumulation, costing $E_{\text{MAC}} = 4.6$\,pJ per 32-bit operation.
 An \gls{snn}, by contrast, communicates exclusively via binary spikes; since a spike is either $0$ or $1$, the multiplication is eliminated entirely, reducing each synaptic event to a \gls{ac} operation at a cost of $E_{\text{AC}} = 0.9$\,pJ --- a $5\times$ reduction in per-operation energy at the silicon level (Figure~\ref{fig:mac_vs_ac}) \cite{horowitz20141}.
 
 \begin{figure}[H]

@@ -6,7 +6,7 @@ Traditional \gls{cnn} architectures are characterised by static power consumptio
 In contrast, \glspl{snn} leverage event-driven dynamics, where metabolic energy is consumed only when a neuron reaches its firing threshold and generates a discrete spike.
 
 The Dynamic Power experiment investigates the reactive scalability of the architecture by mapping instantaneous energy consumption against the temporal density of the input stream. 
-This analysis serves to validate the event-driven nature of the \gls{snn}, demonstrating that its metabolic cost is a dynamic function of activation sparsity—mimicking biological neural efficiency by consuming energy only in response to informative stimuli.
+This analysis serves to validate the event-driven nature of the \gls{snn}, demonstrating that its metabolic cost is a dynamic function of activation sparsity---mimicking biological neural efficiency by consuming energy only in response to informative stimuli.
 
 \subsubsection{\gls{cnn} Power Estimation}
 
@@ -18,7 +18,7 @@ In a standard \gls{cnn}, the total energy per frame ($E_{CNN}$) is calculated by
 
 \noindent Where $E_{MAC} = 4.6\text{ pJ}$ per 32-bit floating-point operation, as referenced in Table \ref{tab:energy_constants} \cite{horowitz20141}.
 
-The number of \glspl{flop} is the total number of \glspl{mac} operations required to produce the output feature map; in a \gls{cnn}, this number is static, regardless of what the image contains.
+The number of \glspl{flop} is the total number of \glspl{mac} operations required to produce the output feature map; in a \gls{cnn}, this number is static, regardless of what the input contains.
 The \glspl{flop} of a \gls{cnn} can be calculated as follows:
 
 \begin{equation}
@@ -38,7 +38,7 @@ unlike the static complexity of the \gls{cnn} baseline, the \gls{sop} count for 
 \label{eq:sop_zeta}
 \end{equation}
 
-\noindent where $\zeta_l$ represents the average firing rate of layer $l$, $T$ is the number of temporal simulation steps ($T=10$).
+\noindent where $\zeta_l$ represents the average firing rate of layer $l$, and $T$ is the number of temporal simulation steps ($T=10$).
 
 In order to obtain $\zeta_l$, a specialised \texttt{SpikeRateMonitor} tool was developed.
 The tool attaches a hook to every \gls{lif} inside the \gls{snn} backbone, which listens to the layer during the forward pass and intercepts the binary spike tensor before it moves to the next layer.
@@ -51,9 +51,7 @@ Since a spike is binary ($1$ for fire, $0$ for rest), $\zeta$ can be calculated 
 
 To calculate Dynamic Power, $\zeta$ was calculated by running inference over all validation samples and taking the mean firing rate per layer across all samples in the dataset.
 
-% \todo[inline]{Mention SpikeRateMonitor in Evaluation Suite Section and Diagram}
-
-Because \glspl{snn} utilise binary activations, the expensive multiplication part of the \gls{mac} operation is omitted, leaving only a \gls{ac} of the weight to the membrane potential.
+Because \glspl{snn} utilise binary activations, the expensive multiplication part of the \gls{mac} operation is omitted, leaving only an \gls{ac} of the weight to the membrane potential.
 The total energy per frame ($E_{SNN}$) is defined as:
 
 \begin{equation}

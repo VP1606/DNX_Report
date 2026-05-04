@@ -6,9 +6,9 @@ To simulate a real-world edge-deployment scenario, a batch size of $1$ was utili
 reflects the model's ability to process individual temporal windows
 sequentially. 
 Inference timing was performed using NVIDIA's asynchronous \gls{cuda}
-events ($torch.cuda.Event$) with explicit hardware synchronization to
-ensure that the reported FPS represents the raw computational latency of
-the GPU kernels, independent of CPU-bound communication overhead.
+events (\texttt{torch.cuda.Event}) with explicit hardware synchronisation to
+ensure that the reported \gls{fps} represents the raw computational latency of
+the \gls{gpu} kernels, independent of \gls{cpu}-bound communication overhead.
 
 \subsection*{Results}
 
