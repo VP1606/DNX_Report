@@ -1,7 +1,7 @@
 \section{Success Criteria}
 \label{sec:intro_success_criteria}
 
-To provide a concrete evaluation framework, the following measurable success criteria were defined prior to experimentation. Each criterion is revisited explicitly in Chapter~\ref{cha:summary_conclusions}.
+To provide a concrete evaluation framework, the following measurable success criteria were defined prior to experimentation, drawing on established conventions in spiking-detection methodology. Each criterion is revisited explicitly in Chapter~\ref{cha:summary_conclusions}.
 
 \begin{enumerate}
     \item \textbf{Detection accuracy parity:}
@@ -9,8 +9,9 @@ To provide a concrete evaluation framework, the following measurable success cri
     This $90\%$ threshold is established as a rigorous but realistic target, as achieving exact parity remains an open challenge in deep spiking vision \cite{iaboni2024review}.
     Achieving this will validate that our architecture succeeds in mitigating the compromises expected from the 1-bit temporal quantisation error, across both the geometric-precision metric (\gls{miou}) and the stricter COCO-convention detection-quality metric (\gls{map_50}).
 
-    \item \textbf{Measurable theoretical energy savings:} 
-    The \gls{snn} must demonstrate a reduction in theoretical energy consumption per inference relative to the \gls{cnn} baseline, computed from layer-wise \gls{sop} counts and published neuromorphic hardware constants.
+    \item \textbf{Measurable theoretical energy savings:}
+    Following the \gls{sop}-based energy methodology derived by \textcite{lemaire2022analytical},
+    the \gls{snn} must demonstrate a reduction in theoretical energy consumption per inference relative to the \gls{cnn} baseline, computed from layer-wise \gls{sop} counts and published neuromorphic hardware constants \cite{horowitz20141}.
 
     \item \textbf{Real-time viability:} 
     Both models must sustain an inference throughput of at least $30$ frames per second on \gls{gpu} hardware, meeting the established minimum threshold for real-time automotive perception \cite{khan2024real}.
@@ -19,10 +20,10 @@ To provide a concrete evaluation framework, the following measurable success cri
     The \gls{snn} and \gls{cnn} must share an equivalent parameter count (within $1\%$), ensuring that any observed performance gap reflects the spiking mechanism rather than differences in model capacity.
 
     \item \textbf{Detection completeness:}
-    Both models must achieve a recall at $\mathrm{IoU}\ge0.5$ of $100\%$ on the validation set, confirming that the multi-box regression head reliably detects all ground-truth vehicles in the scene.
+    Both models must achieve a recall of $100\%$ for objects at the COCO-convention \gls{iou} threshold of $0.5$ \cite{lin2014microsoft} on the validation set, confirming that the multi-box regression head reliably detects all ground-truth vehicles in the scene.
 
     \item \textbf{Confidence calibration:}
-    The \gls{snn} must exhibit confidence calibration equivalent to, or superior to, that of the \gls{cnn} baseline on the \gls{etram} validation set.
+    The \gls{snn} must exhibit confidence calibration equivalent to, or superior to, that of the \gls{cnn} baseline on the \gls{etram} validation set, evaluated via the reliability-diagram framework of~\textcite{guo2017calibration}.
     This criterion is safety-critical: in \gls{adas} applications, a model that systematically over-states its detection confidence may suppress downstream safety interventions.
     A neuromorphic architecture that delivers energy savings at the cost of increased over-confidence would therefore be unsuitable for deployment, regardless of its accuracy or efficiency gains.
 

@@ -15,8 +15,7 @@ training windows are anchored deterministically around the centroids of existing
 This approach ensures that 100\% of the training voxels contain informative structural targets, mitigating the prevalence of ``empty-scene'' noise and providing the SNN with consistent temporal evidence to drive membrane potential
 accumulation prior to the target timestamp.
 
-In this project, the time window $\Delta T = 100\text{ms}$ was chosen to align with the temporal persistency of the human visual system of roughly $100\text{ms}$ \cite{deodato2024continuous};
-just as the human eye integrates luminance changes over approximately one frame of perception, the \gls{snn} also integrates the asynchronous event stream over the same duration before producing a detection output.
+The time window $\Delta T = 100$\,ms was chosen to align with the human visual system's $\sim$100\,ms temporal persistency \cite{deodato2024continuous}; the \gls{snn} integrates the asynchronous event stream over this duration before producing a detection output, exactly like the human eye.
 
 The practical consequence of this choice is two-fold. 
 First, a $100\text{ms}$ window is long enough to guarantee a minimum event density sufficient for the \gls{lif} neurons 

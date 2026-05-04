@@ -38,7 +38,7 @@ and providing the zero-centred baseline required for stable surrogate gradient d
 As described in Section~\ref{subsec:bg_surrogate}, the Heaviside function's non-differentiable property poses a challenge in spiking neural networks.
 To get around the zeroed gradients and the consequent ``dead neuron'' problem, the \gls{snn} model employs the \gls{atan} function described in Section~\ref{subsec:bg_surrogate}, where the backward pass approximates the step function using Equation~\ref{eq:atan_surrogate};
 this mathematical substitution allows the network to learn complex spatiotemporal representations from scratch while maintaining a purely binary forward execution.
-In this implementation, SpikingJelly's default value of $\alpha = 2.0$ was adopted, which is the standard for high-performance \gls{snn} training.
+SpikingJelly's default $\alpha = 2.0$ was adopted, which is standard for high-performance \gls{snn} training.
 
 \subsection{Backbone: SEW-ResNet and Attention}
 \label{subsec:snn_backbone}

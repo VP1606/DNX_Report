@@ -1,9 +1,7 @@
 \section{Convolutional Neural Network (CNN) Baseline}
 \label{sec:cnn_baseline}
 
-The \gls{cnn} architecture \texttt{DetectorNX-G3-CNN} was engineered as the primary baseline to evaluate the \gls{snn} against.
-It is an 11.73M-parameter \gls{cnn} specifically designed to mirror the \gls{snn} architecture, satisfying the ``Architectural Parity'' functional requirement specified in Section~\ref{subsec:req_functional}. 
-This ensures that the only variable being tested in this comparative study is the neural activation mechanism (event-driven binary spikes versus continuous-valued floats), making the comparison immune to common criticisms regarding unmatched or unoptimised baselines.
+The \texttt{DetectorNX-G3-CNN} baseline is an 11.73M-parameter \gls{cnn} designed to mirror the \gls{snn} architecture, satisfying the ``Architectural Parity'' functional requirement specified in Section~\ref{subsec:req_functional}. The only variable tested is the neural activation mechanism (event-driven binary spikes versus continuous-valued floats), making the comparison immune to criticisms of unmatched or unoptimised baselines.
 
 \subsection{Structural Configuration and Layer-Wise Mapping}
 The \gls{cnn} mirrors the \gls{snn}'s configuration strictly 1:1, replacing every temporal and spiking component with a standard continuous equivalent. Table \ref{tab:snn_cnn_mapping} outlines this direct mapping.
