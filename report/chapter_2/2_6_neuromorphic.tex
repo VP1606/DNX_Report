@@ -14,5 +14,13 @@ The per-\gls{sop} energy costs of these platforms, $16.1$\,pJ for Intel Loihi 2 
 
 The foundational energy analysis underlying this project rests on the silicon-level operation costs documented by \textcite{horowitz20141}.
 A standard \gls{cnn} performs a full \gls{mac} at each synaptic connection - a floating-point multiplication followed by an accumulation, costing $E_{\text{MAC}} = 4.6$\,pJ per 32-bit operation.
-An \gls{snn}, by contrast, communicates exclusively via binary spikes; since a spike is either $0$ or $1$, the multiplication is eliminated entirely, reducing each synaptic event to a \gls{ac} operation at a cost of $E_{\text{AC}} = 0.9$\,pJ - a $5\times$ reduction in per-operation energy at the silicon level \cite{horowitz20141}.
+An \gls{snn}, by contrast, communicates exclusively via binary spikes; since a spike is either $0$ or $1$, the multiplication is eliminated entirely, reducing each synaptic event to a \gls{ac} operation at a cost of $E_{\text{AC}} = 0.9$\,pJ --- a $5\times$ reduction in per-operation energy at the silicon level (Figure~\ref{fig:mac_vs_ac}) \cite{horowitz20141}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{chapter_2/figures/mac_vs_ac.pdf}
+    \caption[The MAC versus AC silicon-level energy distinction.]{The MAC versus AC silicon-level energy distinction. \textit{Left:} a standard \gls{cnn} synaptic operation requires a full multiply-accumulate (MAC): the floating-point input $x$ is multiplied by the weight $w$, then accumulated, costing $E_{\text{MAC}} = 4.6$\,pJ per 32-bit operation \cite{horowitz20141}. \textit{Right:} a spiking synaptic operation reduces to a single conditional accumulation (AC): the binary spike $s \in \{0,1\}$ gates whether the weight is added to the running accumulator, eliminating the multiplier entirely. The remaining operation costs $E_{\text{AC}} = 0.9$\,pJ --- a $5\times$ reduction in per-operation energy at the silicon level.}
+    \label{fig:mac_vs_ac}
+\end{figure}
+
 This asymmetry is the first of two complementary mechanisms underpinning the \gls{snn}'s energy advantage over its \gls{cnn} counterpart; the second, input-dependent activation sparsity, is introduced and materialised alongside the complete per-frame energy model in Sections~\ref{subsec:dynamic_power} and~\ref{subsec:energy_consumption}.
